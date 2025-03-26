@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "richie5um2.vscode-sort-json",
+    "yoavbls.pretty-ts-errors",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "vincaslt.highlight-matching-tag",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "ryanluker.vscode-coverage-gutters",
+    "biomejs.biome"
+  ]
+}
