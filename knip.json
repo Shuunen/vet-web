@@ -4,6 +4,8 @@
     "src/routeTree.gen.ts"
   ],
   "ignoreDependencies": [
+    "lucide-react",
+    "tw-animate-css",
     "tailwindcss"
   ]
 }

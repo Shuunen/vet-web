@@ -1,9 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
   component: About,
 })
 
 function About() {
-  return <div className="p-2">Hello from About!</div>
+  return (
+    <div className="flex flex-col gap-4">
+      <div>Hello from About!</div>
+      <Link to="/">
+        <Button variant="destructive">Go to home</Button>
+      </Link>
+    </div>
+  )
 }
