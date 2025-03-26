@@ -42,7 +42,10 @@ export function FormContact() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormUser name="user" />
+        <FormUser<ContactForm> name="user" />
+        {/* lines below will successfully cause a TypeScript error :
+        <FormUser<ContactForm> name="other" /> 
+        <FormUser<ContactForm> name="message" /> */}
         <FormField
           control={form.control}
           name="message"
