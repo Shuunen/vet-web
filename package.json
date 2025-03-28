@@ -20,6 +20,7 @@
     "@biomejs/biome": "^1.9.4",
     "@chromatic-com/storybook": "3",
     "@eslint/js": "^9.21",
+    "@storybook/addon-coverage": "^1.0",
     "@storybook/addon-essentials": "8.6.11",
     "@storybook/addon-onboarding": "8.6.11",
     "@storybook/blocks": "8.6.11",
@@ -27,6 +28,7 @@
     "@storybook/react": "8.6.11",
     "@storybook/react-vite": "8.6.11",
     "@storybook/test": "8.6.11",
+    "@storybook/test-runner": "^0.22",
     "@tanstack/react-router-devtools": "^1.114",
     "@tanstack/router-plugin": "^1.114",
     "@types/node": "^22.13",
@@ -65,7 +67,8 @@
     "check:tsc": "tsc --noEmit && echo check:tsc success",
     "dev": "vite",
     "preview": "vite preview",
-    "sb": "storybook dev -p 6006"
+    "sb": "storybook dev -p 6006",
+    "test:sb": "test-storybook --coverage"
   },
   "type": "module",
   "version": "0.0.0"

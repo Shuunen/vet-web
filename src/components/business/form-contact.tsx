@@ -19,7 +19,7 @@ const contactFormSchema = z.object({
       secondary: z.string(),
     })
     .optional(),
-  message: z.string(),
+  message: z.string().min(10),
 })
 
 type ContactForm = z.infer<typeof contactFormSchema>
@@ -59,7 +59,9 @@ export function FormContact() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={!form.formState.isValid} type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   )
