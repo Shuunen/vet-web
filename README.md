@@ -1,6 +1,33 @@
-# React + TypeScript + Vite
+# Medical Interface for Lovable Furballs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Medical webapp for veterinarians
+
+![logo](./docs/logo.svg)
+
+## Goal
+
+The goal of this project is to provide veterinarians with a comprehensive web application to streamline the management of their practice. The platform will allow them to:
+
+- **Manage patient records**: Store and update medical histories, treatments, and vaccination schedules.
+- **Schedule and track appointments**: Set up consultations, send reminders, and prevent scheduling conflicts.
+- **Facilitate communication**: Provide a secure messaging system for veterinarians to communicate with pet owners.
+- **Generate reports and prescriptions**: Easily create and store medical documents.
+- **Improve workflow efficiency**: Reduce paperwork and administrative overhead with an intuitive interface.
+
+This webapp aims to enhance the daily operations of veterinary clinics, making patient care more efficient and organized.
+
+## Todo
+
+- [ ] Add vitest
+- [ ] Add Unit tests
+- [ ] Add Unit tests coverage
+- [ ] Merge vitest coverage with storybook coverage
+- [ ] Test grpc-web
+- [ ] Compare Zustand with other state management libraries
+
+## Template
+
+This React + TypeScript + Vite template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
 
@@ -52,3 +79,5 @@ export default tseslint.config({
   },
 })
 ```
+
+
