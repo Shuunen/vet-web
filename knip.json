@@ -4,8 +4,11 @@
     "src/routeTree.gen.ts"
   ],
   "ignoreDependencies": [
-    "tw-animate-css",
-    "tailwindcss"
+    "@storybook/blocks",
+    "@vitest/coverage-v8",
+    "playwright",
+    "tailwindcss",
+    "tw-animate-css"
   ],
   "ignoreExportsUsedInFile": true
 }
