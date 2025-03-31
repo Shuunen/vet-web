@@ -46,6 +46,7 @@ const meta = {
 
     return (
       <Form {...form}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}

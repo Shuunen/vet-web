@@ -11,11 +11,14 @@ export default tseslint.config(
   },
   {
     name: 'project-ts-config',
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parserOptions: {
+        project: './tsconfig.app.json',
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
