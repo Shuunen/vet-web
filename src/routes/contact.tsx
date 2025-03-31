@@ -4,10 +4,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { FileInputIcon } from 'lucide-react'
 
-export const Route = createFileRoute('/contact')({
-  component: Contact,
-})
-
 function Contact() {
   return (
     <div className="flex flex-col gap-4">
@@ -25,3 +21,7 @@ function Contact() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/contact')({
+  component: Contact,
+})

@@ -6,24 +6,24 @@ import { Button } from './button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './form'
 import { Textarea } from './textarea'
 
+const minChars = 3
+
 const contactFormSchema = z.object({
-  user: z.object({
-    firstName: z.string().min(3),
-    lastName: z.string().min(3),
-  }),
+  message: z.string().min(minChars),
   other: z
     .object({
       primary: z.string(),
       secondary: z.string(),
     })
     .optional(),
-  message: z.string().min(10),
+  user: z.object({
+    firstName: z.string().min(minChars),
+    lastName: z.string().min(minChars),
+  }),
 })
-
 type ContactForm = z.infer<typeof contactFormSchema>
 
 const meta = {
-  title: 'ui/Form',
   component: Form,
   parameters: {
     layout: 'centered',
@@ -31,16 +31,17 @@ const meta = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm<ContactForm>({
-      resolver: zodResolver(contactFormSchema),
       defaultValues: {
         user: {
           firstName: '',
           lastName: '',
         },
       },
+      resolver: zodResolver(contactFormSchema),
     })
 
     function onSubmit(values: ContactForm) {
+      // eslint-disable-next-line no-console
       console.log(values)
     }
 
@@ -67,6 +68,7 @@ const meta = {
     )
   },
   tags: ['autodocs'],
+  title: 'ui/Form',
 } satisfies Meta<typeof Form>
 
 export default meta

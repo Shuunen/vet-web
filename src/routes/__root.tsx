@@ -2,9 +2,11 @@ import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 const routes = [
+  /* eslint-disable sort-keys */
   { path: '/', label: 'Home' },
   { path: '/contact', label: 'Contact us' },
   { path: '/about', label: 'About' },
+  /* eslint-enable sort-keys */
 ]
 
 export const Route = createRootRoute({

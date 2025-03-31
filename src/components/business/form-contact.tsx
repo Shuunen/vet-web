@@ -8,34 +8,37 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FormUser } from './form-user'
 
+const minChars = 3
+
 const contactFormSchema = z.object({
-  user: z.object({
-    firstName: z.string().min(3),
-    lastName: z.string().min(3),
-  }),
+  message: z.string().min(minChars),
   other: z
     .object({
       primary: z.string(),
       secondary: z.string(),
     })
     .optional(),
-  message: z.string().min(10),
+  user: z.object({
+    firstName: z.string().min(minChars),
+    lastName: z.string().min(minChars),
+  }),
 })
 
 type ContactForm = z.infer<typeof contactFormSchema>
 
 export function FormContact() {
   const form = useForm<ContactForm>({
-    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       user: {
         firstName: '',
         lastName: '',
       },
     },
+    resolver: zodResolver(contactFormSchema),
   })
 
   function onSubmit(values: ContactForm) {
+    // eslint-disable-next-line no-console
     console.log(values)
   }
 
@@ -44,7 +47,7 @@ export function FormContact() {
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormUser<ContactForm> name="user" />
-        {/* lines below will successfully cause a TypeScript error :
+        {/* Lines below will successfully cause a TypeScript error :
         <FormUser<ContactForm> name="other" /> 
         <FormUser<ContactForm> name="message" /> */}
         <FormField

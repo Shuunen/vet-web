@@ -3,5 +3,8 @@
     "autodocs",
     "Furballs",
     "testid"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  }
 }

@@ -11,7 +11,7 @@ export default tseslint.config(
   },
   {
     name: 'project-ts-config',
-    extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
+    extends: [js.configs.all, ...tseslint.configs.strictTypeChecked],
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -26,6 +26,14 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      'comma-dangle': ['error', 'always-multiline'], // trailing commas
+      complexity: ['error', { max: 9 }],
+      'capitalized-comments': 'off', // useless
+      'one-var': 'off', // useless
+      curly: ['error', 'multi'], // only on multi
+      'sort-imports': 'off', // not needed, vscode & biome does this
+      'no-ternary': 'off', // well written ternaries are fine
+      'func-style': ['error', 'declaration', { allowArrowFunctions: true }], // 💚 prefer function declaration
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },

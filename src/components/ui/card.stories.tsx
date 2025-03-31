@@ -3,12 +3,12 @@ import { Button } from './button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card'
 
 const meta = {
-  title: 'ui/Card',
   component: Card,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  title: 'ui/Card',
 } satisfies Meta<typeof Card>
 
 export default meta

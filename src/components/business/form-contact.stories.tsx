@@ -3,12 +3,12 @@ import { expect, userEvent, within } from '@storybook/test'
 import { FormContact } from './form-contact'
 
 const meta = {
-  title: 'business/FormContact',
   component: FormContact,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  title: 'business/FormContact',
 } satisfies Meta<typeof FormContact>
 
 export default meta

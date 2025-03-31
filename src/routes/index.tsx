@@ -1,10 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Link, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({
-  component: Index,
-})
-
 function Index() {
   return (
     <div className="flex flex-col gap-4">
@@ -18,3 +14,7 @@ function Index() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/')({
+  component: Index,
+})
