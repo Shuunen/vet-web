@@ -14,6 +14,8 @@ type FormFieldContextValue<TFieldValues extends FieldValues = FieldValues, TName
 
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
+/* c8 ignore start */
+
 const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({ ...props }: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
@@ -78,6 +80,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
 
   return <p data-slot="form-description" id={formDescriptionId} className={cn('text-neutral-500 text-sm dark:text-neutral-400', className)} {...props} />
 }
+/* c8 ignore end */
 
 function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
   const { error, formMessageId } = useFormField()

@@ -60,7 +60,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "build:sb": "storybook build",
-    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:knip && pnpm build && pnpm check:eslint && echo check success",
+    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:knip && pnpm run test && pnpm build && pnpm check:eslint && echo check success",
     "check:biome": "biome check --error-on-warnings --write --unsafe src && echo check:biome success",
     "check:eslint": "eslint . && echo check:eslint success",
     "check:knip": "knip && echo check:knip success",
@@ -68,7 +68,11 @@
     "dev": "vite",
     "preview": "vite preview",
     "sb": "storybook dev -p 6006",
-    "test:sb": "test-storybook --coverage"
+    "test": "vitest --coverage --run && echo test success",
+    "test:bench": "vitest bench",
+    "test:sb": "test-storybook --coverage",
+    "test:update": "vitest --run --update && echo test update success",
+    "test:watch": "vitest --coverage"
   },
   "type": "module",
   "version": "0.0.0"

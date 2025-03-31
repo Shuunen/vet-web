@@ -37,3 +37,10 @@ export const Secondary: Story = {
     children: 'Secondary',
   },
 }
+
+export const AsChild: Story = {
+  args: {
+    asChild: true,
+    children: <span>the child</span>,
+  },
+}

@@ -26,5 +26,11 @@ export const FilledForm: Story = {
     await userEvent.type(canvas.getByTestId('user.lastName'), 'Lafon')
 
     await expect(canvas.getByRole('button')).toBeDisabled()
+
+    await userEvent.type(canvas.getByTestId('message'), 'Hello world!')
+
+    await expect(canvas.getByRole('button')).toBeEnabled()
+
+    await userEvent.click(canvas.getByRole('button'))
   },
 }

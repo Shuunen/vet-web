@@ -53,7 +53,7 @@ export function FormContact() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="Type your message here." {...field} />
+                <Textarea data-testid={field.name} placeholder="Type your message here." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
