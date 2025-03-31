@@ -80,6 +80,8 @@ export default tseslint.config({
 
 ## Thanks
 
+- [knip](https://knip.dev/) : the code quality tool
+- [lucid icons](https://lucide.dev/icons/) : the icons
 - [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
 - [shadcn/ui](https://ui.shadcn.com/) : the UI components
-- [knip](https://knip.dev/) : the code quality tool
+- [vite](https://vitejs.dev/) : the bundler

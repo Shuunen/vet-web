@@ -1,5 +1,5 @@
 import { Button } from '@/components/atoms/button'
-import { Card, CardContent } from '@/components/atoms/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
 import { FormContact } from '@/components/molecules/form-contact'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { FileInputIcon } from 'lucide-react'
@@ -7,17 +7,23 @@ import { FileInputIcon } from 'lucide-react'
 function Contact() {
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        If you want to contact us please fill the form <FileInputIcon className="inline" /> below :
-      </div>
       <Card>
+        <CardHeader>
+          <CardTitle>
+            <FileInputIcon className="mr-2 h-6 w-6" />
+            Contact Us
+          </CardTitle>
+          <CardDescription>We are here to assist you!</CardDescription>
+        </CardHeader>
         <CardContent>
           <FormContact />
         </CardContent>
+        <CardFooter>
+          <Link to="/" className="mb-6">
+            <Button variant="destructive">Go to home</Button>
+          </Link>
+        </CardFooter>
       </Card>
-      <Link to="/">
-        <Button variant="destructive">Go to home</Button>
-      </Link>
     </div>
   )
 }
