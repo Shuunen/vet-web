@@ -3,9 +3,9 @@
   "aliases": {
     "components": "@/components",
     "hooks": "@/hooks",
-    "lib": "@/lib",
-    "ui": "@/components/ui",
-    "utils": "@/lib/utils"
+    "lib": "@/utils",
+    "ui": "@/components/atoms",
+    "utils": "@/utils"
   },
   "iconLibrary": "lucide",
   "rsc": false,

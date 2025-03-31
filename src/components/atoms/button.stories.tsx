@@ -15,7 +15,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  title: 'ui/Button',
+  title: 'atoms/Button',
 } satisfies Meta<typeof Button>
 
 export default meta

@@ -1,4 +1,4 @@
-import { Label } from '@/components/ui/label'
+import { Label } from '@/components/atoms/label'
 import { cn } from '@/utils/styling.utils'
 import type * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'

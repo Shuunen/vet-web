@@ -8,7 +8,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  title: 'ui/Card',
+  title: 'atoms/Card',
 } satisfies Meta<typeof Card>
 
 export default meta

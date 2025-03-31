@@ -1,7 +1,7 @@
 'use client'
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
+import { Input } from '@/components/atoms/input'
 import { type Path, useFormContext } from 'react-hook-form'
 
 type UserForm = {

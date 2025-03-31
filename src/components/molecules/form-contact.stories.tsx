@@ -8,7 +8,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  title: 'business/FormContact',
+  title: 'molecules/FormContact',
 } satisfies Meta<typeof FormContact>
 
 export default meta

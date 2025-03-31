@@ -68,7 +68,7 @@ const meta = {
     )
   },
   tags: ['autodocs'],
-  title: 'ui/Form',
+  title: 'atoms/Form',
 } satisfies Meta<typeof Form>
 
 export default meta

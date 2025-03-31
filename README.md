@@ -21,6 +21,7 @@ This webapp aims to enhance the daily operations of veterinary clinics, making p
 - [ ] TanStack routing, branching in forms, xstate ?
 - [ ] Test grpc-web
 - [ ] Compare Zustand with other state management libraries
+- [ ] Performance monitoring (lighthouse)
 
 ## Template
 
@@ -77,4 +78,8 @@ export default tseslint.config({
 })
 ```
 
+## Thanks
 
+- [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
+- [shadcn/ui](https://ui.shadcn.com/) : the UI components
+- [knip](https://knip.dev/) : the code quality tool
