@@ -18,10 +18,7 @@ This webapp aims to enhance the daily operations of veterinary clinics, making p
 
 ## Todo
 
-- [ ] Add vitest
-- [ ] Add Unit tests
-- [ ] Add Unit tests coverage
-- [ ] Merge vitest coverage with storybook coverage
+- [ ] TanStack routing, branching in forms, xstate ?
 - [ ] Test grpc-web
 - [ ] Compare Zustand with other state management libraries
 
