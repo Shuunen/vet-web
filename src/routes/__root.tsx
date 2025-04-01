@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/atoms/toaster'
 import { Header } from '@/components/molecules/header'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -9,6 +10,7 @@ export const Route = createRootRoute({
       <hr />
       <Outlet />
       <TanStackRouterDevtools />
+      <Toaster />
     </div>
   ),
 })

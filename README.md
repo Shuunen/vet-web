@@ -4,6 +4,16 @@
 
 ![logo](./docs/logo.svg)
 
+- [Medical Interface for Lovable Furballs](#medical-interface-for-lovable-furballs)
+  - [Goal](#goal)
+  - [Todo](#todo)
+  - [Structure](#structure)
+  - [Examples](#examples)
+    - [Home page](#home-page)
+    - [Root route](#root-route)
+    - [Form contact](#form-contact)
+  - [Links](#links)
+
 ## Goal
 
 The goal of this project is to provide veterinarians with a comprehensive web application to streamline the management of their practice. The platform will allow them to:
@@ -117,6 +127,7 @@ export const Route = createFileRoute('/')({
 
 ```tsx
 // src/routes/__root.tsx
+import { Toaster } from '@/components/atoms/toaster'
 import { Header } from '@/components/molecules/header'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -128,6 +139,7 @@ export const Route = createRootRoute({
       <hr />
       <Outlet />
       <TanStackRouterDevtools />
+      <Toaster />
     </div>
   ),
 })
@@ -142,50 +154,58 @@ export const Route = createRootRoute({
 import { Button } from '@/components/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
 import { Textarea } from '@/components/atoms/textarea'
+import { useFormStore } from '@/utils/contact.store'
+import { msInSecond } from '@/utils/date.const'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { debounce } from 'es-toolkit'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
-import { Input } from '../atoms/input'
-
-const minChars = 3
-
-const contactFormSchema = z.object({
-  message: z.string().min(minChars),
-  other: z
-    .object({
-      primary: z.string(),
-      secondary: z.string(),
-    })
-    .optional(),
-  user: z.object({
-    firstName: z.string().min(minChars),
-    lastName: z.string().min(minChars),
-  }),
-})
-
-type ContactForm = z.infer<typeof contactFormSchema>
+import { FormUser } from './form-user'
 
 // eslint-disable-next-line max-lines-per-function
 export function FormContact() {
+  const { firstName, lastName, message, setFormData, resetForm } = useFormStore()
+
   const form = useForm<ContactForm>({
     defaultValues: {
+      message,
       user: {
-        firstName: '',
-        lastName: '',
+        firstName,
+        lastName,
       },
     },
     resolver: zodResolver(contactFormSchema),
   })
 
+  function saveFormDataSync() {
+    const values = form.getValues()
+    setFormData({
+      firstName: values.user.firstName,
+      lastName: values.user.lastName,
+      message: values.message,
+    })
+    toast.info('Form data saved')
+  }
+
+  const saveFormData = debounce(saveFormDataSync, msInSecond)
+
+  function clearFormData() {
+    resetForm()
+    form.reset()
+    toast.info('Form data cleared')
+  }
+
   function onSubmit(values: ContactForm) {
     // eslint-disable-next-line no-console
     console.log(values)
+    toast.success('Form submitted')
   }
 
   return (
     <Form {...form}>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} onChange={saveFormData} className="space-y-4">
         <FormField
           control={form.control}
           name="user.firstName"
@@ -242,7 +262,3 @@ export function FormContact() {
 - [shadcn/ui](https://ui.shadcn.com/) : the UI components
 - [vite](https://vitejs.dev/) : the bundler
 - [sources](https://github.com/Shuunen/react-playground) : the sources of this project
-
-## Req
-
-- supported browsers with last n versions
