@@ -23,65 +23,223 @@ This webapp aims to enhance the daily operations of veterinary clinics, making p
 - [ ] Compare Zustand with other state management libraries
 - [ ] Performance monitoring (lighthouse)
 
-## Template
+## Structure
 
-This React + TypeScript + Vite template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+src/
+├── components/            # UI Components (Atomic Design)
+│   ├── atoms/             # Smallest reusable components (Button, Input, Label)
+│   ├── molecules/         # Grouped atoms forming functional components
+│   ├── organisms/         # Complex UI structures combining molecules
+│
+├── utils/                 # Business logic and utilities
+│   ├── constants/         # Global constants
+│   ├── helpers/           # Utility functions
+│   ├── hooks/             # Custom reusable hooks
+│   ├── store/             # State management (Zustand)
+│   ├── types/types.ts     # Shared TypeScript types and interfaces
+│
+├── pages/                 # Page components (LoginPage, DashboardPage)
+│        ├── App.tsx       # Main app entry point
+│
+├── routes/                # TanStack app routing
+│   ├── __root.tsx.tsx     # Root route
+│   ├── index.tsx          # Home page
+│   ├── about.tsx          # About page
+│
+├── .gitignore
+├── package.json
+├── README.md              # This file :p
 
-Currently, two official plugins are available:
+## Examples
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Home page
 
-## Expanding the ESLint configuration
+```tsx
+// src/routes/index.tsx
+import { Button } from '@/components/atoms/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
+import { createFileRoute } from '@tanstack/react-router'
+import { Calendar, Clock, PawPrint } from 'lucide-react'
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+function Index() {
+  return (
+    <div className="container mx-auto px-4 py-16">
+      <div className="flex flex-col items-center justify-center mb-12">
+        <h1 className="text-4xl font-bold text-center text-blue-800">Medical Interface for Lovable Furballs</h1>
+        <p className="mt-4 text-xl text-gray-600 text-center max-w-2xl">Providing the best care for your furry friends with our dedicated veterinary services</p>
+      </div>
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
+      <div className="flex justify-center">
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <Calendar className="mr-2 h-6 w-6" />
+              Book an Appointment
+            </CardTitle>
+            <CardDescription>Schedule a visit with our veterinary specialists</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <Clock className="h-5 w-5 text-blue-500 mr-3 mt-0.5" />
+                <div>
+                  <h3 className="font-medium">Quick and Easy Scheduling</h3>
+                  <p className="text-gray-600">Book appointments in just a few clicks</p>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <PawPrint className="h-5 w-5 text-blue-500 mr-3 mt-0.5" />
+                <div>
+                  <h3 className="font-medium">Specialized Care</h3>
+                  <p className="text-gray-600">Our veterinarians are experts in pet healthcare</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-center pb-6 pt-2">
+            <Button>Book Now</Button>
+          </CardFooter>
+        </Card>
+      </div>
+
+      <div className="mt-16 text-center text-gray-500">
+        <p>Need assistance? Contact our clinic at (555) 123-4567</p>
+      </div>
+    </div>
+  )
+}
+
+export const Route = createFileRoute('/')({
+  component: Index,
+})
+```
+
+### Root route
+
+```tsx
+// src/routes/__root.tsx
+import { Header } from '@/components/molecules/header'
+import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+
+export const Route = createRootRoute({
+  component: () => (
+    <div className="flex flex-col gap-4">
+      <Header />
+      <hr />
+      <Outlet />
+      <TanStackRouterDevtools />
+    </div>
+  ),
+})
+```
+
+### Form contact
+
+```tsx
+// src/components/molecules/form-contact.tsx
+'use client'
+
+import { Button } from '@/components/atoms/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
+import { Textarea } from '@/components/atoms/textarea'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Input } from '../atoms/input'
+
+const minChars = 3
+
+const contactFormSchema = z.object({
+  message: z.string().min(minChars),
+  other: z
+    .object({
+      primary: z.string(),
+      secondary: z.string(),
+    })
+    .optional(),
+  user: z.object({
+    firstName: z.string().min(minChars),
+    lastName: z.string().min(minChars),
+  }),
+})
+
+type ContactForm = z.infer<typeof contactFormSchema>
+
+// eslint-disable-next-line max-lines-per-function
+export function FormContact() {
+  const form = useForm<ContactForm>({
+    defaultValues: {
+      user: {
+        firstName: '',
+        lastName: '',
+      },
     },
-  },
-})
+    resolver: zodResolver(contactFormSchema),
+  })
+
+  function onSubmit(values: ContactForm) {
+    // eslint-disable-next-line no-console
+    console.log(values)
+  }
+
+  return (
+    <Form {...form}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="user.firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First name(s)</FormLabel>
+              <FormControl>
+                <Input {...field} data-testid={field.name} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="user.lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last name</FormLabel>
+              <FormControl>
+                <Input {...field} data-testid={field.name} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="message"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Message</FormLabel>
+              <FormControl>
+                <Textarea data-testid={field.name} placeholder="Type your message here." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button disabled={!form.formState.isValid} type="submit">
+          Submit
+        </Button>
+      </form>
+    </Form>
+  )
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-
-## Thanks
+## Links
 
 - [knip](https://knip.dev/) : the code quality tool
 - [lucid icons](https://lucide.dev/icons/) : the icons
 - [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
 - [shadcn/ui](https://ui.shadcn.com/) : the UI components
 - [vite](https://vitejs.dev/) : the bundler
+- [sources](https://github.com/Shuunen/react-playground) : the sources of this project
