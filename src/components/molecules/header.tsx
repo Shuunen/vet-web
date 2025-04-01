@@ -16,9 +16,7 @@ export function Header() {
     <div className="flex gap-4 justify-between items-center">
       <div className="flex text-blue-600 items-center gap-2">
         <PawPrint />
-        <h1 className="font-bold">
-          MI<span className="text-[0px]">f</span>LF
-        </h1>
+        <h1 className="font-bold">Medical Interface</h1>
       </div>
       <div className="flex gap-4">
         {routes.map(route => (
