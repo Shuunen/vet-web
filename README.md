@@ -32,11 +32,10 @@ src/
 │   ├── organisms/         # Complex UI structures combining molecules
 │
 ├── utils/                 # Business logic and utilities
-│   ├── constants/         # Global constants
-│   ├── helpers/           # Utility functions
-│   ├── hooks/             # Custom reusable hooks
-│   ├── store/             # State management (Zustand)
-│   ├── types/types.ts     # Shared TypeScript types and interfaces
+│   ├── foobar.const.ts    # Foobar related constants
+│   ├── foobar.store.ts    # Foobar related Zustand store
+│   ├── foobar.utils.ts    # Foobar related utility functions
+│   ├── foobar.types.ts    # Foobar related TypeScript types
 │
 ├── pages/                 # Page components (LoginPage, DashboardPage)
 │        ├── App.tsx       # Main app entry point
@@ -243,3 +242,7 @@ export function FormContact() {
 - [shadcn/ui](https://ui.shadcn.com/) : the UI components
 - [vite](https://vitejs.dev/) : the bundler
 - [sources](https://github.com/Shuunen/react-playground) : the sources of this project
+
+## Req
+
+- supported browsers with last n versions
