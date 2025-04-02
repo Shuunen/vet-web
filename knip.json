@@ -6,7 +6,6 @@
   ],
   "ignoreDependencies": [
     "@storybook/blocks",
-    "@vitest/coverage-v8",
     "playwright",
     "tailwindcss",
     "tw-animate-css"

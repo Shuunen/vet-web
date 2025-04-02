@@ -1,6 +1,6 @@
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { Calendar, Clock, PawPrint } from 'lucide-react'
 
 function Index() {
@@ -39,7 +39,9 @@ function Index() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-center pb-6 pt-2">
-            <Button>Book Now</Button>
+            <Link to="/book-appointment/step-1">
+              <Button variant="default">Book Now</Button>
+            </Link>
           </CardFooter>
         </Card>
       </div>
