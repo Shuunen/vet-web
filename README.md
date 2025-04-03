@@ -253,6 +253,7 @@ export function FormContact() {
 
 ## Links
 
+- [favicon](https://realfavicongenerator.net/) : the favicon generator
 - [knip](https://knip.dev/) : the code quality tool
 - [lucid icons](https://lucide.dev/icons/) : the icons
 - [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template

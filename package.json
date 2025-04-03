@@ -60,7 +60,7 @@
       "plugin:storybook/recommended"
     ]
   },
-  "name": "react-playground",
+  "name": "vet-web",
   "private": true,
   "scripts": {
     "build": "tsc -b && vite build",

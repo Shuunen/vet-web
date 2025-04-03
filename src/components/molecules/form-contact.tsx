@@ -90,7 +90,7 @@ export function FormContact() {
           )}
         />
         <div className="flex gap-4">
-          <Button data-testid="submit" type="submit">
+          <Button data-testid="submit" type="submit" disabled={!form.formState.isValid}>
             Submit
           </Button>
           <Button type="button" onClick={clearFormData} data-testid="reset">
