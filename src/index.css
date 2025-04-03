@@ -69,3 +69,7 @@ a:hover,
 .bg-primary {
   background-color: hsl(var(--primary));
 }
+
+.bg-popover {
+  background-color: hsl(var(--popover));
+}

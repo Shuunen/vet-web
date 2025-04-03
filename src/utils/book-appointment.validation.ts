@@ -10,10 +10,12 @@ export const baseDataSchema = z.object({
 
 export type AppointmentBaseData = z.infer<typeof baseDataSchema>
 
+export const vaccinationStatuses = ['up-to-date', 'need-update', 'not-vaccinated'] as const
+
 export const catComplementaryDataSchema = z.object({
   indoorOutdoor: z.enum(['indoor', 'outdoor', 'both']),
   lastFleaTreatment: z.string().min(1, 'Last flea treatment date is required'),
-  vaccinationStatus: z.string().min(1, 'Vaccination status is required'),
+  vaccinationStatus: z.enum(vaccinationStatuses),
 })
 
 export type CatComplementaryData = z.infer<typeof catComplementaryDataSchema>

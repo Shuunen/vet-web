@@ -2,8 +2,9 @@ import { Button } from '@/components/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
 import { Input } from '@/components/atoms/input'
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import { type CatComplementaryData, catComplementaryDataSchema } from '@/utils/book-appointment.validation'
+import { type CatComplementaryData, catComplementaryDataSchema, vaccinationStatuses } from '@/utils/book-appointment.validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -31,7 +32,7 @@ function CatComplementaryDataForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="indoorOutdoor"
@@ -85,9 +86,20 @@ function CatComplementaryDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Vaccination Status</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter vaccination details" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select vaccination status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {vaccinationStatuses.map(status => (
+                    <SelectItem key={status} value={status}>
+                      {status.replace(/-/gu, ' ')}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
