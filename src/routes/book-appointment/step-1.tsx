@@ -64,7 +64,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <Input placeholder="Enter pet age" {...field} />
+                <Input placeholder="Enter pet age" {...field} type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>

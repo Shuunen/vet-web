@@ -1,11 +1,12 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
+import { SourceCode } from '@/components/atoms/source-code'
 import { Stepper } from '@/components/molecules/book-appointment-stepper'
 import { bookingSteps } from '@/utils/book-appointment.const'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
 function RouteComponent() {
-  const { currentStep } = useBookAppointmentStore()
+  const { currentStep, data } = useBookAppointmentStore()
 
   return (
     <div className="flex flex-col gap-4">
@@ -23,6 +24,7 @@ function RouteComponent() {
           <CardFooter />
         </Card>
       </div>
+      <SourceCode className="mt-4" code={data} />
     </div>
   )
 }

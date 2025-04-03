@@ -43,9 +43,6 @@ function SummaryPage() {
             <div className="text-gray-600">Weight:</div>
             <div>{data.complementaryData.weight} kg</div>
 
-            <div className="text-gray-600">Last Rabies Shot:</div>
-            <div>{data.complementaryData.lastRabiesShot}</div>
-
             <div className="text-gray-600">Exercise Routine:</div>
             <div>{data.complementaryData.exerciseRoutine}</div>
           </>
@@ -59,7 +56,7 @@ function SummaryPage() {
           </Button>
         </Link>
         <Button>
-          Book that appointment <Calendar1Icon />{' '}
+          Book that appointment <Calendar1Icon />
         </Button>
       </div>
     </div>

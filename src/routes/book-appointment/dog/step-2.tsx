@@ -61,20 +61,6 @@ function DogComplementaryDataForm() {
 
         <FormField
           control={form.control}
-          name="lastRabiesShot"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Rabies Shot Date</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="exerciseRoutine"
           render={({ field }) => (
             <FormItem>

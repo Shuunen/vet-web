@@ -4,7 +4,7 @@ import { bookingSteps } from '@/utils/book-appointment.const'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
 import { cn } from '@/utils/styling.utils'
 import { Link } from '@tanstack/react-router'
-import { CheckCircleIcon, CircleIcon } from 'lucide-react'
+import { CatIcon, CheckCircleIcon, CircleIcon, DogIcon } from 'lucide-react'
 
 export function Stepper() {
   const { currentStep, data } = useBookAppointmentStore()
@@ -42,6 +42,7 @@ export function Stepper() {
           </Button>
         </Link>
       ))}
+      <div className="mx-auto opacity-10 size-1/2">{data.baseData.type === 'cat' ? <CatIcon className="size-full text-orange-700" /> : <DogIcon className="size-full text-green-700" />}</div>
     </div>
   )
 }
