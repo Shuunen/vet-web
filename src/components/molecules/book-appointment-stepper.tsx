@@ -1,17 +1,15 @@
-/* eslint-disable no-magic-numbers */
 import { Button } from '@/components/atoms/button'
 import { bookingSteps } from '@/utils/book-appointment.const'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
+import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema } from '@/utils/book-appointment.validation'
 import { cn } from '@/utils/styling.utils'
 import { Link } from '@tanstack/react-router'
 import { CatIcon, CheckCircleIcon, CircleIcon, DogIcon } from 'lucide-react'
 
 export function Stepper() {
   const { currentStep, data } = useBookAppointmentStore()
-  // use zod
-  const baseValid = data.baseData.name !== ''
-  // use zod
-  const complementaryValid = ('breed' in data.complementaryData && data.complementaryData.breed !== '') || ('vaccinationStatus' in data.complementaryData && data.complementaryData.vaccinationStatus.length > 0)
+  const { success: baseValid } = baseDataSchema.safeParse(data.baseData)
+  const { success: complementaryValid } = data.baseData.type === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
 
   const steps = [
     {
