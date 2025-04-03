@@ -7,6 +7,7 @@ import type { PetBaseData } from '@/utils/book-appointment.types'
 import { baseDataSchema } from '@/utils/book-appointment.validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { ArrowRightIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 // eslint-disable-next-line max-lines-per-function
@@ -28,7 +29,6 @@ function BaseDataForm() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
@@ -99,9 +99,9 @@ function BaseDataForm() {
           )}
         />
 
-        <div className="flex justify-center">
-          <Button type="submit" disabled={!form.formState.isValid}>
-            Go to complementary data
+        <div className="flex justify-center mt-6">
+          <Button type="submit">
+            Go to complementary data <ArrowRightIcon />
           </Button>
         </div>
       </form>

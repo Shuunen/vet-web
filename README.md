@@ -204,7 +204,6 @@ export function FormContact() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} onChange={saveFormData} className="space-y-4">
         <FormField
           control={form.control}
@@ -245,9 +244,7 @@ export function FormContact() {
             </FormItem>
           )}
         />
-        <Button disabled={!form.formState.isValid} type="submit">
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

@@ -71,7 +71,6 @@ export function FormContact() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} onChange={saveFormData} className="space-y-4">
         <FormUser<ContactForm> name="user" />
         {/* Lines below will successfully cause a TypeScript error :
@@ -91,7 +90,7 @@ export function FormContact() {
           )}
         />
         <div className="flex gap-4">
-          <Button disabled={!form.formState.isValid} data-testid="submit" type="submit">
+          <Button data-testid="submit" type="submit">
             Submit
           </Button>
           <Button type="button" onClick={clearFormData} data-testid="reset">

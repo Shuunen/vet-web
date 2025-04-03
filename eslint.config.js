@@ -10,7 +10,7 @@ export default tseslint.config(
     ignores: ['coverage', 'dist'],
   },
   {
-    name: 'project-ts-config',
+    name: 'project-ts-tsx-config',
     extends: [js.configs.all, ...tseslint.configs.strictTypeChecked],
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
@@ -35,6 +35,13 @@ export default tseslint.config(
       'no-ternary': 'off', // well written ternaries are fine
       'func-style': ['error', 'declaration', { allowArrowFunctions: true }], // 💚 prefer function declaration
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    },
+  },
+  {
+    name: 'project-tsx-config-overrides',
+    files: ['src/**/*.tsx'],
+    rules: {
+      '@typescript-eslint/no-misused-promises': 'off', // annoying in forms
     },
   },
 )

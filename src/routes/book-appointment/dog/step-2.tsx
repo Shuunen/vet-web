@@ -31,7 +31,6 @@ function DogComplementaryDataForm() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
@@ -96,9 +95,7 @@ function DogComplementaryDataForm() {
             </Button>
           </Link>
 
-          <Button type="submit" disabled={!form.formState.isValid}>
-            Go to summary
-          </Button>
+          <Button type="submit">Go to summary</Button>
         </div>
       </form>
     </Form>
