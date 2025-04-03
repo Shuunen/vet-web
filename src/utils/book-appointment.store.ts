@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppointmentData, CatComplementaryData, DogComplementaryData, PetBaseData } from './book-appointment.types'
+import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './book-appointment.validation'
 
 interface BookAppointmentState {
   // eslint-disable-next-line no-magic-numbers
@@ -8,7 +8,7 @@ interface BookAppointmentState {
   setCurrentStep: (step: this['currentStep']) => void
   // Base data
   data: AppointmentData
-  setBaseData: (baseData: PetBaseData) => void
+  setBaseData: (baseData: AppointmentBaseData) => void
   // Complementary data
   setCatComplementaryData: (data: CatComplementaryData) => void
   setDogComplementaryData: (data: DogComplementaryData) => void
@@ -16,19 +16,14 @@ interface BookAppointmentState {
   resetForm: () => void
 }
 
-const initialData: AppointmentData = {
+const initialData = {
   baseData: {
-    age: '',
-    identifier: '',
-    name: '',
     type: 'cat',
-  },
+  } satisfies Partial<AppointmentData['baseData']>,
   complementaryData: {
     indoorOutdoor: 'indoor',
-    lastFleaTreatment: '',
-    vaccinationStatus: '',
-  },
-}
+  } satisfies Partial<AppointmentData['complementaryData']>,
+} as AppointmentData
 
 export const useBookAppointmentStore = create<BookAppointmentState>()(
   persist(
@@ -39,26 +34,12 @@ export const useBookAppointmentStore = create<BookAppointmentState>()(
         set({ currentStep: 0, data: initialData })
       },
       setBaseData: baseData => {
-        set(state => ({
+        set({
           data: {
-            ...state.data,
             baseData,
-            // Reset complementary data when pet type changes
-            complementaryData:
-              baseData.type === 'cat'
-                ? {
-                    indoorOutdoor: 'indoor',
-                    lastFleaTreatment: '',
-                    vaccinationStatus: '',
-                  }
-                : {
-                    breed: '',
-                    exerciseRoutine: '',
-                    lastRabiesShot: '',
-                    weight: '',
-                  },
+            complementaryData: initialData.complementaryData,
           },
-        }))
+        })
       },
       setCatComplementaryData: catData => {
         set(state => ({

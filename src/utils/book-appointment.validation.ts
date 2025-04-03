@@ -2,11 +2,13 @@
 import { z } from 'zod'
 
 export const baseDataSchema = z.object({
-  age: z.string().min(1, 'Pet age is required'),
-  identifier: z.string().min(1, 'Pet identifier is required'),
+  age: z.number().min(1, 'Pet age is required').max(99, 'Pet age must be less than 99'),
+  identifier: z.string().regex(/FR\d{4}/u, 'Identifier must be FR and 4 digits'),
   name: z.string().min(1, 'Pet name is required'),
   type: z.enum(['cat', 'dog']),
 })
+
+export type AppointmentBaseData = z.infer<typeof baseDataSchema>
 
 export const catComplementaryDataSchema = z.object({
   indoorOutdoor: z.enum(['indoor', 'outdoor', 'both']),
@@ -14,9 +16,20 @@ export const catComplementaryDataSchema = z.object({
   vaccinationStatus: z.string().min(1, 'Vaccination status is required'),
 })
 
+export type CatComplementaryData = z.infer<typeof catComplementaryDataSchema>
+
 export const dogComplementaryDataSchema = z.object({
   breed: z.string().min(1, 'Breed is required'),
   exerciseRoutine: z.string().min(1, 'Exercise routine is required'),
   lastRabiesShot: z.string().min(1, 'Last rabies shot date is required'),
-  weight: z.string().min(1, 'Weight is required'),
+  weight: z.number().min(1, 'Weight is required'),
 })
+
+export type DogComplementaryData = z.infer<typeof dogComplementaryDataSchema>
+
+export const bookAppointmentSchema = z.object({
+  baseData: baseDataSchema,
+  complementaryData: z.union([catComplementaryDataSchema, dogComplementaryDataSchema]),
+})
+
+export type AppointmentData = z.infer<typeof bookAppointmentSchema>

@@ -3,8 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/atoms/input'
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import type { PetBaseData } from '@/utils/book-appointment.types'
-import { baseDataSchema } from '@/utils/book-appointment.validation'
+import { type AppointmentBaseData, baseDataSchema } from '@/utils/book-appointment.validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
@@ -17,12 +16,12 @@ function BaseDataForm() {
   // eslint-disable-next-line no-magic-numbers
   setCurrentStep(0)
 
-  const form = useForm<PetBaseData>({
+  const form = useForm<AppointmentBaseData>({
     defaultValues: data.baseData,
     resolver: zodResolver(baseDataSchema),
   })
 
-  const onSubmit = async (values: PetBaseData) => {
+  const onSubmit = async (values: AppointmentBaseData) => {
     setBaseData(values)
     await navigate({ to: `/book-appointment/${values.type}/step-2` })
   }
