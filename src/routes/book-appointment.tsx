@@ -9,7 +9,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold text-blue-800 my-4 text-center">Book an appointment with Dr. Nicolas Johnrom</h1>
+      <h1 className="text-3xl font-bold text-primary my-4 text-center">Book an appointment with Dr. Nicolas Johnrom</h1>
       <div className="flex mt-4">
         <Stepper />
         <Card className="w-full">

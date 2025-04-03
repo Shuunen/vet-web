@@ -60,6 +60,11 @@
   }
 }
 
-a.active {
-  @apply dark:text-blue-400 text-blue-700;
+a.active,
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
 }

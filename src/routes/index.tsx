@@ -7,7 +7,7 @@ function Index() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="flex flex-col items-center justify-center mb-12">
-        <h1 className="text-4xl font-bold text-center text-blue-800">Medical Interface for Lovable Furballs</h1>
+        <h1 className="text-4xl font-bold text-center text-primary">Medical Interface for Lovable Furballs</h1>
         <p className="mt-4 text-xl text-gray-600 text-center max-w-2xl">Providing the best care for your furry friends with our dedicated veterinary services</p>
       </div>
 
@@ -23,14 +23,14 @@ function Index() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-start">
-                <Clock className="h-5 w-5 text-blue-500 mr-3 mt-0.5" />
+                <Clock className="h-5 w-5 text-primary mr-3 mt-0.5" />
                 <div>
                   <h3 className="font-medium">Quick and Easy Scheduling</h3>
                   <p className="text-gray-600">Book appointments in just a few clicks</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <PawPrint className="h-5 w-5 text-blue-500 mr-3 mt-0.5" />
+                <PawPrint className="h-5 w-5 text-primary mr-3 mt-0.5" />
                 <div>
                   <h3 className="font-medium">Specialized Care</h3>
                   <p className="text-gray-600">Our veterinarians are experts in pet healthcare</p>

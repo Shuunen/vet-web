@@ -14,7 +14,7 @@
     "baseColor": "neutral",
     "config": "",
     "css": "src/index.css",
-    "cssVariables": false,
+    "cssVariables": true,
     "prefix": ""
   },
   "tsx": true
