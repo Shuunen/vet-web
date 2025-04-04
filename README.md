@@ -259,4 +259,4 @@ export function FormContact() {
 - [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
 - [shadcn/ui](https://ui.shadcn.com/) : the UI components
 - [vite](https://vitejs.dev/) : the bundler
-- [sources](https://github.com/Shuunen/react-playground) : the sources of this project
+- [sources](https://github.com/Shuunen/vet-web) : the sources of this project
