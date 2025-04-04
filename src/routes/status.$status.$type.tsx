@@ -1,6 +1,6 @@
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { AlertCircle, CheckCircle, Home, Info } from 'lucide-react'
 
 const statusIcons = {
