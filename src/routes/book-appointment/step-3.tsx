@@ -1,12 +1,19 @@
 import { Button } from '@/components/atoms/button'
 import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon, Calendar1Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 function SummaryPage() {
   const { data, setCurrentStep } = useBookAppointmentStore()
+  const navigate = useNavigate()
   // eslint-disable-next-line no-magic-numbers
   setCurrentStep(2)
+
+  async function onBook() {
+    toast.success('Appointment booked successfully!')
+    await navigate({ params: { status: 'success', type: 'appointment' }, to: '/status/$status/$type' })
+  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -32,7 +39,7 @@ function SummaryPage() {
             <ArrowLeftIcon /> Back
           </Button>
         </Link>
-        <Button>
+        <Button type="button" onClick={onBook}>
           Book that appointment <Calendar1Icon />
         </Button>
       </div>

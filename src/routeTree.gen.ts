@@ -17,6 +17,7 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as BookAppointmentStep3Import } from './routes/book-appointment/step-3'
 import { Route as BookAppointmentStep1Import } from './routes/book-appointment/step-1'
+import { Route as StatusStatusTypeImport } from './routes/status.$status.$type'
 import { Route as BookAppointmentDogStep2Import } from './routes/book-appointment/dog/step-2'
 import { Route as BookAppointmentCatStep2Import } from './routes/book-appointment/cat/step-2'
 
@@ -56,6 +57,12 @@ const BookAppointmentStep1Route = BookAppointmentStep1Import.update({
   id: '/step-1',
   path: '/step-1',
   getParentRoute: () => BookAppointmentRoute,
+} as any)
+
+const StatusStatusTypeRoute = StatusStatusTypeImport.update({
+  id: '/status/$status/$type',
+  path: '/status/$status/$type',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const BookAppointmentDogStep2Route = BookAppointmentDogStep2Import.update({
@@ -130,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookAppointmentDogStep2Import
       parentRoute: typeof BookAppointmentImport
     }
+    '/status/$status/$type': {
+      id: '/status/$status/$type'
+      path: '/status/$status/$type'
+      fullPath: '/status/$status/$type'
+      preLoaderRoute: typeof StatusStatusTypeImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -162,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/book-appointment/step-3': typeof BookAppointmentStep3Route
   '/book-appointment/cat/step-2': typeof BookAppointmentCatStep2Route
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
+  '/status/$status/$type': typeof StatusStatusTypeRoute
 }
 
 export interface FileRoutesByTo {
@@ -173,6 +188,7 @@ export interface FileRoutesByTo {
   '/book-appointment/step-3': typeof BookAppointmentStep3Route
   '/book-appointment/cat/step-2': typeof BookAppointmentCatStep2Route
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
+  '/status/$status/$type': typeof StatusStatusTypeRoute
 }
 
 export interface FileRoutesById {
@@ -185,6 +201,7 @@ export interface FileRoutesById {
   '/book-appointment/step-3': typeof BookAppointmentStep3Route
   '/book-appointment/cat/step-2': typeof BookAppointmentCatStep2Route
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
+  '/status/$status/$type': typeof StatusStatusTypeRoute
 }
 
 export interface FileRouteTypes {
@@ -198,6 +215,7 @@ export interface FileRouteTypes {
     | '/book-appointment/step-3'
     | '/book-appointment/cat/step-2'
     | '/book-appointment/dog/step-2'
+    | '/status/$status/$type'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -208,6 +226,7 @@ export interface FileRouteTypes {
     | '/book-appointment/step-3'
     | '/book-appointment/cat/step-2'
     | '/book-appointment/dog/step-2'
+    | '/status/$status/$type'
   id:
     | '__root__'
     | '/'
@@ -218,6 +237,7 @@ export interface FileRouteTypes {
     | '/book-appointment/step-3'
     | '/book-appointment/cat/step-2'
     | '/book-appointment/dog/step-2'
+    | '/status/$status/$type'
   fileRoutesById: FileRoutesById
 }
 
@@ -226,6 +246,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BookAppointmentRoute: typeof BookAppointmentRouteWithChildren
   ContactRoute: typeof ContactRoute
+  StatusStatusTypeRoute: typeof StatusStatusTypeRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -233,6 +254,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BookAppointmentRoute: BookAppointmentRouteWithChildren,
   ContactRoute: ContactRoute,
+  StatusStatusTypeRoute: StatusStatusTypeRoute,
 }
 
 export const routeTree = rootRoute
@@ -248,7 +270,8 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/book-appointment",
-        "/contact"
+        "/contact",
+        "/status/$status/$type"
       ]
     },
     "/": {
@@ -284,6 +307,9 @@ export const routeTree = rootRoute
     "/book-appointment/dog/step-2": {
       "filePath": "book-appointment/dog/step-2.tsx",
       "parent": "/book-appointment"
+    },
+    "/status/$status/$type": {
+      "filePath": "status.$status.$type.tsx"
     }
   }
 }
