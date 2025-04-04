@@ -1,14 +1,20 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Button } from '@/components/atoms/button'
-import { useBookAppointmentStore } from '@/utils/book-appointment.store'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon, Calendar1Icon } from 'lucide-react'
 import { toast } from 'sonner'
+import { hasAccess } from './-steps.utils'
 
 function SummaryPage() {
-  const { data, setCurrentStep } = useBookAppointmentStore()
   const navigate = useNavigate()
-  // eslint-disable-next-line no-magic-numbers
-  setCurrentStep(2)
+  const { data, setCurrentStep } = useBookAppointmentStore()
+  const step = 2
+  const variant = data.baseData.type
+
+  const check = hasAccess(step, variant, data)
+  if (!check.ok) navigate({ to: `/book-appointment/${variant}/step-2` })
+  setCurrentStep(step)
 
   async function onBook() {
     toast.success('Appointment booked successfully!')

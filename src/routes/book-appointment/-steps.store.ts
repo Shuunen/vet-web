@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './book-appointment.validation'
+import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './-steps.utils'
 
-interface BookAppointmentState {
+export interface BookAppointmentState {
   // eslint-disable-next-line no-magic-numbers
   currentStep: 0 | 1 | 2
   setCurrentStep: (step: this['currentStep']) => void

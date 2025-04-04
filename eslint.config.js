@@ -32,6 +32,7 @@ export default tseslint.config(
       'one-var': 'off', // useless
       curly: ['error', 'multi'], // only on multi
       'sort-imports': 'off', // not needed, vscode & biome does this
+      'no-undefined': 'off', // well written ternaries are fine
       'no-ternary': 'off', // well written ternaries are fine
       'func-style': ['error', 'declaration', { allowArrowFunctions: true }], // 💚 prefer function declaration
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],

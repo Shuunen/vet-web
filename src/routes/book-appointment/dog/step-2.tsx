@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Button } from '@/components/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
 import { Input } from '@/components/atoms/input'
 import { Textarea } from '@/components/atoms/textarea'
-import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import { type DogComplementaryData, dogComplementaryDataSchema } from '@/utils/book-appointment.validation'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
+import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from '@/routes/book-appointment/-steps.utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -13,8 +14,12 @@ import { useForm } from 'react-hook-form'
 function DogComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setDogComplementaryData, setCurrentStep } = useBookAppointmentStore()
-  // eslint-disable-next-line no-magic-numbers
-  setCurrentStep(1)
+  const step = 1
+
+  const check = hasAccess(step, 'dog', data)
+  if (!check.ok) navigate({ to: '/book-appointment/step-1' })
+  setCurrentStep(step)
+
   const complementaryData = data.complementaryData as DogComplementaryData
 
   const form = useForm<DogComplementaryData>({
@@ -24,7 +29,6 @@ function DogComplementaryDataForm() {
 
   const onSubmit = (values: DogComplementaryData) => {
     setDogComplementaryData(values)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     navigate({ to: '/book-appointment/step-3' })
   }
 

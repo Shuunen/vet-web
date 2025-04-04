@@ -1,13 +1,16 @@
+/* eslint-disable no-magic-numbers */
 import { Button } from '@/components/atoms/button'
-import { bookingSteps } from '@/utils/book-appointment.const'
-import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema } from '@/utils/book-appointment.validation'
+import { bookingSteps } from '@/routes/book-appointment/-steps.const'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { cn } from '@/utils/styling.utils'
 import { Link } from '@tanstack/react-router'
 import { CatIcon, CheckCircleIcon, CircleIcon, DogIcon } from 'lucide-react'
+import { unwrap } from 'resultx'
+import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema, hasAccess } from './-steps.utils'
 
 export function Stepper() {
   const { currentStep, data } = useBookAppointmentStore()
+  const variant = data.baseData.type
   const { success: baseValid } = baseDataSchema.safeParse(data.baseData)
   const { success: complementaryValid } = data.baseData.type === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
 
@@ -18,12 +21,12 @@ export function Stepper() {
     },
     {
       completed: complementaryValid && baseValid,
-      disabled: !baseValid,
-      path: data.baseData.type === 'cat' ? '/book-appointment/cat/step-2' : '/book-appointment/dog/step-2',
+      disabled: unwrap(hasAccess(1, variant, data)).error !== undefined,
+      path: `/book-appointment/${variant}/step-2`,
     },
     {
       completed: complementaryValid && baseValid,
-      disabled: !baseValid || !complementaryValid,
+      disabled: unwrap(hasAccess(2, variant, data)).error !== undefined,
       path: '/book-appointment/step-3',
     },
   ]

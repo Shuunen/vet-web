@@ -153,6 +153,9 @@ importers:
       playwright:
         specifier: ^1.51
         version: 1.51.1
+      resultx:
+        specifier: ^2.0
+        version: 2.0.2
       storybook:
         specifier: 8.6.11
         version: 8.6.11(prettier@3.5.3)
@@ -3761,6 +3764,9 @@ packages:
     resolution: {integrity: sha512-NPRy+/ncIMeDlTAsuqwKIiferiawhefFJtkNSW0qZJEqMEb+qBt/77B/jGeeek+F0uOeN05CDa6HXbbIgtVX4w==}
     engines: {node: '>= 0.4'}
     hasBin: true
+
+  resultx@2.0.2:
+    resolution: {integrity: sha512-wWaAwKrlQlIa4IIGkQi7UE4tt3XwoDI+XRDTYY8hVVaqQSwnQR4tDkLweSSvjtKNsUC86MKfok65+hNNLbZW4Q==}
 
   reusify@1.1.0:
     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
@@ -8345,6 +8351,8 @@ snapshots:
       is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+
+  resultx@2.0.2: {}
 
   reusify@1.1.0: {}
 

@@ -1,3 +1,5 @@
+import type { BookAppointmentState } from '@/routes/book-appointment/-steps.store'
+import { err, ok } from 'resultx'
 /* eslint-disable no-magic-numbers */
 import { z } from 'zod'
 
@@ -34,3 +36,14 @@ export const bookAppointmentSchema = z.object({
 })
 
 export type AppointmentData = z.infer<typeof bookAppointmentSchema>
+
+export function hasAccess(toStep: BookAppointmentState['currentStep'], toVariant: AppointmentData['baseData']['type'], data: AppointmentData) {
+  const variant = data.baseData.type
+  const { success: isBaseValid } = baseDataSchema.safeParse(data.baseData)
+  const { success: isComplementaryValid } = variant === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
+  if (toStep === 0) return ok('Access to step 0 granted')
+  if (variant !== toVariant) return err('Variant does not match')
+  if (toStep === 1 && isBaseValid) return ok('Access to step 1 granted')
+  if (toStep === 2 && isBaseValid && isComplementaryValid) return ok('Access to step 2 granted')
+  return err('Step does not exist')
+}

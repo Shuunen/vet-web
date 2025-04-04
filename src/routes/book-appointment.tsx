@@ -1,8 +1,8 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
 import { SourceCode } from '@/components/atoms/source-code'
-import { Stepper } from '@/components/molecules/book-appointment-stepper'
-import { bookingSteps } from '@/utils/book-appointment.const'
-import { useBookAppointmentStore } from '@/utils/book-appointment.store'
+import { Stepper } from '@/routes/book-appointment/-stepper'
+import { bookingSteps } from '@/routes/book-appointment/-steps.const'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
 function RouteComponent() {

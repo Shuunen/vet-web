@@ -1,21 +1,25 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Button } from '@/components/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
 import { Input } from '@/components/atoms/input'
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select'
-import { useBookAppointmentStore } from '@/utils/book-appointment.store'
-import { type CatComplementaryData, catComplementaryDataSchema, vaccinationStatuses } from '@/utils/book-appointment.validation'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils'
 
 // eslint-disable-next-line max-lines-per-function
 function CatComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setCatComplementaryData, setCurrentStep } = useBookAppointmentStore()
-  // eslint-disable-next-line no-magic-numbers
-  setCurrentStep(1)
+  const step = 1
+
+  const check = hasAccess(step, 'cat', data)
+  if (!check.ok) navigate({ to: '/book-appointment/step-1' })
+  setCurrentStep(step)
 
   const complementaryData = data.complementaryData as CatComplementaryData
 
@@ -26,7 +30,6 @@ function CatComplementaryDataForm() {
 
   const onSubmit = (values: CatComplementaryData) => {
     setCatComplementaryData(values)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     navigate({ to: '/book-appointment/step-3' })
   }
 

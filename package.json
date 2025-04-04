@@ -50,6 +50,7 @@
     "globals": "^16.0",
     "knip": "latest",
     "playwright": "^1.51",
+    "resultx": "^2.0",
     "storybook": "8.6.11",
     "typescript": "^5.7",
     "typescript-eslint": "^8.24",
