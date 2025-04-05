@@ -28,7 +28,7 @@ const contactFormSchema = z.object({
   }),
 })
 
-type ContactForm = z.infer<typeof contactFormSchema>
+export type ContactForm = z.infer<typeof contactFormSchema>
 
 // eslint-disable-next-line max-lines-per-function
 export function FormContact() {
