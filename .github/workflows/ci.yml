@@ -21,4 +21,4 @@ jobs:
           version: 9
 
       - name: Run check 👀
-        run: pnpm exec playwright install && pnpm run check
+        run: pnpm install && pnpm exec playwright install && pnpm run check
