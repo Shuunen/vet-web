@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
 import { SourceCode } from '@/components/atoms/source-code'
+import { ComboboxForm } from '@/components/molecules/form-combo-box'
 import { Stepper } from '@/routes/book-appointment/-stepper'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
@@ -13,6 +14,7 @@ function RouteComponent() {
       <h1 className="text-3xl font-bold text-primary my-4 text-center">Book an appointment with Dr. Nicolas Johnrom</h1>
       <div className="flex mt-4">
         <Stepper />
+        <ComboboxForm />
         <Card className="w-full">
           <CardHeader>
             <CardTitle>{bookingSteps[currentStep].title}</CardTitle>
