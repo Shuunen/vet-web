@@ -27,13 +27,7 @@ function BaseDataForm() {
     await navigate({ to: `/book-appointment/${values.type}/step-2` })
   }
 
-  // Subscribe to form value changes
-  useFormChangeDetector(form, values => {
-    // eslint-disable-next-line no-console
-    console.log('Form values changed:', values)
-    // @ts-expect-error type mismatch
-    setBaseData(values)
-  })
+  useFormChangeDetector(form, setBaseData)
 
   return (
     <Form {...form}>
