@@ -4,6 +4,7 @@ import { Input } from '@/components/atoms/input'
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type AppointmentBaseData, baseDataSchema } from '@/routes/book-appointment/-steps.utils'
+import { useFormChangeDetector } from '@/utils/form.utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
@@ -25,6 +26,14 @@ function BaseDataForm() {
     setBaseData(values)
     await navigate({ to: `/book-appointment/${values.type}/step-2` })
   }
+
+  // Subscribe to form value changes
+  useFormChangeDetector(form, values => {
+    // eslint-disable-next-line no-console
+    console.log('Form values changed:', values)
+    // @ts-expect-error type mismatch
+    setBaseData(values)
+  })
 
   return (
     <Form {...form}>
