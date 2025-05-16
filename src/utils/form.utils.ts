@@ -14,7 +14,7 @@ export function useFormChangeDetector<TValues extends FieldValues>(form: UseForm
   const debouncedCallback = debounce(callback, 300)
   useEffect(() => {
     const subscription = form.watch(values => {
-      debouncedCallback(values as TValues)
+      debouncedCallback(structuredClone(values as TValues))
     })
     return () => {
       subscription.unsubscribe()
