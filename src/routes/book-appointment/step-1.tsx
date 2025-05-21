@@ -39,7 +39,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Pet identifier</FormLabel>
               <FormControl>
-                <Input placeholder="Enter pet ID or microchip number" {...field} />
+                <Input placeholder="Enter pet ID or microchip number" {...field} data-testid="identifier" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -53,7 +53,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter pet name" {...field} />
+                <Input placeholder="Enter pet name" {...field} data-testid="name" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,7 +67,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <Input placeholder="Enter pet age" {...field} type="number" />
+                <Input placeholder="Enter pet age" {...field} type="number" data-testid="age" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,16 +81,16 @@ function BaseDataForm() {
             <FormItem className="space-y-3">
               <FormLabel>Type</FormLabel>
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-y-1 space-x-4">
+                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-y-1 space-x-4" data-testid="type">
                   <FormItem className="flex items-center">
                     <FormControl>
-                      <RadioGroupItem value="cat" />
+                      <RadioGroupItem value="cat" data-testid="type-cat" />
                     </FormControl>
                     <FormLabel className="font-normal">cat</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center">
                     <FormControl>
-                      <RadioGroupItem value="dog" />
+                      <RadioGroupItem value="dog" data-testid="type-dog" />
                     </FormControl>
                     <FormLabel className="font-normal">dog</FormLabel>
                   </FormItem>
@@ -102,7 +102,7 @@ function BaseDataForm() {
         />
 
         <div className="flex justify-center mt-6">
-          <Button type="submit">
+          <Button type="submit" data-testid="next">
             Go to complementary data <ArrowRightIcon />
           </Button>
         </div>

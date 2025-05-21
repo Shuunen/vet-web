@@ -42,7 +42,7 @@ function DogComplementaryDataForm() {
             <FormItem>
               <FormLabel>Breed</FormLabel>
               <FormControl>
-                <Input placeholder="Enter dog breed" {...field} />
+                <Input placeholder="Enter dog breed" {...field} data-testid="breed" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,7 +56,7 @@ function DogComplementaryDataForm() {
             <FormItem>
               <FormLabel>Weight (kg)</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Enter dog weight" {...field} />
+                <Input type="number" placeholder="Enter dog weight" {...field} data-testid="weight" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +70,7 @@ function DogComplementaryDataForm() {
             <FormItem>
               <FormLabel>Exercise Routine</FormLabel>
               <FormControl>
-                <Textarea placeholder="Describe your dog's exercise routine" {...field} />
+                <Textarea placeholder="Describe your dog's exercise routine" {...field} data-testid="exerciseRoutine" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,12 +79,14 @@ function DogComplementaryDataForm() {
 
         <div className="flex justify-between space-x-4 pt-4">
           <Link to="/book-appointment/step-1">
-            <Button type="button" variant="link">
+            <Button type="button" variant="link" data-testid="back">
               <ArrowLeftIcon /> Back
             </Button>
           </Link>
 
-          <Button type="submit">Go to summary</Button>
+          <Button type="submit" data-testid="next">
+            Go to summary
+          </Button>
         </div>
       </form>
     </Form>

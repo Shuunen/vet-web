@@ -32,7 +32,7 @@ export function Stepper() {
   ]
 
   return (
-    <div className="flex flex-col gap-6 border-r border-gray-200 pr-12 mr-12">
+    <div className="flex flex-col gap-6 border-r border-gray-200 pr-12 mr-12" data-testid="stepper">
       {steps.map((step, index) => (
         <Link to={step.path} key={step.path} disabled={step.disabled} preload="intent">
           <Button variant="link" size="sm" disabled={step.disabled} className={cn('flex-1 h-full justify-start pl-0 hover:bg-transparent', step.disabled && 'opacity-50 cursor-not-allowed')}>

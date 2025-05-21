@@ -43,22 +43,22 @@ function CatComplementaryDataForm() {
             <FormItem className="space-y-3">
               <FormLabel>Environment</FormLabel>
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
+                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1" data-testid="indoorOutdoor">
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="indoor" />
+                      <RadioGroupItem value="indoor" data-testid="indoorOutdoor-indoor" />
                     </FormControl>
                     <FormLabel className="font-normal">Indoor Only</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="outdoor" />
+                      <RadioGroupItem value="outdoor" data-testid="indoorOutdoor-outdoor" />
                     </FormControl>
                     <FormLabel className="font-normal">Outdoor Only</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="both" />
+                      <RadioGroupItem value="both" data-testid="indoorOutdoor-both" />
                     </FormControl>
                     <FormLabel className="font-normal">Both Indoor and Outdoor</FormLabel>
                   </FormItem>
@@ -76,7 +76,7 @@ function CatComplementaryDataForm() {
             <FormItem>
               <FormLabel>Last Flea Treatment Date</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="date" {...field} data-testid="lastFleaTreatment" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,7 +89,7 @@ function CatComplementaryDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Vaccination Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} data-testid="vaccinationStatus">
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select vaccination status" />
@@ -97,7 +97,7 @@ function CatComplementaryDataForm() {
                 </FormControl>
                 <SelectContent>
                   {vaccinationStatuses.map(status => (
-                    <SelectItem key={status} value={status}>
+                    <SelectItem key={status} value={status} data-testid={`vaccinationStatus-${status}`}>
                       {status.replace(/-/gu, ' ')}
                     </SelectItem>
                   ))}
@@ -110,11 +110,13 @@ function CatComplementaryDataForm() {
 
         <div className="flex gap-24 mt-4">
           <Link to="/book-appointment/step-1">
-            <Button type="button" variant="link">
+            <Button type="button" variant="link" data-testid="back">
               <ArrowLeftIcon /> Back
             </Button>
           </Link>
-          <Button type="submit">Go to summary</Button>
+          <Button type="submit" data-testid="next">
+            Go to summary
+          </Button>
         </div>
       </form>
     </Form>

@@ -75,7 +75,7 @@ export function ComboboxForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-                    <Button variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}>
+                    <Button variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')} data-testid="language-combobox">
                       {field.value ? languages.find(language => language.value === field.value)?.label : 'Select language'}
                       <ChevronsUpDown className="opacity-50" />
                     </Button>
@@ -94,6 +94,7 @@ export function ComboboxForm() {
                             onSelect={() => {
                               form.setValue('language', language.value)
                             }}
+                            data-testid={`language-option-${language.value}`}
                           >
                             {language.label}
                             <Check className={cn('ml-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')} />
@@ -109,7 +110,9 @@ export function ComboboxForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" data-testid="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   )
