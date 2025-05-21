@@ -1,7 +1,7 @@
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card'
 import { cn } from '@/utils/styling.utils'
-import { AlertTriangle, X } from 'lucide-react'
+import { AlertTriangle, XIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'hideTestIdChecker'
@@ -10,6 +10,7 @@ const EMPTY = 0
 const INITIAL_COUNT = 0
 const FIRST_OCCURRENCE = 1
 const INCREMENT = 1
+const HIGHLIGHT_CLASSES = ['!outline', '!outline-2', '!outline-dashed', '!outline-blue-500', '!outline-offset-2', '!z-50', '!bg-blue-500/20', '!text-black'] as const
 
 function getAllTestIds() {
   return Array.from(document.querySelectorAll('[data-testid]'))
@@ -18,16 +19,11 @@ function getAllTestIds() {
 }
 
 let lastHighlighted: string | null = null
+
 function removeHighlight(testid?: string | null) {
   if (!testid) return
   const els = document.querySelectorAll<HTMLElement>(`[data-testid="${testid}"]`)
-  for (const el of els) {
-    el.style.outline = ''
-    el.style.outlineOffset = ''
-    el.style.zIndex = ''
-    el.style.backgroundColor = ''
-    el.style.color = ''
-  }
+  for (const el of els) el.classList.remove(...HIGHLIGHT_CLASSES)
   if (lastHighlighted === testid) lastHighlighted = null
 }
 
@@ -35,13 +31,7 @@ function highlightElement(testid: string) {
   if (lastHighlighted === testid) return
   removeHighlight(lastHighlighted)
   const els = document.querySelectorAll<HTMLElement>(`[data-testid="${testid}"]`)
-  for (const el of els) {
-    el.style.outline = '2px dashed #22c55e'
-    el.style.outlineOffset = '2px'
-    el.style.zIndex = '9998'
-    el.style.backgroundColor = 'rgba(34, 197, 94, .2)'
-    el.style.color = 'black'
-  }
+  for (const el of els) el.classList.add(...HIGHLIGHT_CLASSES)
   lastHighlighted = testid
 }
 
@@ -86,7 +76,7 @@ function TestIdListItem({
   return (
     <li
       key={id}
-      className={cn('flex items-center border-b border-gray-100 cursor-pointer m-0 px-4 py-2 hover:bg-green-50 transition-colors', isValid ? 'text-black' : 'text-red-500')}
+      className={cn('flex items-center border-b border-gray-100 cursor-pointer m-0 px-4 py-2 hover:bg-blue-50 transition-colors', isValid ? 'text-black' : 'text-red-500')}
       aria-label={`Highlight element with data-testid ${id}`}
       onMouseEnter={() => {
         highlightElement(id)
@@ -132,27 +122,26 @@ function TestIdList({ testIds }: { testIds: string[] }) {
 export function TestIdChecker() {
   const [visible, setVisible] = useState(() => !localStorage.getItem(STORAGE_KEY))
   const testIds = useTestIds(visible)
-
-  if (!visible) return null
-
   return (
-    <Card aria-label="data-testid checker" className="fixed gap-0 bottom-6 right-6 z-100 w-auto max-w-[340px] min-w-[260px] shadow-lg">
-      <CardHeader className="flex justify-between items-center pl-4 pr-2 py-2">
-        <CardTitle className="text-base">Data test id checker</CardTitle>
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setVisible(false)
-            localStorage.setItem(STORAGE_KEY, '1')
-          }}
-        >
-          <X className="size-4" />
-        </Button>
-      </CardHeader>
-      <CardContent className="p-0">
-        <TestIdList testIds={testIds} />
-        {testIds.length === EMPTY && <div className="text-gray-400 p-4 text-center">No data-testid found</div>}
-      </CardContent>
-    </Card>
+    visible && (
+      <Card aria-label="data-testid checker" className="fixed gap-0 bottom-6 right-6 z-100 w-auto max-w-[340px] min-w-[260px] shadow-lg">
+        <CardHeader className="flex justify-between items-center pl-4 pr-2 py-2">
+          <CardTitle className="text-base">Data test id checker</CardTitle>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setVisible(false)
+              localStorage.setItem(STORAGE_KEY, '1')
+            }}
+          >
+            <XIcon className="size-4" />
+          </Button>
+        </CardHeader>
+        <CardContent className="p-0">
+          <TestIdList testIds={testIds} />
+          {testIds.length === EMPTY && <div className="text-gray-400 p-4 text-center">No data-testid found</div>}
+        </CardContent>
+      </Card>
+    )
   )
 }
