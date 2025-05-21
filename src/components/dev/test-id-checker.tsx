@@ -1,11 +1,15 @@
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card'
-import { X } from 'lucide-react'
+import { cn } from '@/utils/styling.utils'
+import { AlertTriangle, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'hideTestIdChecker'
 const INTERVAL = 1000
 const EMPTY = 0
+const INITIAL_COUNT = 0
+const FIRST_OCCURRENCE = 1
+const INCREMENT = 1
 
 function getAllTestIds() {
   return Array.from(document.querySelectorAll('[data-testid]'))
@@ -21,6 +25,8 @@ function removeHighlight(testid?: string | null) {
     el.style.outline = ''
     el.style.outlineOffset = ''
     el.style.zIndex = ''
+    el.style.backgroundColor = ''
+    el.style.color = ''
   }
   if (lastHighlighted === testid) lastHighlighted = null
 }
@@ -30,9 +36,11 @@ function highlightElement(testid: string) {
   removeHighlight(lastHighlighted)
   const els = document.querySelectorAll<HTMLElement>(`[data-testid="${testid}"]`)
   for (const el of els) {
-    el.style.outline = '2px solid #22c55e'
+    el.style.outline = '2px dashed #22c55e'
     el.style.outlineOffset = '2px'
     el.style.zIndex = '9998'
+    el.style.backgroundColor = 'rgba(34, 197, 94, .2)'
+    el.style.color = 'black'
   }
   lastHighlighted = testid
 }
@@ -60,33 +68,63 @@ function useTestIds(visible: boolean) {
   return testIds
 }
 
-function TestIdList({ testIds }: { testIds: string[] }) {
+function isValidTestId(testId: string): boolean {
+  return /^[a-zA-Z0-9-]+$/u.test(testId)
+}
+
+function TestIdListItem({
+  id,
+  index,
+  totalOccurrences,
+  isValid,
+}: {
+  id: string
+  index: number
+  totalOccurrences: number
+  isValid: boolean
+}) {
   return (
-    <ul className="list-decimal list-inside text-gray-300">
-      {testIds.map(id => {
-        const itemClassName = 'border-b border-gray-100 cursor-pointer m-0 px-4 py-2'
-        return (
-          <li
-            key={id}
-            className={itemClassName}
-            aria-label={`Highlight element with data-testid ${id}`}
-            onMouseEnter={() => {
-              highlightElement(id)
-            }}
-            onMouseLeave={() => {
-              removeHighlight(id)
-            }}
-            onFocus={() => {
-              highlightElement(id)
-            }}
-            onBlur={() => {
-              removeHighlight(id)
-            }}
-          >
-            <span className="text-black">{id}</span>
-          </li>
-        )
-      })}
+    <li
+      key={id}
+      className={cn('flex items-center border-b border-gray-100 cursor-pointer m-0 px-4 py-2 hover:bg-green-50 transition-colors', isValid ? 'text-black' : 'text-red-500')}
+      aria-label={`Highlight element with data-testid ${id}`}
+      onMouseEnter={() => {
+        highlightElement(id)
+      }}
+      onMouseLeave={() => {
+        removeHighlight(id)
+      }}
+      onFocus={() => {
+        highlightElement(id)
+      }}
+      onBlur={() => {
+        removeHighlight(id)
+      }}
+      title={isValid ? undefined : 'This data-testid contains un-expected chars'}
+    >
+      <span className="opacity-50 w-6">{index + INCREMENT}.</span>
+      {id}
+      {totalOccurrences > FIRST_OCCURRENCE && ` (${totalOccurrences.toString()} occurrences)`}
+      {!isValid && <AlertTriangle className="size-4 text-red-500 ml-2" />}
+    </li>
+  )
+}
+
+function TestIdList({ testIds }: { testIds: string[] }) {
+  // Count occurrences of each test ID
+  const idCounts = testIds.reduce<Record<string, number>>((acc, id) => {
+    acc[id] = (acc[id] || INITIAL_COUNT) + INCREMENT
+    return acc
+  }, {})
+
+  // Get unique test IDs
+  const uniqueTestIds = Array.from(new Set(testIds))
+
+  return (
+    <ul className="text-gray-300">
+      {uniqueTestIds.map((id, index) => (
+        <TestIdListItem key={id} id={id} index={index} totalOccurrences={idCounts[id]} isValid={isValidTestId(id)} />
+      ))}
     </ul>
   )
 }
