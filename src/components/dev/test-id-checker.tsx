@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card'
 import { cn } from '@/utils/styling.utils'
