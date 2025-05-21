@@ -1,4 +1,5 @@
 import { Toaster } from '@/components/atoms/toaster'
+import { TestIdChecker } from '@/components/dev/test-id-checker'
 import { Header } from '@/components/molecules/header'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -9,6 +10,7 @@ export const Route = createRootRoute({
       <Header />
       <div className="border-stone-600 border-t mt-4 mb-2 w-1/3 mx-auto h-1" />
       <Outlet />
+      {import.meta.env.DEV && <TestIdChecker />}
       <TanStackRouterDevtools />
       <Toaster />
     </div>
