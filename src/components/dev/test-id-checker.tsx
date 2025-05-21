@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Button } from '@/components/atoms/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card'
 import { X } from 'lucide-react'
@@ -38,8 +37,7 @@ function highlightElement(testid: string) {
   lastHighlighted = testid
 }
 
-export function TestIdChecker() {
-  const [visible, setVisible] = useState(() => !localStorage.getItem(STORAGE_KEY))
+function useTestIds(visible: boolean) {
   const [testIds, setTestIds] = useState<string[]>([])
   const timer = useRef<NodeJS.Timeout | null>(null)
 
@@ -52,13 +50,50 @@ export function TestIdChecker() {
     }
     update()
     timer.current = setInterval(update, INTERVAL)
-
     // eslint-disable-next-line consistent-return
     return () => {
       if (timer.current) clearInterval(timer.current)
       removeHighlight(lastHighlighted)
     }
   }, [visible])
+
+  return testIds
+}
+
+function TestIdList({ testIds }: { testIds: string[] }) {
+  return (
+    <ul className="list-decimal list-inside text-gray-300">
+      {testIds.map(id => {
+        const itemClassName = 'border-b border-gray-100 cursor-pointer m-0 px-4 py-2'
+        return (
+          <li
+            key={id}
+            className={itemClassName}
+            aria-label={`Highlight element with data-testid ${id}`}
+            onMouseEnter={() => {
+              highlightElement(id)
+            }}
+            onMouseLeave={() => {
+              removeHighlight(id)
+            }}
+            onFocus={() => {
+              highlightElement(id)
+            }}
+            onBlur={() => {
+              removeHighlight(id)
+            }}
+          >
+            <span className="text-black">{id}</span>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+export function TestIdChecker() {
+  const [visible, setVisible] = useState(() => !localStorage.getItem(STORAGE_KEY))
+  const testIds = useTestIds(visible)
 
   if (!visible) return null
 
@@ -77,33 +112,7 @@ export function TestIdChecker() {
         </Button>
       </CardHeader>
       <CardContent className="p-0">
-        <ul className="list-decimal list-inside text-gray-300">
-          {testIds.map(id => {
-            const itemClassName = 'border-b border-gray-100 cursor-pointer m-0 px-4 py-2'
-
-            return (
-              <li
-                key={id}
-                className={itemClassName}
-                aria-label={`Highlight element with data-testid ${id}`}
-                onMouseEnter={() => {
-                  highlightElement(id)
-                }}
-                onMouseLeave={() => {
-                  removeHighlight(id)
-                }}
-                onFocus={() => {
-                  highlightElement(id)
-                }}
-                onBlur={() => {
-                  removeHighlight(id)
-                }}
-              >
-                <span className="text-black">{id}</span>
-              </li>
-            )
-          })}
-        </ul>
+        <TestIdList testIds={testIds} />
         {testIds.length === EMPTY && <div className="text-gray-400 p-4 text-center">No data-testid found</div>}
       </CardContent>
     </Card>
