@@ -1,6 +1,6 @@
-import { Button } from '@/components/atoms/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
 import { FormContact } from '@/components/molecules/form-contact'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { FileInputIcon } from 'lucide-react'
 

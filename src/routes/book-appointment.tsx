@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
-import { SourceCode } from '@/components/atoms/source-code'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { SourceCode } from '@/components/ui/source-code'
 import { Stepper } from '@/routes/book-appointment/-stepper'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'

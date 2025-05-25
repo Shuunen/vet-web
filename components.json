@@ -4,7 +4,7 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/utils",
-    "ui": "@/components/atoms",
+    "ui": "@/components/ui",
     "utils": "@/utils"
   },
   "iconLibrary": "lucide",

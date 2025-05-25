@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { Button } from '@/components/atoms/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
-import { Input } from '@/components/atoms/input'
-import { Textarea } from '@/components/atoms/textarea'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from '@/routes/book-appointment/-steps.utils'
 import { zodResolver } from '@hookform/resolvers/zod'

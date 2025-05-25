@@ -1,5 +1,5 @@
-import { Button } from '@/components/atoms/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Calendar, Clock, PawPrint } from 'lucide-react'
 

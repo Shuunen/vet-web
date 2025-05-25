@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { Button } from '@/components/atoms/button'
+import { Button } from '@/components/ui/button'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon, Calendar1Icon } from 'lucide-react'

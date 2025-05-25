@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { Button } from '@/components/atoms/button'
+import { Button } from '@/components/ui/button'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { cn } from '@/utils/styling.utils'

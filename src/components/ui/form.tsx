@@ -1,4 +1,4 @@
-import { Label } from '@/components/atoms/label'
+import { Label } from '@/components/ui/label'
 import { cn } from '@/utils/styling.utils'
 import type * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
@@ -89,4 +89,4 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField }
+export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField }

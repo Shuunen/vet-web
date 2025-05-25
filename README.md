@@ -65,8 +65,8 @@ src/
 
 ```tsx
 // src/routes/index.tsx
-import { Button } from '@/components/atoms/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/atoms/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { createFileRoute } from '@tanstack/react-router'
 import { Calendar, Clock, PawPrint } from 'lucide-react'
 
@@ -127,7 +127,7 @@ export const Route = createFileRoute('/')({
 
 ```tsx
 // src/routes/__root.tsx
-import { Toaster } from '@/components/atoms/toaster'
+import { Toaster } from '@/components/ui/toaster'
 import { Header } from '@/components/molecules/header'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -151,9 +151,9 @@ export const Route = createRootRoute({
 // src/components/molecules/form-contact.tsx
 'use client'
 
-import { Button } from '@/components/atoms/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/atoms/form'
-import { Textarea } from '@/components/atoms/textarea'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
 import { useFormStore } from '@/utils/contact.store'
 import { msInSecond } from '@/utils/date.const'
 import { zodResolver } from '@hookform/resolvers/zod'

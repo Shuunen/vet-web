@@ -1,7 +1,7 @@
 /* c8 ignore start */
 import { Link } from '@tanstack/react-router'
 import { HeadsetIcon, PawPrint } from 'lucide-react'
-import { Button } from '../atoms/button'
+import { Button } from '../ui/button'
 
 const routes = [
   /* eslint-disable sort-keys */
