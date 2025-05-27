@@ -13,19 +13,11 @@ type FormFieldContextValue<TFieldValues extends FieldValues = FieldValues, TName
 
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
-/* c8 ignore start */
-
 const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({ ...props }: ControllerProps<TFieldValues, TName>) => (
   <FormFieldContext.Provider value={{ name: props.name }}>
     <Controller {...props} />
   </FormFieldContext.Provider>
 )
-
-type FormItemContextValue = {
-  id: string
-}
-
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
@@ -33,6 +25,9 @@ const useFormField = () => {
   const { getFieldState } = useFormContext()
   const formState = useFormState({ name: fieldContext.name })
   const fieldState = getFieldState(fieldContext.name, formState)
+
+  if (!fieldContext) throw new Error('useFormField should be used within <FormField>')
+
   const { id } = itemContext
 
   return {
@@ -44,6 +39,12 @@ const useFormField = () => {
     ...fieldState,
   }
 }
+
+type FormItemContextValue = {
+  id: string
+}
+
+const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
 
 function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   const id = React.useId()
@@ -58,35 +59,32 @@ function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
 function FormLabel({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
   const { error, formItemId } = useFormField()
 
-  return <Label data-slot="form-label" data-error={Boolean(error)} className={cn('data-[error=true]:text-red-500 dark:data-[error=true]:text-red-900', className)} htmlFor={formItemId} {...props} />
+  return <Label data-slot="form-label" data-error={Boolean(error)} className={cn('data-[error=true]:text-destructive', className)} htmlFor={formItemId} {...props} />
 }
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
-  return <Slot data-slot="form-control" id={formItemId} aria-describedby={error ? `${formDescriptionId} ${formMessageId}` : formDescriptionId} aria-invalid={Boolean(error)} {...props} />
+  return <Slot data-slot="form-control" id={formItemId} aria-describedby={!error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`} aria-invalid={Boolean(error)} {...props} />
 }
 
 function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
   const { formDescriptionId } = useFormField()
 
-  return <p data-slot="form-description" id={formDescriptionId} className={cn('text-neutral-500 text-sm dark:text-neutral-400', className)} {...props} />
+  return <p data-slot="form-description" id={formDescriptionId} className={cn('text-muted-foreground text-sm', className)} {...props} />
 }
-
-/* c8 ignore end */
 
 function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error.message ?? '') : props.children
+  const body = error ? String(error?.message ?? '') : props.children
 
   if (!body) return null
 
   return (
-    <p data-slot="form-message" id={formMessageId} className={cn('text-red-500 text-sm dark:text-red-900', className)} {...props}>
+    <p data-slot="form-message" id={formMessageId} className={cn('text-destructive text-sm', className)} {...props}>
       {body}
     </p>
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField }
+export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField }

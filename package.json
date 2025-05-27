@@ -68,6 +68,15 @@
     ]
   },
   "name": "vet-web",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@swc/core",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "msw"
+    ]
+  },
   "private": true,
   "scripts": {
     "build": "tsc -b && vite build",
@@ -80,6 +89,7 @@
     "dev": "vite",
     "preview": "vite preview",
     "sb": "storybook dev -p 6006",
+    "shad:update": "for file in src/components/ui/*.tsx; do pnpm dlx shadcn@latest add -y -o $(basename \"$file\" .tsx); done",
     "test": "vitest --coverage --run && echo test success",
     "test:bench": "vitest bench",
     "test:sb": "test-storybook --coverage",
@@ -87,14 +97,5 @@
     "test:watch": "vitest --coverage"
   },
   "type": "module",
-  "version": "0.0.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@swc/core",
-      "@tailwindcss/oxide",
-      "esbuild",
-      "msw"
-    ]
-  }
+  "version": "0.0.0"
 }

@@ -2,19 +2,19 @@ import { cn } from '@/utils/styling.utils'
 import type * as React from 'react'
 
 function Card({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card" className={cn('bg-white text-neutral-950 flex flex-col gap-6 rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-950 dark:text-neutral-50 dark:border-neutral-800', className)} {...props} />
+  return <div data-slot="card" className={cn('bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm', className)} {...props} />
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card-header" className={cn('@container/card-header bg-primary text-white rounded-t-lg grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6', className)} {...props} />
+  return <div data-slot="card-header" className={cn('@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6', className)} {...props} />
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card-title" className={cn('leading-none font-semibold text-2xl flex items-center', className)} {...props} />
+  return <div data-slot="card-title" className={cn('leading-none font-semibold', className)} {...props} />
 }
 
 function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card-description" className={cn('text-blue-100 text-sm dark:text-neutral-400', className)} {...props} />
+  return <div data-slot="card-description" className={cn('text-muted-foreground text-sm', className)} {...props} />
 }
 
 function CardAction({ className, ...props }: React.ComponentProps<'div'>) {

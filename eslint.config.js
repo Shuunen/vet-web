@@ -45,4 +45,16 @@ export default tseslint.config(
       '@typescript-eslint/no-misused-promises': 'off', // annoying in forms
     },
   },
+  {
+    name: 'project-ui-overrides',
+    files: ['src/components/ui/**/*.tsx'],
+    rules: {
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      'react-refresh/only-export-components': 'off',
+      'no-magic-numbers': 'off',
+      'no-negated-condition': 'off',
+      'no-use-before-define': 'off',
+      'sort-keys': 'off',
+    },
+  },
 )
