@@ -1,3 +1,4 @@
+import { Select } from '@/components/molecules/select'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -46,15 +47,16 @@ function BaseDataForm() {
           )}
         />
 
+        <pre>{JSON.stringify(form.getValues())}</pre>
+
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter pet name" {...field} data-testid="name" />
-              </FormControl>
+              {/* @ts-expect-error typing issue */}
+              <Select form={form} name="name" id="name" field={field} options={[{ label: 'Joe', value: 'JJJ' }]} />
               <FormMessage />
             </FormItem>
           )}
