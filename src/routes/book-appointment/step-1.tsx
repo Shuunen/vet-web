@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { nbSpacesIndent } from 'shuutils'
 
 // eslint-disable-next-line max-lines-per-function
 function BaseDataForm() {
@@ -47,7 +48,7 @@ function BaseDataForm() {
           )}
         />
 
-        <pre>{JSON.stringify(form.getValues())}</pre>
+        <pre>{JSON.stringify(form.getValues(), undefined, nbSpacesIndent)}</pre>
 
         <FormField
           control={form.control}
@@ -55,8 +56,17 @@ function BaseDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
-              {/* @ts-expect-error typing issue */}
-              <Select form={form} name="name" id="name" field={field} options={[{ label: 'Joe', value: 'JJJ' }]} />
+              <Select
+                form={form}
+                name="name"
+                id="name"
+                field={field}
+                options={[
+                  { label: 'Joe', value: 'J1' },
+                  { label: 'Nathan', value: 'N2' },
+                ]}
+                placeholder="Select a name"
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -69,7 +79,18 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <Input placeholder="Enter pet age" {...field} type="number" data-testid="age" />
+                <Select
+                  form={form}
+                  name="age"
+                  id="age"
+                  field={field}
+                  options={[
+                    { label: 'Moins de 5 ans', value: { code: 'MINUS-5', version: 1 } },
+                    { label: 'De 5 à 10 ans', value: { code: 'FROM-5-TO-10', version: 1.1 } },
+                    { label: 'Plus de 10 ans', value: { code: 'MORE-10', version: 2 } },
+                  ]}
+                  placeholder="Select the age range"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
