@@ -18,7 +18,7 @@ export interface BookAppointmentState {
 
 const initialData = {
   baseData: {
-    type: 'cat',
+    breed: 'cat',
   } satisfies Partial<AppointmentData['baseData']>,
   complementaryData: {
     indoorOutdoor: 'indoor',

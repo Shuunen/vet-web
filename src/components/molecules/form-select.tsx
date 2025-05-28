@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 'use client'
 
 import { Button } from '@/components/ui/button'
@@ -7,6 +6,7 @@ import { FormControl } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import type { CodeVersion, CodeVersionLabel } from '@/utils/cvl.types'
 import type { FieldBaseProps, Option } from '@/utils/form.types'
+import { logger } from '@/utils/logger.utils'
 import { cn } from '@/utils/styling.utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
@@ -64,7 +64,7 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
                   onSelect={() => {
                     const value = 'value' in option ? option.value : ({ Code: option.Code, Version: option.Version } satisfies CodeVersion)
                     form.setValue(name, value)
-                    console.log('selected :', value)
+                    logger.info('selected :', value)
                     setOpen(false)
                   }}
                 >

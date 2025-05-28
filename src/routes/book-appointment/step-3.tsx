@@ -10,7 +10,7 @@ function SummaryPage() {
   const navigate = useNavigate()
   const { data, setCurrentStep } = useBookAppointmentStore()
   const step = 2
-  const variant = data.baseData.type
+  const variant = data.baseData.breed
 
   const check = hasAccess(step, variant, data)
   if (!check.ok) navigate({ to: `/book-appointment/${variant}/step-2` })
@@ -27,7 +27,7 @@ function SummaryPage() {
       {Object.entries(data.baseData).map(([key, value]) => (
         <div className="grid grid-cols-2" key={key}>
           <div className="text-gray-500">{key}</div>
-          <div>{value}</div>
+          <div>{typeof value === 'string' ? value : `${value.Code} (version ${value.Version})`}</div>
         </div>
       ))}
 
@@ -40,7 +40,7 @@ function SummaryPage() {
       ))}
 
       <div className="flex gap-18 mt-6">
-        <Link to={`/book-appointment/${data.baseData.type}/step-2`}>
+        <Link to={`/book-appointment/${data.baseData.breed}/step-2`}>
           <Button type="button" variant="link">
             <ArrowLeftIcon /> Back
           </Button>

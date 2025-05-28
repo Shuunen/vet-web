@@ -2,16 +2,14 @@ import { FormSelect } from '@/components/molecules/form-select'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type AppointmentBaseData, baseDataSchema } from '@/routes/book-appointment/-steps.utils'
 import { ages } from '@/utils/age.utils'
-import { useFormChangeDetector } from '@/utils/form.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { breeds } from '@/utils/breed.utils'
+import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { nbSpacesIndent } from 'shuutils'
 
 // eslint-disable-next-line max-lines-per-function
 function BaseDataForm() {
@@ -22,12 +20,11 @@ function BaseDataForm() {
 
   const form = useForm<AppointmentBaseData>({
     defaultValues: data.baseData,
-    resolver: zodResolver(baseDataSchema),
+    resolver: customResolver(baseDataSchema),
   })
 
   const onSubmit = async (values: AppointmentBaseData) => {
-    setBaseData(values)
-    await navigate({ to: `/book-appointment/${values.type}/step-2` })
+    await navigate({ to: `/book-appointment/${values.breed}/step-2` })
   }
 
   useFormChangeDetector(form, setBaseData)
@@ -49,25 +46,15 @@ function BaseDataForm() {
           )}
         />
 
-        <pre>{JSON.stringify(form.getValues(), undefined, nbSpacesIndent)}</pre>
-
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
-              <FormSelect
-                form={form}
-                name="name"
-                id="name"
-                field={field}
-                options={[
-                  { label: 'Joe', value: 'J1' },
-                  { label: 'Nathan', value: 'N2' },
-                ]}
-                placeholder="Select a name"
-              />
+              <FormControl>
+                <Input placeholder="Enter pet name" {...field} data-testid="name" />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -89,26 +76,11 @@ function BaseDataForm() {
 
         <FormField
           control={form.control}
-          name="type"
+          name="breed"
           render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Type</FormLabel>
-              <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-y-1 space-x-4" data-testid="type">
-                  <FormItem className="flex items-center">
-                    <FormControl>
-                      <RadioGroupItem value="cat" data-testid="type-cat" />
-                    </FormControl>
-                    <FormLabel className="font-normal">cat</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center">
-                    <FormControl>
-                      <RadioGroupItem value="dog" data-testid="type-dog" />
-                    </FormControl>
-                    <FormLabel className="font-normal">dog</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
+            <FormItem>
+              <FormLabel>Breed</FormLabel>
+              <FormSelect form={form} name="breed" id="breed" field={field} options={breeds} placeholder="Select a breed" />
               <FormMessage />
             </FormItem>
           )}

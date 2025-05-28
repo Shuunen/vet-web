@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { ages, schema } from './age.utils'
+import { ageSchema, ages } from './age.utils'
 
 describe('Ages Schema Tests', () => {
   describe('Valid cases', () => {
     it('should validate all valid age combinations for both schemas', () => {
       for (const age of ages) {
         const validInput = { Code: age.Code, Version: age.Version }
-        const schemaResult = schema.safeParse(validInput)
+        const schemaResult = ageSchema.safeParse(validInput)
         expect(schemaResult.success).toBe(true)
       }
     })
@@ -26,7 +26,7 @@ describe('Ages Schema Tests', () => {
 
     it('should reject invalid age combinations for both schemas', () => {
       for (const invalidInput of invalidCases) {
-        const schemaResult = schema.safeParse(invalidInput)
+        const schemaResult = ageSchema.safeParse(invalidInput)
         expect(schemaResult.success).toBe(false)
       }
     })

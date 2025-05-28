@@ -5,12 +5,12 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from '@/routes/book-appointment/-steps.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 function DogComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setDogComplementaryData, setCurrentStep } = useBookAppointmentStore()
@@ -24,25 +24,26 @@ function DogComplementaryDataForm() {
 
   const form = useForm<DogComplementaryData>({
     defaultValues: complementaryData,
-    resolver: zodResolver(dogComplementaryDataSchema),
+    resolver: customResolver(dogComplementaryDataSchema),
   })
 
-  const onSubmit = (values: DogComplementaryData) => {
-    setDogComplementaryData(values)
+  const onSubmit = () => {
     navigate({ to: '/book-appointment/step-3' })
   }
+
+  useFormChangeDetector(form, setDogComplementaryData)
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="breed"
+          name="color"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Breed</FormLabel>
+              <FormLabel>Color</FormLabel>
               <FormControl>
-                <Input placeholder="Enter dog breed" {...field} data-testid="breed" />
+                <Input placeholder="Enter dog color" {...field} data-testid="color" />
               </FormControl>
               <FormMessage />
             </FormItem>

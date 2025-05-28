@@ -1,6 +1,38 @@
 import { debounce } from 'es-toolkit'
 import { useEffect } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldError, FieldErrors, FieldValues, UseFormReturn } from 'react-hook-form'
+import { type ZodError, type ZodObject, z } from 'zod/v4'
+import type { Option } from './form.types'
+
+/**
+ * Utility to convert ZodError to Hook Form-compatible FieldErrors
+ * @author https://github.com/react-hook-form/react-hook-form/issues/12816
+ */
+function zodToHookFormErrors(zodError: ZodError): FieldErrors {
+  const errors: FieldErrors = {}
+  for (const issue of zodError.issues) {
+    const path = issue.path.join('.') || 'root'
+    errors[path] = { message: issue.message, type: issue.code } as FieldError
+  }
+  return errors
+}
+
+/**
+ * Custom resolver for useForm()
+ * @author https://github.com/react-hook-form/react-hook-form/issues/12816
+ */
+export function customResolver(schema: ZodObject) {
+  return async (values: FieldValues): Promise<{ values: FieldValues; errors: FieldErrors }> => {
+    try {
+      const result = await schema.safeParseAsync(values)
+      if (result.success) return { errors: {}, values: result.data as FieldValues }
+      return { errors: zodToHookFormErrors(result.error), values: {} }
+    } catch (error) {
+      const message = `An unknown error occurred during validation : ${String(error)}`
+      return { errors: { root: { message, type: 'unknown' } as FieldError }, values: {} }
+    }
+  }
+}
 
 /**
  * useFormPersist is a custom hook that subscribes to form value changes
@@ -20,4 +52,8 @@ export function useFormChangeDetector<TValues extends FieldValues>(form: UseForm
       subscription.unsubscribe()
     }
   }, [form, debouncedCallback])
+}
+
+export function optionToSchema<Type extends Option>(list: Type[]) {
+  return z.enum<Type['value'][]>(list.map(option => option.value))
 }

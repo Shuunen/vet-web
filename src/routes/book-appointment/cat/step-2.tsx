@@ -5,13 +5,13 @@ import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils'
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 function CatComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setCatComplementaryData, setCurrentStep } = useBookAppointmentStore()
@@ -25,13 +25,14 @@ function CatComplementaryDataForm() {
 
   const form = useForm<CatComplementaryData>({
     defaultValues: complementaryData,
-    resolver: zodResolver(catComplementaryDataSchema),
+    resolver: customResolver(catComplementaryDataSchema),
   })
 
-  const onSubmit = (values: CatComplementaryData) => {
-    setCatComplementaryData(values)
+  const onSubmit = () => {
     navigate({ to: '/book-appointment/step-3' })
   }
+
+  useFormChangeDetector(form, setCatComplementaryData)
 
   return (
     <Form {...form}>

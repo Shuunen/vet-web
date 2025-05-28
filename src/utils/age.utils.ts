@@ -7,4 +7,4 @@ export const ages = [
   { Code: 'MORE-10', Version: '07', label: 'Plus de 10 ans' },
 ] as const satisfies CodeVersionLabel[]
 
-export const schema = cvlToSchema(ages)
+export const ageSchema = cvlToSchema(ages)

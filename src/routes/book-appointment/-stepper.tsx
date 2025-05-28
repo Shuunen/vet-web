@@ -10,9 +10,9 @@ import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema,
 
 export function Stepper() {
   const { currentStep, data } = useBookAppointmentStore()
-  const variant = data.baseData.type
+  const variant = data.baseData.breed
   const { success: baseValid } = baseDataSchema.safeParse(data.baseData)
-  const { success: complementaryValid } = data.baseData.type === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
+  const { success: complementaryValid } = data.baseData.breed === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
 
   const steps = [
     {
@@ -43,7 +43,7 @@ export function Stepper() {
           </Button>
         </Link>
       ))}
-      <div className="mx-auto opacity-10 size-1/2">{data.baseData.type === 'cat' ? <CatIcon className="size-full text-orange-700" /> : <DogIcon className="size-full text-green-700" />}</div>
+      <div className="mx-auto opacity-10 size-1/2">{data.baseData.breed === 'cat' ? <CatIcon className="size-full text-orange-700" /> : <DogIcon className="size-full text-green-700" />}</div>
     </div>
   )
 }

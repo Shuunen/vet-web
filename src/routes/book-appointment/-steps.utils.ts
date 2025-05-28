@@ -1,13 +1,15 @@
 import type { BookAppointmentState } from '@/routes/book-appointment/-steps.store'
+import { ageSchema } from '@/utils/age.utils'
+import { breedSchema } from '@/utils/breed.utils'
 import { err, ok } from 'resultx'
 /* eslint-disable no-magic-numbers */
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const baseDataSchema = z.object({
-  age: z.coerce.number().min(1, 'Pet age is required').max(99, 'Pet age must be less than 99'),
+  age: ageSchema,
+  breed: breedSchema,
   identifier: z.string().regex(/^FR\d{4}$/u, 'Identifier must be FR and 4 digits'),
   name: z.string().min(1, 'Pet name is required'),
-  type: z.enum(['cat', 'dog']),
 })
 
 export type AppointmentBaseData = z.infer<typeof baseDataSchema>
@@ -23,7 +25,7 @@ export const catComplementaryDataSchema = z.object({
 export type CatComplementaryData = z.infer<typeof catComplementaryDataSchema>
 
 export const dogComplementaryDataSchema = z.object({
-  breed: z.string().min(1, 'Breed is required'),
+  color: z.string().min(1, 'Color is required'),
   exerciseRoutine: z.string().min(1, 'Exercise routine is required'),
   weight: z.coerce.number().min(1, 'Weight is required'),
 })
@@ -37,8 +39,8 @@ export const bookAppointmentSchema = z.object({
 
 export type AppointmentData = z.infer<typeof bookAppointmentSchema>
 
-export function hasAccess(toStep: BookAppointmentState['currentStep'], toVariant: AppointmentData['baseData']['type'], data: AppointmentData) {
-  const variant = data.baseData.type
+export function hasAccess(toStep: BookAppointmentState['currentStep'], toVariant: AppointmentData['baseData']['breed'], data: AppointmentData) {
+  const variant = data.baseData.breed
   const { success: isBaseValid } = baseDataSchema.safeParse(data.baseData)
   const { success: isComplementaryValid } = variant === 'cat' ? catComplementaryDataSchema.safeParse(data.complementaryData) : dogComplementaryDataSchema.safeParse(data.complementaryData)
   if (toStep === 0) return ok('Access to step 0 granted')
