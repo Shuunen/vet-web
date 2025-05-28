@@ -48,7 +48,7 @@ function getSelection(options: Props['options'], value?: PropsOption['value']) {
   return undefined
 }
 
-export function Select<TFieldValues extends FieldValues>({ form, field, name, options, placeholder }: Props<TFieldValues>) {
+export function FormSelect<TFieldValues extends FieldValues>({ form, field, name, options, placeholder }: Props<TFieldValues>) {
   const [open, setOpen] = useState(false)
 
   return (

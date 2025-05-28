@@ -1,4 +1,4 @@
-import { Select } from '@/components/molecules/select'
+import { FormSelect } from '@/components/molecules/form-select'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -56,7 +56,7 @@ function BaseDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
-              <Select
+              <FormSelect
                 form={form}
                 name="name"
                 id="name"
@@ -79,7 +79,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <Select
+                <FormSelect
                   form={form}
                   name="age"
                   id="age"
