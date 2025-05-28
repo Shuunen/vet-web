@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type AppointmentBaseData, baseDataSchema } from '@/routes/book-appointment/-steps.utils'
+import { ages } from '@/utils/age.utils'
 import { useFormChangeDetector } from '@/utils/form.utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
@@ -79,18 +80,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <FormSelect
-                  form={form}
-                  name="age"
-                  id="age"
-                  field={field}
-                  options={[
-                    { label: 'Moins de 5 ans', value: { code: 'MINUS-5', version: 1 } },
-                    { label: 'De 5 à 10 ans', value: { code: 'FROM-5-TO-10', version: 1.1 } },
-                    { label: 'Plus de 10 ans', value: { code: 'MORE-10', version: 2 } },
-                  ]}
-                  placeholder="Select the age range"
-                />
+                <FormSelect form={form} name="age" id="age" field={field} options={ages} placeholder="Select the age range" />
               </FormControl>
               <FormMessage />
             </FormItem>

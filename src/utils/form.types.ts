@@ -15,3 +15,11 @@ export type FieldBaseProps<TFieldValues extends FieldValues = FieldValues> = {
   /** disable the N/A checkbox */
   disableNA?: boolean
 }
+
+/** The type of an option in a select or radio field */
+export type Option = {
+  /** the label of the option */
+  label: string
+  /** the value of the option */
+  value: string
+}

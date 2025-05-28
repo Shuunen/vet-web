@@ -1,3 +1,4 @@
+import { ages } from '@/utils/age.utils'
 import type { Meta, StoryObj } from '@storybook/react'
 import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form'
 import { FormSelect } from './form-select'
@@ -35,11 +36,7 @@ export const ObjectValue: Story = {
     form: {} as UseFormReturn,
     id: 'age',
     name: 'age',
-    options: [
-      { label: 'Moins de 5 ans', value: { code: 'MINUS-5', version: 1 } },
-      { label: 'De 5 à 10 ans', value: { code: 'FROM-5-TO-10', version: 1.1 } },
-      { label: 'Plus de 10 ans', value: { code: 'MORE-10', version: 2 } },
-    ],
+    options: ages,
     placeholder: 'Select the age range',
   },
 }

@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { FormControl } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import type { FieldBaseProps } from '@/utils/form.types'
+import type { CodeVersion, CodeVersionLabel } from '@/utils/cvl.types'
+import type { FieldBaseProps, Option } from '@/utils/form.types'
 import { cn } from '@/utils/styling.utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
@@ -19,33 +20,21 @@ import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
  3. array / add more options
  4. handle N/A
  5. hide search input if options.length < 10
+ 6. handle multiple selection
 
 */
 
-type PropsOption = {
-  label: string
-  value:
-    | string
-    | {
-        code: string
-        version: number
-      }
-}
+type PropsOption = Option | CodeVersionLabel
 
 type Props<TFieldValues extends FieldValues = FieldValues> = {
   field: ControllerRenderProps<TFieldValues>
   options: PropsOption[]
 } & FieldBaseProps
 
-function getSelection(options: Props['options'], value?: PropsOption['value']) {
-  if (!value) return undefined
-  if (typeof value === 'string') return options.find(option => option.value === value)
-  if (typeof value === 'object' && 'code' in value)
-    return options.find(option => {
-      if (typeof option.value === 'object' && 'code' in option.value) return option.value.code === value.code // option.value.version === value.version
-      return undefined
-    })
-  return undefined
+function isOptionSelected(option: PropsOption, value?: Option['value'] | CodeVersion) {
+  if (!value) return false
+  if (typeof value === 'string') return 'value' in option && option.value === value
+  return 'Code' in option && option.Code === value.Code && option.Version === value.Version
 }
 
 export function FormSelect<TFieldValues extends FieldValues>({ form, field, name, options, placeholder }: Props<TFieldValues>) {
@@ -57,7 +46,7 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
         <FormControl>
           {/* biome-ignore lint/a11y/useSemanticElements: he he nope */}
           <Button variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}>
-            {getSelection(options, field.value)?.label ?? placeholder ?? 'Select'}
+            {options.find(option => isOptionSelected(option, field.value))?.label ?? placeholder ?? 'Select'}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </FormControl>
@@ -71,15 +60,16 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
               {options.map(option => (
                 <CommandItem
                   value={option.label}
-                  key={typeof option.value === 'string' ? option.value : option.value.code}
+                  key={'value' in option ? option.value : option.Code}
                   onSelect={() => {
-                    form.setValue(name, option.value)
-                    console.log('selected:', option.value)
+                    const value = 'value' in option ? option.value : ({ Code: option.Code, Version: option.Version } satisfies CodeVersion)
+                    form.setValue(name, value)
+                    console.log('selected :', value)
                     setOpen(false)
                   }}
                 >
                   {option.label}
-                  <Check className={cn('ml-auto', option.value === field.value ? 'opacity-100' : 'opacity-0')} />
+                  <Check className={cn('ml-auto', isOptionSelected(option, field.value) ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
             </CommandGroup>
