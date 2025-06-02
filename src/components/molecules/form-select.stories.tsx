@@ -2,15 +2,12 @@
 import { SourceCode } from '@/components/ui/source-code'
 import { ages } from '@/utils/age.utils'
 import { breeds } from '@/utils/breed.utils'
-import type { CodeVersionLabel } from '@/utils/cvl.types'
-import type { Option } from '@/utils/form.types'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { expect, userEvent, within } from 'storybook/test'
 import { FormSelect } from './form-select'
-
-type PropsOption = Option | CodeVersionLabel
+import type { PropsOption } from './form-select.utils'
 
 type FormSelectStoryProps = {
   options: PropsOption[]

@@ -4,18 +4,15 @@ import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { FormControl } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import type { CodeVersion, CodeVersionLabel } from '@/utils/cvl.types'
-import type { FieldBaseProps, Option } from '@/utils/form.types'
-import { logger } from '@/utils/logger.utils'
+import type { FieldBaseProps } from '@/utils/form.types'
 import { cn } from '@/utils/styling.utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
+import { handleSelect, isOptionSelected, type PropsOption } from './form-select.utils'
 
 const EMPTY_SELECTION = 0
 const MIN_OPTIONS_FOR_SEARCH = 10
-
-type PropsOption = Option | CodeVersionLabel
 
 type Props<TFieldValues extends FieldValues = FieldValues> = {
   field: ControllerRenderProps<TFieldValues>
@@ -23,50 +20,14 @@ type Props<TFieldValues extends FieldValues = FieldValues> = {
   multiple?: boolean
 } & FieldBaseProps
 
-function isCodeVersion(value: unknown): value is CodeVersion {
-  return typeof value === 'object' && value !== null && 'Code' in value && 'Version' in value
-}
-
-function isStringValue(value: unknown): value is string {
-  return typeof value === 'string'
-}
-
-function isEqual(valueA: unknown, valueB: unknown): boolean {
-  if (isStringValue(valueA) && isStringValue(valueB)) return valueA === valueB
-  if (isCodeVersion(valueA) && isCodeVersion(valueB)) return valueA.Code === valueB.Code && valueA.Version === valueB.Version
-  return false
-}
-
-function getOptionValue(option: PropsOption): string | CodeVersion {
-  return 'value' in option ? option.value : { Code: option.Code, Version: option.Version }
-}
-
-function isOptionSelected(option: PropsOption, value?: Option['value'] | CodeVersion | (Option['value'] | CodeVersion)[]) {
-  if (!value) return false
-  const optionValue = getOptionValue(option)
-  if (Array.isArray(value)) return value.some(val => isEqual(val, optionValue))
-  return isEqual(value, optionValue)
-}
-
-// eslint-disable-next-line max-lines-per-function
 export function FormSelect<TFieldValues extends FieldValues>({ form, field, name, options, placeholder, multiple }: Props<TFieldValues>) {
   const [open, setOpen] = useState(false)
   const selectedOptions = options.filter(option => isOptionSelected(option, field.value))
   const displayValue = selectedOptions.length > EMPTY_SELECTION ? selectedOptions.map(opt => opt.label).join(', ') : (placeholder ?? 'Select')
 
-  function handleSelect(option: PropsOption) {
-    const newValue = getOptionValue(option)
-    if (multiple) {
-      const currentValue = Array.isArray(field.value) ? field.value : []
-      const valueExists = currentValue.some(value => isEqual(value, newValue))
-      const updatedValue = valueExists ? currentValue.filter(value => !isEqual(value, newValue)) : [...currentValue, newValue]
-      form.setValue(name, updatedValue)
-      logger.info(`Toggled ${name}:`, updatedValue)
-    } else {
-      form.setValue(name, newValue)
-      logger.info(`Selected ${name}:`, newValue)
-      setOpen(false)
-    }
+  function onSelect(option: PropsOption) {
+    const shouldClose = handleSelect({ fieldValue: field.value, form, multiple, name, option })
+    if (shouldClose) setOpen(false)
   }
 
   return (
@@ -92,7 +53,7 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
                   key={'value' in option ? option.value : option.Code}
                   data-testid={`${name}-${'value' in option ? option.value : option.Code}`}
                   onSelect={() => {
-                    handleSelect(option)
+                    onSelect(option)
                   }}
                 >
                   {option.label}
