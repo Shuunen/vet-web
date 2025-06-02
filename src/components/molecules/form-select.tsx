@@ -12,60 +12,87 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
 
-/*
- to be done ^^ : 
- 
- 1. add zod validation
- 2. do we need to check version too ? option.value.version === value.version
- 3. array / add more options
- 4. handle N/A
- 5. hide search input if options.length < 10
- 6. handle multiple selection
-
-*/
+const EMPTY_SELECTION = 0
+const MIN_OPTIONS_FOR_SEARCH = 10
 
 type PropsOption = Option | CodeVersionLabel
 
 type Props<TFieldValues extends FieldValues = FieldValues> = {
   field: ControllerRenderProps<TFieldValues>
   options: PropsOption[]
+  multiple?: boolean
 } & FieldBaseProps
 
-function isOptionSelected(option: PropsOption, value?: Option['value'] | CodeVersion) {
-  if (!value) return false
-  if (typeof value === 'string') return 'value' in option && option.value === value
-  return 'Code' in option && option.Code === value.Code && option.Version === value.Version
+function isCodeVersion(value: unknown): value is CodeVersion {
+  return typeof value === 'object' && value !== null && 'Code' in value && 'Version' in value
 }
 
-export function FormSelect<TFieldValues extends FieldValues>({ form, field, name, options, placeholder }: Props<TFieldValues>) {
+function isStringValue(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
+function isEqual(valueA: unknown, valueB: unknown): boolean {
+  if (isStringValue(valueA) && isStringValue(valueB)) return valueA === valueB
+  if (isCodeVersion(valueA) && isCodeVersion(valueB)) return valueA.Code === valueB.Code && valueA.Version === valueB.Version
+  return false
+}
+
+function getOptionValue(option: PropsOption): string | CodeVersion {
+  return 'value' in option ? option.value : { Code: option.Code, Version: option.Version }
+}
+
+function isOptionSelected(option: PropsOption, value?: Option['value'] | CodeVersion | (Option['value'] | CodeVersion)[]) {
+  if (!value) return false
+  const optionValue = getOptionValue(option)
+  if (Array.isArray(value)) return value.some(val => isEqual(val, optionValue))
+  return isEqual(value, optionValue)
+}
+
+// eslint-disable-next-line max-lines-per-function
+export function FormSelect<TFieldValues extends FieldValues>({ form, field, name, options, placeholder, multiple }: Props<TFieldValues>) {
   const [open, setOpen] = useState(false)
+  const selectedOptions = options.filter(option => isOptionSelected(option, field.value))
+  const displayValue = selectedOptions.length > EMPTY_SELECTION ? selectedOptions.map(opt => opt.label).join(', ') : (placeholder ?? 'Select')
+
+  function handleSelect(option: PropsOption) {
+    const newValue = getOptionValue(option)
+    if (multiple) {
+      const currentValue = Array.isArray(field.value) ? field.value : []
+      const valueExists = currentValue.some(value => isEqual(value, newValue))
+      const updatedValue = valueExists ? currentValue.filter(value => !isEqual(value, newValue)) : [...currentValue, newValue]
+      form.setValue(name, updatedValue)
+      logger.info(`Toggled ${name}:`, updatedValue)
+    } else {
+      form.setValue(name, newValue)
+      logger.info(`Selected ${name}:`, newValue)
+      setOpen(false)
+    }
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <FormControl>
           {/* biome-ignore lint/a11y/useSemanticElements: he he nope */}
-          <Button variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}>
-            {options.find(option => isOptionSelected(option, field.value))?.label ?? placeholder ?? 'Select'}
+          <Button variant="outline" role="combobox" className={cn('min-w-48 max-w-96 justify-between', !field.value && 'text-muted-foreground')}>
+            <span className="truncate">{displayValue}</span>
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </FormControl>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={`Search ${name}...`} className="h-9" />
+          {options.length >= MIN_OPTIONS_FOR_SEARCH && <CommandInput placeholder={`Search ${name}...`} className="h-9" />}
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No options found.</CommandEmpty>
             <CommandGroup>
               {options.map(option => (
                 <CommandItem
                   value={option.label}
                   key={'value' in option ? option.value : option.Code}
+                  data-testid={`${name}-${'value' in option ? option.value : option.Code}`}
                   onSelect={() => {
-                    const value = 'value' in option ? option.value : ({ Code: option.Code, Version: option.Version } satisfies CodeVersion)
-                    form.setValue(name, value)
-                    logger.info('selected :', value)
-                    setOpen(false)
+                    handleSelect(option)
                   }}
                 >
                   {option.label}
