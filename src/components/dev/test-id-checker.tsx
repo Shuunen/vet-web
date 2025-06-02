@@ -124,8 +124,9 @@ function TestIdListItem({ id, index, occurrences, isValid }: TestIdInfo & { inde
   )
 }
 
-export function TestIdChecker() {
+export function TestIdChecker({ forceVisible = false }: { forceVisible?: boolean }) {
   const [visible, setVisible] = useState(() => {
+    if (forceVisible) return true
     const actual = localStorage.getItem(STORAGE_KEY)
     if (!actual) localStorage.setItem(STORAGE_KEY, 'false')
     return actual === 'true'
