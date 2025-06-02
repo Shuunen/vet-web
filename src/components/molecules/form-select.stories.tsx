@@ -1,6 +1,6 @@
 import { ages } from '@/utils/age.utils'
 import { breeds } from '@/utils/breed.utils'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form'
 import { FormSelect } from './form-select'
 
