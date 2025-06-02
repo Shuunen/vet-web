@@ -37,9 +37,7 @@ export function handleSelect({ option, fieldValue, form, name, multiple }: Handl
   if (multiple) {
     const currentValue = Array.isArray(fieldValue) ? fieldValue : []
     const valueExists = currentValue.some(value => isEqual(value, newValue))
-    const updatedValue = valueExists
-      ? currentValue.filter(value => !isEqual(value, newValue))
-      : [...currentValue, newValue]
+    const updatedValue = valueExists ? currentValue.filter(value => !isEqual(value, newValue)) : [...currentValue, newValue]
     form.setValue(name, updatedValue)
     logger.info(`Toggled ${name}:`, updatedValue)
   } else {
@@ -55,4 +53,3 @@ export function isOptionSelected(option: PropsOption, value?: SelectValues) {
   if (Array.isArray(value)) return value.some(val => isEqual(val, optionValue))
   return isEqual(value, optionValue)
 }
-

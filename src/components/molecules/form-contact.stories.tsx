@@ -18,7 +18,6 @@ type Story = StoryObj<typeof meta>
 export const EmptyForm: Story = {}
 
 export const FilledForm: Story = {
-  // eslint-disable-next-line max-statements
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     // fill the form

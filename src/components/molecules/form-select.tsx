@@ -9,7 +9,7 @@ import { cn } from '@/utils/styling.utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
-import { handleSelect, isOptionSelected, type PropsOption } from './form-select.utils'
+import { type PropsOption, handleSelect, isOptionSelected } from './form-select.utils'
 
 const EMPTY_SELECTION = 0
 const MIN_OPTIONS_FOR_SEARCH = 10

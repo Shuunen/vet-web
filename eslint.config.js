@@ -40,10 +40,20 @@ export default tseslint.config(
     },
   },
   {
-    name: 'project-tsx-config-overrides',
+    name: 'project-tsx-overrides',
     files: ['src/**/*.tsx'],
     rules: {
       '@typescript-eslint/no-misused-promises': 'off', // annoying in forms
+    },
+  },
+  {
+    name: 'project-tests-stories-overrides',
+    files: ['src/**/*.test.ts', 'src/**/*.stories.tsx'],
+    rules: {
+      'max-lines-per-function': 'off',
+      'sort-keys': 'off',
+      'max-statements': 'off',
+      'no-magic-numbers': 'off',
     },
   },
   {

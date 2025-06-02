@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import { SourceCode } from '@/components/ui/source-code'
 import { ages } from '@/utils/age.utils'
 import { breeds } from '@/utils/breed.utils'

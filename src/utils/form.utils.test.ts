@@ -8,7 +8,6 @@ const age2 = 2
 const age3 = 3
 const callsOnce = 1
 
-// eslint-disable-next-line max-lines-per-function
 describe('useFormChangeDetector', () => {
   beforeEach(() => {
     vi.useFakeTimers()
