@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface FormState {
+type FormState = {
   firstName: string
   lastName: string
   message: string
@@ -23,6 +23,7 @@ export const useFormStore = create<FormState>()(
         })
       },
       setFormData: data => {
+        // eslint-disable-next-line max-nested-callbacks
         set(state => ({
           ...state,
           ...data,

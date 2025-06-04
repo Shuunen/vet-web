@@ -29,7 +29,6 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@chromatic-com/storybook": "^4.0.0",
-    "@eslint/js": "^9.28.0",
     "@storybook/addon-coverage": "^1.0.5",
     "@storybook/addon-onboarding": "9.1.0-alpha.2",
     "@storybook/addon-vitest": "9.1.0-alpha.2",
@@ -44,25 +43,16 @@
     "@vitejs/plugin-react-swc": "^3.10.1",
     "@vitest/browser": "^3.2.1",
     "@vitest/coverage-v8": "^3.2.1",
-    "eslint": "^9.28.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "eslint-plugin-storybook": "9.1.0-alpha.2",
     "globals": "^16.2.0",
     "happy-dom": "^17.6.3",
     "knip": "^5.60.0",
+    "oxlint": "^0.17.0",
     "playwright": "^1.52.0",
     "resultx": "^2.0.2",
     "storybook": "9.1.0-alpha.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
     "vitest": "^3.2.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
   },
   "name": "vet-web",
   "pnpm": {
@@ -78,9 +68,9 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "build:sb": "storybook build",
-    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:knip && pnpm run test && pnpm build && pnpm check:eslint && echo check success",
+    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:knip && pnpm run test && pnpm build && pnpm check:oxlint && echo check success",
     "check:biome": "biome check --error-on-warnings --write --unsafe src && echo check:biome success",
-    "check:eslint": "eslint . && echo check:eslint success",
+    "check:oxlint": "oxlint src --deny-warnings --fix --fix-suggestions --fix-dangerously && echo check:oxlint success",
     "check:knip": "knip && echo check:knip success",
     "check:tsc": "tsc --noEmit && echo check:tsc success",
     "dev": "vite",

@@ -39,6 +39,7 @@ export function ComboboxForm() {
     resolver: zodResolver(FormSchema),
   })
 
+  // eslint-disable-next-line consistent-function-scoping
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line no-console
     console.log('onSubmit', data)

@@ -2,10 +2,12 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './-steps.utils'
 
-export interface BookAppointmentState {
-  // eslint-disable-next-line no-magic-numbers
-  currentStep: 0 | 1 | 2
-  setCurrentStep: (step: this['currentStep']) => void
+// eslint-disable-next-line no-magic-numbers
+type CurrentStep = 0 | 1 | 2
+
+export type BookAppointmentState = {
+  currentStep: CurrentStep
+  setCurrentStep: (step: CurrentStep) => void
   // Base data
   data: AppointmentData
   setBaseData: (baseData: AppointmentBaseData) => void
@@ -27,6 +29,7 @@ const initialData = {
 
 export const useBookAppointmentStore = create<BookAppointmentState>()(
   persist(
+    // eslint-disable-next-line max-lines-per-function
     (set, get) => ({
       currentStep: 0,
       data: initialData,
@@ -42,6 +45,7 @@ export const useBookAppointmentStore = create<BookAppointmentState>()(
         })
       },
       setCatComplementaryData: catData => {
+        // eslint-disable-next-line max-nested-callbacks
         set(state => ({
           data: {
             ...state.data,
@@ -54,6 +58,7 @@ export const useBookAppointmentStore = create<BookAppointmentState>()(
         set({ currentStep: step })
       },
       setDogComplementaryData: dogData => {
+        // eslint-disable-next-line max-nested-callbacks
         set(state => ({
           data: {
             ...state.data,

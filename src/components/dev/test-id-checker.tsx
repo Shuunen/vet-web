@@ -20,8 +20,9 @@ type TestIdInfo = {
 }
 
 const getAllTestIds = () =>
-  Array.from(document.querySelectorAll('[data-testid]'))
-    .map(el => el.getAttribute('data-testid'))
+  [...document.querySelectorAll<HTMLElement>('[data-testid]')]
+    .map(el => el.dataset.testid)
+    // eslint-disable-next-line prefer-native-coercion-functions
     .filter((id): id is string => Boolean(id))
 
 const isValidTestId = (testId: string) => /^[a-zA-Z0-9-]+$/u.test(testId)
@@ -93,6 +94,7 @@ function useTestIds(visible: boolean) {
     }
   }, [visible])
 
+  // eslint-disable-next-line no-array-reduce
   const processedTestIds = testIds.reduce<TestIdInfo[]>((acc, id) => {
     const existing = acc.find(item => item.id === id)
     if (existing) existing.occurrences += INDEX_INCREMENT
@@ -133,7 +135,7 @@ export function TestIdChecker({ forceVisible = false }: { forceVisible?: boolean
   })
   const { testIds, listElement } = useTestIds(visible)
   const hasErrors = testIds.some(id => !id.isValid)
-  if (!visible) return null
+  if (!visible) return
   return (
     <Card aria-label="data-testid checker" className="fixed text-sm gap-0 overflow-hidden bottom-6 py-0 right-6 z-100 max-h-11/12 w-auto min-w-[260px] shadow-lg">
       <CardHeader className={cn('flex justify-between items-center pl-4 pr-2 py-2 text-white', hasErrors ? 'bg-red-700' : 'bg-blue-700')}>

@@ -21,7 +21,13 @@ const contactFormSchema = z.object({
     lastName: z.string().min(minChars),
   }),
 })
+
 type ContactForm = z.infer<typeof contactFormSchema>
+
+function onSubmit(values: ContactForm) {
+  // eslint-disable-next-line no-console
+  console.log(values)
+}
 
 const meta = {
   component: Form,
@@ -39,11 +45,6 @@ const meta = {
       },
       resolver: zodResolver(contactFormSchema),
     })
-
-    function onSubmit(values: ContactForm) {
-      // eslint-disable-next-line no-console
-      console.log(values)
-    }
 
     return (
       <Form {...form}>

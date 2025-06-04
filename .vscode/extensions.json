@@ -6,9 +6,9 @@
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
     "vincaslt.highlight-matching-tag",
-    "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
     "ryanluker.vscode-coverage-gutters",
-    "biomejs.biome"
+    "biomejs.biome",
+    "oxc.oxc-vscode"
   ]
 }

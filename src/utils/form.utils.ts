@@ -7,6 +7,8 @@ import type { Option } from './form.types'
 /**
  * Utility to convert ZodError to Hook Form-compatible FieldErrors
  * @author https://github.com/react-hook-form/react-hook-form/issues/12816
+ * @param zodError - The ZodError instance to convert
+ * @returns A FieldErrors object compatible with react-hook-form
  */
 function zodToHookFormErrors(zodError: ZodError): FieldErrors {
   const errors: FieldErrors = {}
@@ -20,6 +22,8 @@ function zodToHookFormErrors(zodError: ZodError): FieldErrors {
 /**
  * Custom resolver for useForm()
  * @author https://github.com/react-hook-form/react-hook-form/issues/12816
+ * @param schema - A ZodObject schema to validate form values against
+ * @returns A function that validates form values against a Zod schema
  */
 export function customResolver(schema: ZodObject) {
   return async (values: FieldValues): Promise<{ values: FieldValues; errors: FieldErrors }> => {
@@ -45,6 +49,7 @@ export function useFormChangeDetector<TValues extends FieldValues>(form: UseForm
   // eslint-disable-next-line no-magic-numbers
   const debouncedCallback = debounce(callback, 300)
   useEffect(() => {
+    // eslint-disable-next-line max-nested-callbacks
     const subscription = form.watch(values => {
       debouncedCallback(structuredClone(values as TValues))
     })
