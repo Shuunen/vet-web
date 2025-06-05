@@ -29,6 +29,8 @@
   --color-ring: oklch(0.61 0.18 262);
   --color-secondary-foreground: oklch(0.09 0.03 286);
   --color-secondary: oklch(0.96 0.01 246);
+  --color-success-foreground: oklch(0.09 0.03 286);
+  --color-success: oklch(0.5 0.1 167.71);
 
   /* Dark theme colors */
   --color-accent-foreground--dark: oklch(0.98 0.01 246);
