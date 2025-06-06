@@ -3,103 +3,102 @@ import { formatFileSize } from './form-file-upload.utils'
 
 describe('formatFileSize', () => {
   describe('without unit parameter', () => {
-    it('should return "0.0" for 0 bytes', () => {
-      expect(formatFileSize(0)).toMatchInlineSnapshot(`"0.0"`)
+    it('should return "0" for 0 bytes', () => {
+      expect(formatFileSize(0)).toMatchInlineSnapshot(`"0"`)
     })
 
-    it('should return "0.0" for 0 bytes with default addUnit parameter', () => {
-      expect(formatFileSize(0, false)).toMatchInlineSnapshot(`"0.0"`)
+    it('should return "0" for 0 bytes with default addUnit parameter', () => {
+      expect(formatFileSize(0, false)).toMatchInlineSnapshot(`"0"`)
     })
 
-    it('should format bytes to megabytes with 1 decimal place', () => {
-      // 1 MB = 1024 * 1024 = 1,048,576 bytes
-      expect(formatFileSize(1048576)).toMatchInlineSnapshot(`"1.0"`)
+    it('should format bytes correctly', () => {
+      expect(formatFileSize(1)).toMatchInlineSnapshot(`"1"`)
+      expect(formatFileSize(512)).toMatchInlineSnapshot(`"512"`)
+      expect(formatFileSize(1023)).toMatchInlineSnapshot(`"1023"`)
     })
 
-    it('should format 2.5 MB correctly', () => {
-      // 2.5 MB = 2.5 * 1024 * 1024 = 2,621,440 bytes
-      expect(formatFileSize(2621440)).toMatchInlineSnapshot(`"2.5"`)
+    it('should format KB correctly', () => {
+      expect(formatFileSize(1024)).toMatchInlineSnapshot(`"1"`) // 1 KB (no decimal needed)
+      expect(formatFileSize(2048)).toMatchInlineSnapshot(`"2"`) // 2 KB (no decimal needed)
+      expect(formatFileSize(1536)).toMatchInlineSnapshot(`"1.5"`) // 1.5 KB (decimal needed)
+      expect(formatFileSize(512000)).toMatchInlineSnapshot(`"500"`) // 500 KB (no decimal needed)
+      expect(formatFileSize(1843)).toMatchInlineSnapshot(`"1.8"`) // ~1.8 KB (decimal needed)
     })
 
-    it('should format small files to fractional MB', () => {
-      // 500 KB = 500 * 1024 = 512,000 bytes ≈ 0.5 MB
-      expect(formatFileSize(512000)).toMatchInlineSnapshot(`"0.5"`)
+    it('should format MB correctly', () => {
+      expect(formatFileSize(1048576)).toMatchInlineSnapshot(`"1"`) // 1 MB (no decimal needed)
+      expect(formatFileSize(2621440)).toMatchInlineSnapshot(`"2.5"`) // 2.5 MB (decimal needed)
+      expect(formatFileSize(10485760)).toMatchInlineSnapshot(`"10"`) // 10 MB (no decimal needed)
+      expect(formatFileSize(1887437)).toMatchInlineSnapshot(`"1.8"`) // ~1.8 MB (decimal needed)
     })
 
-    it('should format very small files to fractional MB', () => {
-      // 1 KB = 1024 bytes ≈ 0.001 MB
-      expect(formatFileSize(1024)).toMatchInlineSnapshot(`"0.0"`)
-    })
-
-    it('should format large files correctly', () => {
-      // 10 MB = 10 * 1024 * 1024 = 10,485,760 bytes
-      expect(formatFileSize(10485760)).toMatchInlineSnapshot(`"10.0"`)
-    })
-
-    it('should round to 1 decimal place', () => {
-      // 1.567 MB ≈ 1,642,956 bytes
-      expect(formatFileSize(1642956)).toMatchInlineSnapshot(`"1.6"`)
-    })
-
-    it('should handle fractional bytes correctly', () => {
-      // 1.234 MB ≈ 1,294,336 bytes
-      expect(formatFileSize(1294336)).toMatchInlineSnapshot(`"1.2"`)
+    it('should show decimals only when needed', () => {
+      expect(formatFileSize(1048576)).toMatchInlineSnapshot(`"1"`) // Exactly 1 MB - no decimal
+      expect(formatFileSize(1153434)).toMatchInlineSnapshot(`"1.1"`) // ~1.1 MB - decimal needed
+      expect(formatFileSize(2097152)).toMatchInlineSnapshot(`"2"`) // Exactly 2 MB - no decimal
+      expect(formatFileSize(2621440)).toMatchInlineSnapshot(`"2.5"`) // Exactly 2.5 MB - decimal needed
+      expect(formatFileSize(1642956)).toMatchInlineSnapshot(`"1.6"`) // ~1.567 MB rounded to 1.6
+      expect(formatFileSize(1294336)).toMatchInlineSnapshot(`"1.2"`) // ~1.234 MB rounded to 1.2
+      expect(formatFileSize(1938817)).toMatchInlineSnapshot(`"1.8"`) // ~1.849 MB rounded to 1.8
     })
   })
 
   describe('with unit parameter', () => {
-    it('should return "0.0 Mo" for 0 bytes when addUnit is true', () => {
-      expect(formatFileSize(0, true)).toMatchInlineSnapshot(`"0.0 Mo"`)
+    it('should return "0 B" for 0 bytes when addUnit is true', () => {
+      expect(formatFileSize(0, true)).toMatchInlineSnapshot(`"0 B"`)
     })
 
-    it('should include "Mo" unit when addUnit is true', () => {
-      // 1 MB = 1,048,576 bytes
-      expect(formatFileSize(1048576, true)).toMatchInlineSnapshot(`"1.0 Mo"`)
+    it('should include "B" unit for bytes', () => {
+      expect(formatFileSize(1, true)).toMatchInlineSnapshot(`"1 B"`)
+      expect(formatFileSize(512, true)).toMatchInlineSnapshot(`"512 B"`)
+      expect(formatFileSize(1023, true)).toMatchInlineSnapshot(`"1023 B"`)
     })
 
-    it('should include "Mo" unit for fractional MB', () => {
-      // 2.5 MB = 2,621,440 bytes
-      expect(formatFileSize(2621440, true)).toMatchInlineSnapshot(`"2.5 Mo"`)
+    it('should include "KB" unit for kilobytes', () => {
+      expect(formatFileSize(1024, true)).toMatchInlineSnapshot(`"1 KB"`)
+      expect(formatFileSize(2048, true)).toMatchInlineSnapshot(`"2 KB"`)
+      expect(formatFileSize(1536, true)).toMatchInlineSnapshot(`"1.5 KB"`) // 1.5 KB with decimal
+      expect(formatFileSize(512000, true)).toMatchInlineSnapshot(`"500 KB"`)
     })
 
-    it('should include "Mo" unit for small files', () => {
-      // 512 KB ≈ 0.5 MB
-      expect(formatFileSize(512000, true)).toMatchInlineSnapshot(`"0.5 Mo"`)
-    })
-
-    it('should include "Mo" unit for large files', () => {
-      // 100 MB = 104,857,600 bytes
-      expect(formatFileSize(104857600, true)).toMatchInlineSnapshot(`"100.0 Mo"`)
+    it('should include "MB" unit for megabytes', () => {
+      expect(formatFileSize(1048576, true)).toMatchInlineSnapshot(`"1 MB"`)
+      expect(formatFileSize(2621440, true)).toMatchInlineSnapshot(`"2.5 MB"`) // 2.5 MB with decimal
+      expect(formatFileSize(104857600, true)).toMatchInlineSnapshot(`"100 MB"`)
     })
   })
 
   describe('edge cases', () => {
-    it('should handle 1 byte', () => {
-      expect(formatFileSize(1)).toMatchInlineSnapshot(`"0.0"`)
-      expect(formatFileSize(1, true)).toMatchInlineSnapshot(`"0.0 Mo"`)
-    })
+    it('should handle boundary values correctly', () => {
+      // Just under 1 KB
+      expect(formatFileSize(1023)).toMatchInlineSnapshot(`"1023"`)
+      expect(formatFileSize(1023, true)).toMatchInlineSnapshot(`"1023 B"`)
 
-    it('should handle exactly 1 KB', () => {
-      expect(formatFileSize(1024)).toMatchInlineSnapshot(`"0.0"`)
-      expect(formatFileSize(1024, true)).toMatchInlineSnapshot(`"0.0 Mo"`)
-    })
+      // Exactly 1 KB
+      expect(formatFileSize(1024)).toMatchInlineSnapshot(`"1"`)
+      expect(formatFileSize(1024, true)).toMatchInlineSnapshot(`"1 KB"`)
 
-    it('should handle exactly 1 MB', () => {
-      expect(formatFileSize(1048576)).toMatchInlineSnapshot(`"1.0"`)
-      expect(formatFileSize(1048576, true)).toMatchInlineSnapshot(`"1.0 Mo"`)
+      // Just under 1 MB
+      expect(formatFileSize(1048575)).toMatchInlineSnapshot(`"1024"`)
+      expect(formatFileSize(1048575, true)).toMatchInlineSnapshot(`"1024 KB"`)
+
+      // Exactly 1 MB
+      expect(formatFileSize(1048576)).toMatchInlineSnapshot(`"1"`)
+      expect(formatFileSize(1048576, true)).toMatchInlineSnapshot(`"1 MB"`)
     })
 
     it('should handle very large files', () => {
-      // 1 GB = 1024 MB = 1,073,741,824 bytes
-      expect(formatFileSize(1073741824)).toMatchInlineSnapshot(`"1024.0"`)
-      expect(formatFileSize(1073741824, true)).toMatchInlineSnapshot(`"1024.0 Mo"`)
+      // 1 GB = 1024 MB
+      expect(formatFileSize(1073741824)).toMatchInlineSnapshot(`"1024"`)
+      expect(formatFileSize(1073741824, true)).toMatchInlineSnapshot(`"1024 MB"`)
     })
 
-    it('should handle decimal precision correctly', () => {
-      // Test various byte values to ensure proper rounding
-      expect(formatFileSize(1048575)).toMatchInlineSnapshot(`"1.0"`) // Just under 1 MB
-      expect(formatFileSize(1048577)).toMatchInlineSnapshot(`"1.0"`) // Just over 1 MB
-      expect(formatFileSize(1572864)).toMatchInlineSnapshot(`"1.5"`) // Exactly 1.5 MB
+    it('should handle decimal formatting correctly', () => {
+      expect(formatFileSize(1048575)).toMatchInlineSnapshot(`"1024"`) // Just under 1 MB (in KB, no decimal)
+      expect(formatFileSize(1048577)).toMatchInlineSnapshot(`"1"`) // Just over 1 MB (in MB, no decimal)
+      expect(formatFileSize(1572864)).toMatchInlineSnapshot(`"1.5"`) // Exactly 1.5 MB (decimal needed)
+      expect(formatFileSize(1887437)).toMatchInlineSnapshot(`"1.8"`) // ~1.8 MB (decimal needed)
+      expect(formatFileSize(2097152)).toMatchInlineSnapshot(`"2"`) // Exactly 2 MB (no decimal)
     })
   })
 })

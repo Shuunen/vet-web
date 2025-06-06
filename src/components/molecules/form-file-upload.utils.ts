@@ -1,5 +1,6 @@
 const bytesInKb = 1024
 const bytesInMb = bytesInKb * bytesInKb
+const decimalPrecisionLimit = 10
 
 export const uploadDurationFail = 3000 // ms
 
@@ -9,8 +10,13 @@ export const uploadDurationSuccess = 5000 // ms
 
 export const maxPercent = 100
 
-export function formatFileSize(bytes: number, addUnit = false) {
-  if (bytes === 0) return `0.0${addUnit ? ' Mo' : ''}`
-  const mb = bytes / bytesInMb
-  return `${mb.toFixed(1)}${addUnit ? ' Mo' : ''}`
+export function formatFileSize(bytes: number, addUnit = false): string {
+  const formatValue = (value: number, unit: string) => {
+    const rounded = Math.round(value * decimalPrecisionLimit) / decimalPrecisionLimit
+    const formatted = rounded % 1 === 0 ? rounded.toString() : rounded.toFixed(1)
+    return `${formatted}${addUnit ? ` ${unit}` : ''}`
+  }
+  if (bytes < bytesInKb) return formatValue(bytes, 'B')
+  if (bytes < bytesInMb) return formatValue(bytes / bytesInKb, 'KB')
+  return formatValue(bytes / bytesInMb, 'MB')
 }

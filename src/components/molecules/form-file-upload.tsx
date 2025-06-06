@@ -93,7 +93,7 @@ export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }
     }
   }, [])
 
-  const sizeProgress = `(${formatFileSize((selectedFile?.size ?? 0) * (uploadProgress / maxPercent))} / ${formatFileSize(selectedFile?.size ?? 0, true)})`
+  const sizeProgress = `(${formatFileSize((selectedFile?.size ?? 0) * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile?.size ?? 0, true)})`
 
   const states = {
     error: {
