@@ -9,14 +9,17 @@ import { breeds } from '@/utils/breed.utils'
 import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 // eslint-disable-next-line max-lines-per-function
 function BaseDataForm() {
   const navigate = useNavigate()
   const { data, setBaseData, setCurrentStep } = useBookAppointmentStore()
-  // eslint-disable-next-line no-magic-numbers
-  setCurrentStep(0)
+
+  useEffect(() => {
+    setCurrentStep(0)
+  }, [setCurrentStep])
 
   const form = useForm<AppointmentBaseData>({
     defaultValues: data.baseData,

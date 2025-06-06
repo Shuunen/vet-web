@@ -8,17 +8,20 @@ import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from
 import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 function DogComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setDogComplementaryData, setCurrentStep } = useBookAppointmentStore()
-  const step = 1
 
-  const check = hasAccess(step, 'dog', data)
-  if (!check.ok) navigate({ to: '/book-appointment/step-1' })
-  setCurrentStep(step)
+  useEffect(() => {
+    const step = 1
+    const check = hasAccess(step, 'dog', data)
+    if (!check.ok) navigate({ to: '/book-appointment/step-1' })
+    setCurrentStep(step)
+  }, [data, navigate, setCurrentStep])
 
   const complementaryData = data.complementaryData as DogComplementaryData
 

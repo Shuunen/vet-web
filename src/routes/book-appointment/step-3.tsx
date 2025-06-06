@@ -2,18 +2,21 @@ import { Button } from '@/components/ui/button'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon, Calendar1Icon } from 'lucide-react'
+import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { hasAccess } from './-steps.utils'
 
 function SummaryPage() {
   const navigate = useNavigate()
   const { data, setCurrentStep } = useBookAppointmentStore()
-  const step = 2
   const variant = data.baseData.breed
 
-  const check = hasAccess(step, variant, data)
-  if (!check.ok) navigate({ to: `/book-appointment/${variant}/step-2` })
-  setCurrentStep(step)
+  useEffect(() => {
+    const step = 2
+    const check = hasAccess(step, variant, data)
+    if (!check.ok) navigate({ to: `/book-appointment/${variant}/step-2` })
+    setCurrentStep(step)
+  }, [variant, data, navigate, setCurrentStep])
 
   async function onBook() {
     toast.success('Appointment booked successfully!')

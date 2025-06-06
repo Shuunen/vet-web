@@ -8,6 +8,7 @@ import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils'
 
@@ -15,11 +16,13 @@ import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vacci
 function CatComplementaryDataForm() {
   const navigate = useNavigate()
   const { data, setCatComplementaryData, setCurrentStep } = useBookAppointmentStore()
-  const step = 1
 
-  const check = hasAccess(step, 'cat', data)
-  if (!check.ok) navigate({ to: '/book-appointment/step-1' })
-  setCurrentStep(step)
+  useEffect(() => {
+    const step = 1
+    const check = hasAccess(step, 'cat', data)
+    if (!check.ok) navigate({ to: '/book-appointment/step-1' })
+    setCurrentStep(step)
+  }, [data, navigate, setCurrentStep])
 
   const complementaryData = data.complementaryData as CatComplementaryData
 
