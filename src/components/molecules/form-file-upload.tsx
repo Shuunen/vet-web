@@ -125,14 +125,14 @@ export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }
 
   return (
     <div className="rounded-md border border-input bg-background p-3">
-      <div className="flex justify-between gap-3">
+      <div className="flex gap-3">
         <aside className="mt-0.5">{state?.icon || <FileText className="size-5 text-muted-foreground" />}</aside>
 
-        <main className="flex flex-col gap-1">
-          <div className="flex gap-3">
+        <main className="flex grow flex-col gap-1">
+          <div className="flex justify-between  gap-3">
             <div className="flex flex-col gap-1">
-              <div className="font-medium text-sm">{selectedFile?.name}</div>
-              <div className="text-sm text-muted-foreground">{state?.message}</div>
+              <div className="font-medium text-sm truncate max-w-80">{selectedFile?.name}</div>
+              <div className="text-sm text-muted-foreground truncate max-w-80">{state?.message}</div>
             </div>
 
             {state?.button && (

@@ -1,5 +1,4 @@
 /* c8 ignore start */
-/* eslint-disable no-magic-numbers */
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/utils/styling.utils'
@@ -28,7 +27,6 @@ const getAllTestIds = () =>
 const isValidTestId = (testId: string) => /^[a-zA-Z0-9-]+$/u.test(testId)
 
 // Helper function to compare arrays of test IDs
-// eslint-disable-next-line id-length
 const arraysEqual = (a: string[], b: string[]) => {
   if (a.length !== b.length) return false
   const sortedA = [...a].sort()
@@ -87,7 +85,6 @@ function useTestIds(visible: boolean) {
 
     update()
     timer.current = setInterval(update, INTERVAL)
-    // eslint-disable-next-line consistent-return
     return () => {
       clearInterval(timer.current)
       highlightManager.remove(highlightManager.lastHighlighted)

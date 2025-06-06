@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
+import { FormFileUpload } from '@/components/molecules/form-file-upload'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -78,6 +78,20 @@ function CatComplementaryDataForm() {
               <FormLabel>Last Flea Treatment Date</FormLabel>
               <FormControl>
                 <Input type="date" {...field} data-testid="lastFleaTreatment" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Upload your cat health report</FormLabel>
+              <FormControl>
+                <FormFileUpload onFileChange={file => field.onChange(file?.name)} />
               </FormControl>
               <FormMessage />
             </FormItem>

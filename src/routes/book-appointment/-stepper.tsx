@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import { Button } from '@/components/ui/button'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
@@ -26,6 +25,7 @@ export function Stepper() {
     },
     {
       completed: complementaryValid && baseValid,
+      // eslint-disable-next-line no-magic-numbers
       disabled: unwrap(hasAccess(2, variant, data)).error !== undefined,
       path: '/book-appointment/step-3',
     },

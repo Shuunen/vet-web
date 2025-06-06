@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
+import { FormFileUpload } from '@/components/molecules/form-file-upload'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -58,6 +58,20 @@ function DogComplementaryDataForm() {
               <FormLabel>Weight (kg)</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Enter dog weight" {...field} data-testid="weight" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Upload your dog health report</FormLabel>
+              <FormControl>
+                <FormFileUpload onFileChange={file => field.onChange(file?.name)} />
               </FormControl>
               <FormMessage />
             </FormItem>
