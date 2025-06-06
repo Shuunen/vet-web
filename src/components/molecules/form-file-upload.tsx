@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/utils/styling.utils'
-import { CircleXIcon, FileCheckIcon, FileText, FileUpIcon, FileXIcon, RotateCcw, TrashIcon } from 'lucide-react'
+import { CircleXIcon, FileCheckIcon, FileTextIcon, FileUpIcon, FileXIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { formatFileSize, maxPercent, uploadDurationFail, uploadDurationSuccess, uploadPercentFail } from './form-file-upload.utils'
 
@@ -25,7 +25,7 @@ type Props = {
 
 // eslint-disable-next-line max-lines-per-function
 export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, value }: Props) {
-  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
+  const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [uploadState, setUploadState] = useState<UploadState>('idle')
   const [uploadProgress, setUploadProgress] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -47,19 +47,22 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
     }
   }, [value])
 
-  function removeUploadedFile() {
+  // Cleanup on unmount
+  useEffect(() => () => uploadIntervalRef.current && clearInterval(uploadIntervalRef.current), [])
+
+  function resetUpload() {
+    // eslint-disable-next-line no-unused-expressions
+    uploadIntervalRef.current && clearInterval(uploadIntervalRef.current)
     setSelectedFile(undefined)
     setUploadState('idle')
     setUploadProgress(0)
-    onFileChange?.(undefined)
-    onFileRemove?.()
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  function clearUploadInterval() {
-    if (!uploadIntervalRef.current) return
-    clearInterval(uploadIntervalRef.current)
-    uploadIntervalRef.current = undefined
+  function removeFile() {
+    resetUpload()
+    onFileChange?.(undefined)
+    onFileRemove?.()
   }
 
   function startUpload(file: File) {
@@ -72,87 +75,65 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
     const increment = (maxPercent / uploadDuration) * interval
 
     uploadIntervalRef.current = setInterval(() => {
-      setUploadProgress(currentProgress => {
-        if (currentProgress >= maxPercent) {
-          clearUploadInterval()
+      setUploadProgress(prev => {
+        const newProgress = Math.min(prev + increment, maxPercent)
+        if (newProgress >= maxPercent) {
+          clearInterval(uploadIntervalRef.current)
           setUploadState('success')
           onFileUploadComplete?.(file)
           return maxPercent
         }
-
-        if (shouldFail && currentProgress >= uploadPercentFail) {
-          clearUploadInterval()
+        if (shouldFail && newProgress >= uploadPercentFail) {
+          clearInterval(uploadIntervalRef.current)
           setUploadState('error')
           onFileUploadError?.('Upload failed')
-          return currentProgress
+          return newProgress
         }
-
-        return Math.min(currentProgress + increment, maxPercent)
+        return newProgress
       })
     }, interval)
   }
 
   function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
-    if (file) {
-      setSelectedFile(file)
-      onFileChange?.(file)
-      startUpload(file)
-    }
+    if (!file) return
+    setSelectedFile(file)
+    onFileChange?.(file)
+    startUpload(file)
   }
 
-  function cancelFileUpload() {
-    clearUploadInterval()
-    removeUploadedFile()
-  }
+  const retryUpload = () => selectedFile && startUpload(selectedFile)
 
-  function retryFileUpload() {
-    if (selectedFile) startUpload(selectedFile)
-  }
+  // Render idle state
+  if (uploadState === 'idle' && !selectedFile) return <Input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="*/*" placeholder="No file selected" />
 
-  useEffect(() => {
-    return () => {
-      if (uploadIntervalRef.current) clearInterval(uploadIntervalRef.current)
-    }
-  }, [])
-
-  const sizeProgress = selectedFile?.size ? `(${formatFileSize((selectedFile.size) * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
+  const sizeProgress = selectedFile?.size ? `(${formatFileSize(selectedFile.size * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
 
   const states = {
     error: {
-      button: { action: retryFileUpload, icon: RotateCcw, label: 'Retry' },
+      button: { action: retryUpload, icon: RotateCcwIcon, label: 'Retry' },
       icon: <FileXIcon className="size-5 text-destructive" />,
       message: `Uploading failed! ${sizeProgress}`,
     },
     success: {
-      button: { action: removeUploadedFile, icon: TrashIcon, label: 'Remove' },
+      button: { action: removeFile, icon: TrashIcon, label: 'Remove' },
       icon: <FileCheckIcon className="size-5 text-success" />,
       message: `Uploading succeeded! ${sizeProgress}`,
     },
     uploading: {
-      button: { action: cancelFileUpload, icon: CircleXIcon, label: 'Cancel' },
+      button: { action: removeFile, icon: CircleXIcon, label: 'Cancel' },
       icon: <FileUpIcon className="size-5 text-muted-foreground" />,
       message: `Uploading... ${sizeProgress}`,
     },
   }
-
-  if (uploadState === 'idle' && !selectedFile)
-    return (
-      <div className={cn('relative')}>
-        <Input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="*/*" placeholder="No file selected" />
-      </div>
-    )
-
   const state = states[uploadState as keyof typeof states]
-  const showProgress = uploadState !== 'idle'
 
   return (
     <div className="rounded-md border border-input bg-background p-3">
       <div className="flex gap-3">
-        <aside className="mt-0.5">{state?.icon || <FileText className="size-5 text-muted-foreground" />}</aside>
-
+        <aside className="mt-0.5">{state?.icon || <FileTextIcon className="size-5 text-muted-foreground" />}</aside>
         <main className="flex grow flex-col gap-1">
-          <div className="flex justify-between  gap-3">
+          <div className="flex justify-between gap-3">
             <div className="flex flex-col gap-1">
               <div className="font-medium text-sm truncate max-w-80">{selectedFile?.name}</div>
               <div className="text-sm text-muted-foreground truncate max-w-80">{state?.message}</div>
@@ -166,7 +147,7 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
             )}
           </div>
 
-          {showProgress && (
+          {uploadState !== 'idle' && (
             <div className="flex items-center">
               <Progress value={uploadProgress} className={cn('h-1 flex-1', uploadState === 'success' && '[&>div]:bg-success', uploadState === 'error' && '[&>div]:bg-destructive')} />
               <span className={cn('text-sm font-medium min-w-[3rem] text-right', uploadState === 'success' && 'text-success', uploadState === 'error' && 'text-destructive')}>{Math.round(uploadProgress)}%</span>
