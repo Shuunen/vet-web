@@ -71,7 +71,16 @@ function DogComplementaryDataForm() {
             <FormItem>
               <FormLabel>Upload your dog health report</FormLabel>
               <FormControl>
-                <FormFileUpload onFileChange={file => field.onChange(file?.name)} />
+                <FormFileUpload
+                  onFileUploadComplete={file => {
+                    field.onChange(file.name)
+                    form.trigger('file') // trigger validation
+                  }}
+                  onFileRemove={() => {
+                    form.setValue('file', '')
+                    form.trigger('file') // trigger validation
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

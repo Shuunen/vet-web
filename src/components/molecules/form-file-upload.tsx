@@ -13,23 +13,46 @@ type UploadState = 'idle' | 'uploading' | 'success' | 'error'
 type Props = {
   className?: string
   onFileChange?: (file: File | undefined) => void
-  onUploadComplete?: (file: File) => void
-  onUploadError?: (error: string) => void
+  onFileUploadComplete?: (file: File) => void
+  onFileUploadError?: (error: string) => void
+  onFileRemove?: () => void
+  /**
+   * The current value of the file field (file name or undefined).
+   * If provided, the component will display the file as selected.
+   */
+  value?: string
 }
 
 // eslint-disable-next-line max-lines-per-function
-export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }: Props) {
+export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, value }: Props) {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
   const [uploadState, setUploadState] = useState<UploadState>('idle')
   const [uploadProgress, setUploadProgress] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const uploadIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
-  function resetUpload() {
+  // Sync with value prop (for controlled usage)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we need to avoid specifying 'selectedFile' as a dependency :)
+  useEffect(() => {
+    if (value) {
+      if (!selectedFile || selectedFile.name !== value) {
+        setSelectedFile({ name: value } as File)
+        setUploadState('success')
+        setUploadProgress(maxPercent)
+      }
+    } else if (selectedFile) {
+      setSelectedFile(undefined)
+      setUploadState('idle')
+      setUploadProgress(0)
+    }
+  }, [value])
+
+  function removeUploadedFile() {
     setSelectedFile(undefined)
     setUploadState('idle')
     setUploadProgress(0)
     onFileChange?.(undefined)
+    onFileRemove?.()
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
@@ -53,14 +76,14 @@ export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }
         if (currentProgress >= maxPercent) {
           clearUploadInterval()
           setUploadState('success')
-          onUploadComplete?.(file)
+          onFileUploadComplete?.(file)
           return maxPercent
         }
 
         if (shouldFail && currentProgress >= uploadPercentFail) {
           clearUploadInterval()
           setUploadState('error')
-          onUploadError?.('Upload failed')
+          onFileUploadError?.('Upload failed')
           return currentProgress
         }
 
@@ -78,12 +101,12 @@ export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }
     }
   }
 
-  function handleCancel() {
+  function cancelFileUpload() {
     clearUploadInterval()
-    resetUpload()
+    removeUploadedFile()
   }
 
-  function handleRetry() {
+  function retryFileUpload() {
     if (selectedFile) startUpload(selectedFile)
   }
 
@@ -93,21 +116,21 @@ export function FormFileUpload({ onFileChange, onUploadComplete, onUploadError }
     }
   }, [])
 
-  const sizeProgress = `(${formatFileSize((selectedFile?.size ?? 0) * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile?.size ?? 0, true)})`
+  const sizeProgress = selectedFile?.size ? `(${formatFileSize((selectedFile.size) * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
 
   const states = {
     error: {
-      button: { action: handleRetry, icon: RotateCcw, label: 'Retry' },
+      button: { action: retryFileUpload, icon: RotateCcw, label: 'Retry' },
       icon: <FileXIcon className="size-5 text-destructive" />,
       message: `Uploading failed! ${sizeProgress}`,
     },
     success: {
-      button: { action: resetUpload, icon: TrashIcon, label: 'Remove' },
+      button: { action: removeUploadedFile, icon: TrashIcon, label: 'Remove' },
       icon: <FileCheckIcon className="size-5 text-success" />,
       message: `Uploading succeeded! ${sizeProgress}`,
     },
     uploading: {
-      button: { action: handleCancel, icon: CircleXIcon, label: 'Cancel' },
+      button: { action: cancelFileUpload, icon: CircleXIcon, label: 'Cancel' },
       icon: <FileUpIcon className="size-5 text-muted-foreground" />,
       message: `Uploading... ${sizeProgress}`,
     },

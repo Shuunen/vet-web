@@ -11,8 +11,9 @@ const meta = {
   title: 'molecules/FormFileUpload',
   args: {
     onFileChange: fn(),
-    onUploadComplete: fn(),
-    onUploadError: fn(),
+    onFileUploadComplete: fn(),
+    onFileUploadError: fn(),
+    onFileRemove: fn(),
   },
 } satisfies Meta<typeof FormFileUpload>
 
@@ -21,4 +22,10 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
+}
+
+export const WithFileSelected: Story = {
+  args: {
+    value: 'dog-health-report.pdf',
+  },
 }

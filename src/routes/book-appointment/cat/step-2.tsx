@@ -91,7 +91,17 @@ function CatComplementaryDataForm() {
             <FormItem>
               <FormLabel>Upload your cat health report</FormLabel>
               <FormControl>
-                <FormFileUpload onFileChange={file => field.onChange(file?.name)} />
+                <FormFileUpload
+                  value={field.value}
+                  onFileUploadComplete={file => {
+                    field.onChange(file.name)
+                    form.trigger('file') // trigger validation
+                  }}
+                  onFileRemove={() => {
+                    form.setValue('file', '')
+                    form.trigger('file') // trigger validation
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

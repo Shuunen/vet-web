@@ -2,11 +2,11 @@ const bytesInKb = 1024
 const bytesInMb = bytesInKb * bytesInKb
 const decimalPrecisionLimit = 10
 
-export const uploadDurationFail = 3000 // ms
+export const uploadDurationFail = 1000 // ms
 
 export const uploadPercentFail = 61 // %
 
-export const uploadDurationSuccess = 5000 // ms
+export const uploadDurationSuccess = 2000 // ms
 
 export const maxPercent = 100
 
