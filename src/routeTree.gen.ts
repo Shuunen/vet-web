@@ -8,164 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BookAppointmentRouteImport } from './routes/book-appointment'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookAppointmentStep3RouteImport } from './routes/book-appointment/step-3'
+import { Route as BookAppointmentStep1RouteImport } from './routes/book-appointment/step-1'
+import { Route as StatusStatusTypeRouteImport } from './routes/status.$status.$type'
+import { Route as BookAppointmentDogStep2RouteImport } from './routes/book-appointment/dog/step-2'
+import { Route as BookAppointmentCatStep2RouteImport } from './routes/book-appointment/cat/step-2'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as ContactImport } from './routes/contact'
-import { Route as BookAppointmentImport } from './routes/book-appointment'
-import { Route as AboutImport } from './routes/about'
-import { Route as IndexImport } from './routes/index'
-import { Route as BookAppointmentStep3Import } from './routes/book-appointment/step-3'
-import { Route as BookAppointmentStep1Import } from './routes/book-appointment/step-1'
-import { Route as StatusStatusTypeImport } from './routes/status.$status.$type'
-import { Route as BookAppointmentDogStep2Import } from './routes/book-appointment/dog/step-2'
-import { Route as BookAppointmentCatStep2Import } from './routes/book-appointment/cat/step-2'
-
-// Create/Update Routes
-
-const ContactRoute = ContactImport.update({
+const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BookAppointmentRoute = BookAppointmentImport.update({
+const BookAppointmentRoute = BookAppointmentRouteImport.update({
   id: '/book-appointment',
   path: '/book-appointment',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AboutRoute = AboutImport.update({
+const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BookAppointmentStep3Route = BookAppointmentStep3Import.update({
+const BookAppointmentStep3Route = BookAppointmentStep3RouteImport.update({
   id: '/step-3',
   path: '/step-3',
   getParentRoute: () => BookAppointmentRoute,
 } as any)
-
-const BookAppointmentStep1Route = BookAppointmentStep1Import.update({
+const BookAppointmentStep1Route = BookAppointmentStep1RouteImport.update({
   id: '/step-1',
   path: '/step-1',
   getParentRoute: () => BookAppointmentRoute,
 } as any)
-
-const StatusStatusTypeRoute = StatusStatusTypeImport.update({
+const StatusStatusTypeRoute = StatusStatusTypeRouteImport.update({
   id: '/status/$status/$type',
   path: '/status/$status/$type',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BookAppointmentDogStep2Route = BookAppointmentDogStep2Import.update({
+const BookAppointmentDogStep2Route = BookAppointmentDogStep2RouteImport.update({
   id: '/dog/step-2',
   path: '/dog/step-2',
   getParentRoute: () => BookAppointmentRoute,
 } as any)
-
-const BookAppointmentCatStep2Route = BookAppointmentCatStep2Import.update({
+const BookAppointmentCatStep2Route = BookAppointmentCatStep2RouteImport.update({
   id: '/cat/step-2',
   path: '/cat/step-2',
   getParentRoute: () => BookAppointmentRoute,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/book-appointment': {
-      id: '/book-appointment'
-      path: '/book-appointment'
-      fullPath: '/book-appointment'
-      preLoaderRoute: typeof BookAppointmentImport
-      parentRoute: typeof rootRoute
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactImport
-      parentRoute: typeof rootRoute
-    }
-    '/book-appointment/step-1': {
-      id: '/book-appointment/step-1'
-      path: '/step-1'
-      fullPath: '/book-appointment/step-1'
-      preLoaderRoute: typeof BookAppointmentStep1Import
-      parentRoute: typeof BookAppointmentImport
-    }
-    '/book-appointment/step-3': {
-      id: '/book-appointment/step-3'
-      path: '/step-3'
-      fullPath: '/book-appointment/step-3'
-      preLoaderRoute: typeof BookAppointmentStep3Import
-      parentRoute: typeof BookAppointmentImport
-    }
-    '/book-appointment/cat/step-2': {
-      id: '/book-appointment/cat/step-2'
-      path: '/cat/step-2'
-      fullPath: '/book-appointment/cat/step-2'
-      preLoaderRoute: typeof BookAppointmentCatStep2Import
-      parentRoute: typeof BookAppointmentImport
-    }
-    '/book-appointment/dog/step-2': {
-      id: '/book-appointment/dog/step-2'
-      path: '/dog/step-2'
-      fullPath: '/book-appointment/dog/step-2'
-      preLoaderRoute: typeof BookAppointmentDogStep2Import
-      parentRoute: typeof BookAppointmentImport
-    }
-    '/status/$status/$type': {
-      id: '/status/$status/$type'
-      path: '/status/$status/$type'
-      fullPath: '/status/$status/$type'
-      preLoaderRoute: typeof StatusStatusTypeImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
-
-interface BookAppointmentRouteChildren {
-  BookAppointmentStep1Route: typeof BookAppointmentStep1Route
-  BookAppointmentStep3Route: typeof BookAppointmentStep3Route
-  BookAppointmentCatStep2Route: typeof BookAppointmentCatStep2Route
-  BookAppointmentDogStep2Route: typeof BookAppointmentDogStep2Route
-}
-
-const BookAppointmentRouteChildren: BookAppointmentRouteChildren = {
-  BookAppointmentStep1Route: BookAppointmentStep1Route,
-  BookAppointmentStep3Route: BookAppointmentStep3Route,
-  BookAppointmentCatStep2Route: BookAppointmentCatStep2Route,
-  BookAppointmentDogStep2Route: BookAppointmentDogStep2Route,
-}
-
-const BookAppointmentRouteWithChildren = BookAppointmentRoute._addFileChildren(
-  BookAppointmentRouteChildren,
-)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -178,7 +76,6 @@ export interface FileRoutesByFullPath {
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
   '/status/$status/$type': typeof StatusStatusTypeRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -190,9 +87,8 @@ export interface FileRoutesByTo {
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
   '/status/$status/$type': typeof StatusStatusTypeRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/book-appointment': typeof BookAppointmentRouteWithChildren
@@ -203,7 +99,6 @@ export interface FileRoutesById {
   '/book-appointment/dog/step-2': typeof BookAppointmentDogStep2Route
   '/status/$status/$type': typeof StatusStatusTypeRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -240,7 +135,6 @@ export interface FileRouteTypes {
     | '/status/$status/$type'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
@@ -249,6 +143,92 @@ export interface RootRouteChildren {
   StatusStatusTypeRoute: typeof StatusStatusTypeRoute
 }
 
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-appointment': {
+      id: '/book-appointment'
+      path: '/book-appointment'
+      fullPath: '/book-appointment'
+      preLoaderRoute: typeof BookAppointmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-appointment/step-1': {
+      id: '/book-appointment/step-1'
+      path: '/step-1'
+      fullPath: '/book-appointment/step-1'
+      preLoaderRoute: typeof BookAppointmentStep1RouteImport
+      parentRoute: typeof BookAppointmentRoute
+    }
+    '/book-appointment/step-3': {
+      id: '/book-appointment/step-3'
+      path: '/step-3'
+      fullPath: '/book-appointment/step-3'
+      preLoaderRoute: typeof BookAppointmentStep3RouteImport
+      parentRoute: typeof BookAppointmentRoute
+    }
+    '/book-appointment/cat/step-2': {
+      id: '/book-appointment/cat/step-2'
+      path: '/cat/step-2'
+      fullPath: '/book-appointment/cat/step-2'
+      preLoaderRoute: typeof BookAppointmentCatStep2RouteImport
+      parentRoute: typeof BookAppointmentRoute
+    }
+    '/book-appointment/dog/step-2': {
+      id: '/book-appointment/dog/step-2'
+      path: '/dog/step-2'
+      fullPath: '/book-appointment/dog/step-2'
+      preLoaderRoute: typeof BookAppointmentDogStep2RouteImport
+      parentRoute: typeof BookAppointmentRoute
+    }
+    '/status/$status/$type': {
+      id: '/status/$status/$type'
+      path: '/status/$status/$type'
+      fullPath: '/status/$status/$type'
+      preLoaderRoute: typeof StatusStatusTypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+
+interface BookAppointmentRouteChildren {
+  BookAppointmentStep1Route: typeof BookAppointmentStep1Route
+  BookAppointmentStep3Route: typeof BookAppointmentStep3Route
+  BookAppointmentCatStep2Route: typeof BookAppointmentCatStep2Route
+  BookAppointmentDogStep2Route: typeof BookAppointmentDogStep2Route
+}
+
+const BookAppointmentRouteChildren: BookAppointmentRouteChildren = {
+  BookAppointmentStep1Route: BookAppointmentStep1Route,
+  BookAppointmentStep3Route: BookAppointmentStep3Route,
+  BookAppointmentCatStep2Route: BookAppointmentCatStep2Route,
+  BookAppointmentDogStep2Route: BookAppointmentDogStep2Route,
+}
+
+const BookAppointmentRouteWithChildren = BookAppointmentRoute._addFileChildren(
+  BookAppointmentRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -256,61 +236,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   StatusStatusTypeRoute: StatusStatusTypeRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/about",
-        "/book-appointment",
-        "/contact",
-        "/status/$status/$type"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
-    },
-    "/book-appointment": {
-      "filePath": "book-appointment.tsx",
-      "children": [
-        "/book-appointment/step-1",
-        "/book-appointment/step-3",
-        "/book-appointment/cat/step-2",
-        "/book-appointment/dog/step-2"
-      ]
-    },
-    "/contact": {
-      "filePath": "contact.tsx"
-    },
-    "/book-appointment/step-1": {
-      "filePath": "book-appointment/step-1.tsx",
-      "parent": "/book-appointment"
-    },
-    "/book-appointment/step-3": {
-      "filePath": "book-appointment/step-3.tsx",
-      "parent": "/book-appointment"
-    },
-    "/book-appointment/cat/step-2": {
-      "filePath": "book-appointment/cat/step-2.tsx",
-      "parent": "/book-appointment"
-    },
-    "/book-appointment/dog/step-2": {
-      "filePath": "book-appointment/dog/step-2.tsx",
-      "parent": "/book-appointment"
-    },
-    "/status/$status/$type": {
-      "filePath": "status.$status.$type.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

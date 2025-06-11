@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/utils/styling.utils'
+import { debounce } from 'es-toolkit'
 import { CircleXIcon, FileCheckIcon, FileTextIcon, FileUpIcon, FileXIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import type { ZodType } from 'zod/v4'
 import { formatFileSize, maxPercent, uploadDurationFail, uploadDurationSuccess, uploadPercentFail } from './form-file-upload.utils'
 
 type UploadState = 'idle' | 'uploading' | 'success' | 'error'
@@ -16,6 +18,8 @@ type Props = {
   onFileUploadComplete?: (file: File) => void
   onFileUploadError?: (error: string) => void
   onFileRemove?: () => void
+  schema?: ZodType
+  shouldFail?: boolean
   /**
    * The current value of the file field (file name or undefined).
    * If provided, the component will display the file as selected.
@@ -24,28 +28,33 @@ type Props = {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, value }: Props) {
+export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, schema, shouldFail = false, value }: Props) {
   const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [uploadState, setUploadState] = useState<UploadState>('idle')
   const [uploadProgress, setUploadProgress] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const uploadIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
-  // Sync with value prop (for controlled usage)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we need to avoid specifying 'selectedFile' as a dependency :)
-  useEffect(() => {
-    if (value) {
-      if (!selectedFile || selectedFile.name !== value) {
-        setSelectedFile({ name: value } as File)
-        setUploadState('success')
-        setUploadProgress(maxPercent)
-      }
-    } else if (selectedFile) {
-      setSelectedFile(undefined)
-      setUploadState('idle')
-      setUploadProgress(0)
-    }
-  }, [value])
+  const onFileUploadCompleteDebounced = onFileUploadComplete
+    ? // oxlint-disable-next-line no-magic-numbers
+      debounce(onFileUploadComplete, 10)
+    : () =>
+        void (
+          // Sync with value prop (for controlled usage)
+          useEffect(() => {
+            if (value) {
+              if (!selectedFile || selectedFile.name !== value) {
+                setSelectedFile({ name: value } as File)
+                setUploadState('success')
+                setUploadProgress(maxPercent)
+              }
+            } else if (selectedFile) {
+              setSelectedFile(undefined)
+              setUploadState('idle')
+              setUploadProgress(0)
+            }
+          }, [value])
+        )
 
   // Cleanup on unmount
   useEffect(() => () => uploadIntervalRef.current && clearInterval(uploadIntervalRef.current), [])
@@ -66,10 +75,17 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
   }
 
   function startUpload(file: File) {
+    const { success, error } = schema?.safeParse(file) ?? { success: true }
+    if (!success) {
+      onFileUploadError?.(error.message)
+      onFileChange?.(file)
+      setUploadState('error')
+      return
+    }
+
     setUploadState('uploading')
     setUploadProgress(0)
 
-    const shouldFail = file.name.toLowerCase().includes('error')
     const uploadDuration = shouldFail ? uploadDurationFail : uploadDurationSuccess
     const interval = 50
     const increment = (maxPercent / uploadDuration) * interval
@@ -80,7 +96,7 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
         if (newProgress >= maxPercent) {
           clearInterval(uploadIntervalRef.current)
           setUploadState('success')
-          onFileUploadComplete?.(file)
+          onFileUploadCompleteDebounced(file)
           return maxPercent
         }
         if (shouldFail && newProgress >= uploadPercentFail) {
@@ -109,23 +125,30 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
 
   const sizeProgress = selectedFile?.size ? `(${formatFileSize(selectedFile.size * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
 
+  const buttons = {
+    cancel: { action: removeFile, icon: CircleXIcon, label: 'Cancel' },
+    remove: { action: removeFile, icon: TrashIcon, label: 'Remove' },
+    retry: { action: retryUpload, icon: RotateCcwIcon, label: 'Retry' },
+  }
+
   const states = {
     error: {
-      button: { action: retryUpload, icon: RotateCcwIcon, label: 'Retry' },
+      buttons: uploadProgress === 0 ? [buttons.remove] : [buttons.retry, buttons.remove],
       icon: <FileXIcon className="size-5 text-destructive" />,
       message: `Uploading failed! ${sizeProgress}`,
     },
     success: {
-      button: { action: removeFile, icon: TrashIcon, label: 'Remove' },
+      buttons: [buttons.remove],
       icon: <FileCheckIcon className="size-5 text-success" />,
       message: `Uploading succeeded! ${sizeProgress}`,
     },
     uploading: {
-      button: { action: removeFile, icon: CircleXIcon, label: 'Cancel' },
+      buttons: [buttons.cancel],
       icon: <FileUpIcon className="size-5 text-muted-foreground" />,
       message: `Uploading... ${sizeProgress}`,
     },
   }
+
   const state = states[uploadState as keyof typeof states]
 
   return (
@@ -139,12 +162,14 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
               <div className="text-sm text-muted-foreground truncate max-w-80">{state?.message}</div>
             </div>
 
-            {state?.button && (
-              <Button className="ml-8" variant="ghost" size="sm" onClick={state.button.action} title={state.button.label}>
-                {state.button.label}
-                <state.button.icon className="size-4" />
-              </Button>
-            )}
+            <div className="flex ml-8">
+              {state?.buttons.map(button => (
+                <Button key={`button-${button.label}`} variant="ghost" size="sm" onClick={button.action} title={button.label}>
+                  {button.label}
+                  <button.icon className="size-4" />
+                </Button>
+              ))}
+            </div>
           </div>
 
           {uploadState !== 'idle' && (
