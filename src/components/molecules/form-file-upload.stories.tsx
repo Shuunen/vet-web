@@ -1,4 +1,3 @@
-import { customResolver } from '@/utils/form.utils'
 import { logger } from '@/utils/logger.utils'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
@@ -8,6 +7,7 @@ import { Button } from '../ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { SourceCode } from '../ui/source-code'
 import { FormFileUpload } from './form-file-upload'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const meta = {
   component: FormFileUpload,
@@ -51,7 +51,8 @@ export const InForm: Story = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const form = useForm<FileForm>({
       defaultValues: { file: emptyFile },
-      resolver: customResolver(fileFormSchema),
+      // @ts-expect-error type issue with zodResolver
+      resolver: zodResolver(fileFormSchema),
     })
     const value = form.watch('file')
     return (
