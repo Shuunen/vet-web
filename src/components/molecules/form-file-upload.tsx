@@ -105,7 +105,7 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
   const retryUpload = () => selectedFile && startUpload(selectedFile)
 
   // Render idle state
-  if (uploadState === 'idle' && !selectedFile) return <Input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="*/*" placeholder="No file selected" />
+  if (uploadState === 'idle' && !selectedFile) return <Input type="file" data-testid="file-upload" ref={fileInputRef} onChange={handleFileSelect} accept="*/*" placeholder="No file selected" />
 
   const sizeProgress = selectedFile?.size ? `(${formatFileSize(selectedFile.size * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
 
