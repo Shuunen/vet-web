@@ -1,0 +1,7 @@
+{
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+    "name": "Node.js & TypeScript"
+}
