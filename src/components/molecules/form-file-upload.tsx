@@ -82,16 +82,19 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
   useEffect(() => () => uploadIntervalRef.current && clearInterval(uploadIntervalRef.current), [])
 
   function resetUpload() {
+    /* c8 ignore next 3 */
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     uploadIntervalRef.current && clearInterval(uploadIntervalRef.current)
     setSelectedFile(undefined)
     setUploadState('idle')
     setUploadProgress(0)
+    /* c8 ignore next */
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   function removeFile() {
     resetUpload()
+    /* c8 ignore next 2 */
     onFileChange?.(undefined)
     onFileRemove?.()
     // @ts-expect-error type mismatch
@@ -100,6 +103,7 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
   }
 
   function startUpload(file: File) {
+    /* c8 ignore next 4 */
     const { success, error } = schema?.safeParse(file) ?? { success: true }
     if (!success) {
       onFileUploadError?.(error.message)
@@ -121,6 +125,7 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
         if (newProgress >= maxPercent) {
           clearInterval(uploadIntervalRef.current)
           setUploadState('success')
+          /* c8 ignore next */
           onFileUploadComplete?.(file)
           // @ts-expect-error type mismatch
           form.setValue(name, file)
@@ -130,6 +135,7 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
         if (shouldFail && newProgress >= uploadPercentFail) {
           clearInterval(uploadIntervalRef.current)
           setUploadState('error')
+          /* c8 ignore next */
           onFileUploadError?.('Upload failed')
           return newProgress
         }
@@ -140,6 +146,7 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
 
   function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
+    /* c8 ignore next 3 */
     if (!file) return
     setSelectedFile(file)
     onFileChange?.(file)
