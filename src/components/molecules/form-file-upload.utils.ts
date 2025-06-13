@@ -1,3 +1,5 @@
+import { z } from 'zod/v4'
+
 const bytesInKb = 1024
 const bytesInMb = bytesInKb * bytesInKb
 const decimalPrecisionLimit = 10
@@ -10,7 +12,7 @@ export const uploadDurationSuccess = 2000 // ms
 
 export const maxPercent = 100
 
-export function formatFileSize(bytes: number, addUnit = false): string {
+export function formatFileSize(bytes: number, addUnit = true): string {
   const formatValue = (value: number, unit: string) => {
     const rounded = Math.round(value * decimalPrecisionLimit) / decimalPrecisionLimit
     const formatted = rounded % 1 === 0 ? rounded.toString() : rounded.toFixed(1)
@@ -20,3 +22,36 @@ export function formatFileSize(bytes: number, addUnit = false): string {
   if (bytes < bytesInMb) return formatValue(bytes / bytesInKb, 'KB')
   return formatValue(bytes / bytesInMb, 'MB')
 }
+
+const documentExtensions = ['pdf', 'doc', 'docx', 'txt']
+export const documentAccept = `.${documentExtensions.join(',.')}`
+
+// oxlint-disable-next-line max-lines-per-function
+export const documentFileSchema = z.file().check(ctx => {
+  if (ctx.value.name === '') {
+    ctx.issues.push({
+      code: 'custom',
+      continue: false,
+      input: ctx.value,
+      message: 'File is required',
+    })
+    return
+  }
+  const ext = ctx.value.name.split('.').pop()
+  if (ext === undefined) {
+    ctx.issues.push({
+      code: 'custom',
+      continue: false,
+      input: ctx.value,
+      message: 'File has no extension',
+    })
+    return
+  }
+  if (!documentExtensions.includes(ext))
+    ctx.issues.push({
+      code: 'custom',
+      continue: false,
+      input: ctx.value,
+      message: `File extension not allowed, accepted : ${documentExtensions.join(', ')}`,
+    })
+})

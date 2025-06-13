@@ -37,7 +37,7 @@ function SummaryPage() {
       {Object.entries(data.complementaryData).map(([key, value]) => (
         <div className="grid grid-cols-2" key={key}>
           <div className="text-gray-500">{key}</div>
-          <div>{value}</div>
+          <div>{value instanceof File ? value.name : value}</div>
         </div>
       ))}
 

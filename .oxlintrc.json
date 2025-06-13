@@ -10,6 +10,7 @@
     "suspicious": "warn"
   },
   "globals": {
+    "File": "readonly",
     "clearInterval": "readonly",
     "console": "readonly",
     "document": "readonly",

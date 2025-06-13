@@ -1,66 +1,82 @@
-'use client'
-
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
+import type { FieldBaseProps } from '@/utils/form.types'
 import { cn } from '@/utils/styling.utils'
-import { debounce } from 'es-toolkit'
+// eslint-disable-next-line no-restricted-imports
 import { CircleXIcon, FileCheckIcon, FileTextIcon, FileUpIcon, FileXIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import type { FieldValues, Path } from 'react-hook-form'
+import { slugify } from 'shuutils'
 import type { ZodType } from 'zod/v4'
 import { formatFileSize, maxPercent, uploadDurationFail, uploadDurationSuccess, uploadPercentFail } from './form-file-upload.utils'
 
-type UploadState = 'idle' | 'uploading' | 'success' | 'error'
-
-type Props = {
-  className?: string
+type Props<TFieldValues extends FieldValues> = {
+  accept: string
   onFileChange?: (file: File | undefined) => void
   onFileUploadComplete?: (file: File) => void
   onFileUploadError?: (error: string) => void
   onFileRemove?: () => void
   schema?: ZodType
   shouldFail?: boolean
-  /**
-   * The current value of the file field (file name or undefined).
-   * If provided, the component will display the file as selected.
-   */
-  value?: string
-}
+} & FieldBaseProps<TFieldValues>
 
-// eslint-disable-next-line max-lines-per-function
-export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, schema, shouldFail = false, value }: Props) {
+// oxlint-disable-next-line max-lines-per-function
+export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form, id, label, name, onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, schema, shouldFail }: Props<TFieldValues>) {
   const [selectedFile, setSelectedFile] = useState<File | undefined>()
-  const [uploadState, setUploadState] = useState<UploadState>('idle')
   const [uploadProgress, setUploadProgress] = useState(0)
+  const retryUpload = () => selectedFile && startUpload(selectedFile)
+  const buttons = {
+    cancel: { action: removeFile, icon: CircleXIcon, label: 'Cancel' },
+    remove: { action: removeFile, icon: TrashIcon, label: 'Remove' },
+    retry: { action: retryUpload, icon: RotateCcwIcon, label: 'Retry' },
+  }
+  const [uploadState, setUploadState] = useState<UploadType>('idle')
+  const sizeProgress = selectedFile?.size // eslint-disable-next-line no-irregular-whitespace
+    ? `(${formatFileSize(selectedFile.size * (uploadProgress / maxPercent))} / ${formatFileSize(selectedFile.size)})`
+    : ''
+  const states = {
+    error: {
+      buttons: uploadProgress === 0 ? [buttons.remove] : [buttons.retry, buttons.remove],
+      icon: <FileXIcon className="size-5 text-destructive" />,
+      message: `Uploading failed! ${sizeProgress}`,
+    },
+    idle: {
+      buttons: [],
+      icon: <FileTextIcon className="size-5 text-muted-foreground" />,
+      message: 'No file selected',
+    },
+    success: {
+      buttons: [buttons.remove],
+      icon: <FileCheckIcon className="size-5 text-success" />,
+      message: `Uploading succeeded! ${sizeProgress}`,
+    },
+    uploading: {
+      buttons: [buttons.cancel],
+      icon: <FileUpIcon className="size-5 text-muted-foreground" />,
+      message: `Uploading... ${sizeProgress}`,
+    },
+  } as const
+  type UploadType = keyof typeof states
   const fileInputRef = useRef<HTMLInputElement>(null)
   const uploadIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const value = form.watch(name as Path<TFieldValues>)
+  const idleNoFile = uploadState === 'idle' && !selectedFile
 
-  const onFileUploadCompleteDebounced = onFileUploadComplete
-    ? // oxlint-disable-next-line no-magic-numbers
-      debounce(onFileUploadComplete, 10)
-    : () =>
-        void (
-          // Sync with value prop (for controlled usage)
-          useEffect(() => {
-            if (value) {
-              if (!selectedFile || selectedFile.name !== value) {
-                setSelectedFile({ name: value } as File)
-                setUploadState('success')
-                setUploadProgress(maxPercent)
-              }
-            } else if (selectedFile) {
-              setSelectedFile(undefined)
-              setUploadState('idle')
-              setUploadProgress(0)
-            }
-          }, [value])
-        )
+  useEffect(() => {
+    if (!value) return
+    setSelectedFile(value)
+    setUploadState('success')
+    setUploadProgress(maxPercent)
+  }, [value])
 
   // Cleanup on unmount
   useEffect(() => () => uploadIntervalRef.current && clearInterval(uploadIntervalRef.current), [])
 
   function resetUpload() {
-    // eslint-disable-next-line no-unused-expressions
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     uploadIntervalRef.current && clearInterval(uploadIntervalRef.current)
     setSelectedFile(undefined)
     setUploadState('idle')
@@ -72,6 +88,9 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
     resetUpload()
     onFileChange?.(undefined)
     onFileRemove?.()
+    // @ts-expect-error type mismatch
+    form.setValue(name, undefined)
+    form.trigger(name)
   }
 
   function startUpload(file: File) {
@@ -96,7 +115,10 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
         if (newProgress >= maxPercent) {
           clearInterval(uploadIntervalRef.current)
           setUploadState('success')
-          onFileUploadCompleteDebounced(file)
+          onFileUploadComplete?.(file)
+          // @ts-expect-error type mismatch
+          form.setValue(name, file)
+          form.trigger(name)
           return maxPercent
         }
         if (shouldFail && newProgress >= uploadPercentFail) {
@@ -118,68 +140,58 @@ export function FormFileUpload({ onFileChange, onFileRemove, onFileUploadComplet
     startUpload(file)
   }
 
-  const retryUpload = () => selectedFile && startUpload(selectedFile)
-
-  // Render idle state
-  if (uploadState === 'idle' && !selectedFile) return <Input type="file" data-testid="file-upload" ref={fileInputRef} onChange={handleFileSelect} accept="*/*" placeholder="No file selected" />
-
-  const sizeProgress = selectedFile?.size ? `(${formatFileSize(selectedFile.size * (uploadProgress / maxPercent), true)} / ${formatFileSize(selectedFile.size, true)})` : ''
-
-  const buttons = {
-    cancel: { action: removeFile, icon: CircleXIcon, label: 'Cancel' },
-    remove: { action: removeFile, icon: TrashIcon, label: 'Remove' },
-    retry: { action: retryUpload, icon: RotateCcwIcon, label: 'Retry' },
-  }
-
-  const states = {
-    error: {
-      buttons: uploadProgress === 0 ? [buttons.remove] : [buttons.retry, buttons.remove],
-      icon: <FileXIcon className="size-5 text-destructive" />,
-      message: `Uploading failed! ${sizeProgress}`,
-    },
-    success: {
-      buttons: [buttons.remove],
-      icon: <FileCheckIcon className="size-5 text-success" />,
-      message: `Uploading succeeded! ${sizeProgress}`,
-    },
-    uploading: {
-      buttons: [buttons.cancel],
-      icon: <FileUpIcon className="size-5 text-muted-foreground" />,
-      message: `Uploading... ${sizeProgress}`,
-    },
-  }
-
-  const state = states[uploadState as keyof typeof states]
+  const state = states[uploadState]
 
   return (
-    <div className="rounded-md border border-input bg-background p-3">
-      <div className="flex gap-3">
-        <aside className="mt-0.5">{state?.icon || <FileTextIcon className="size-5 text-muted-foreground" />}</aside>
-        <main className="flex grow flex-col gap-1">
-          <div className="flex justify-between gap-3">
-            <div className="flex flex-col gap-1">
-              <div className="font-medium text-sm truncate max-w-80">{selectedFile?.name}</div>
-              <div className="text-sm text-muted-foreground truncate max-w-80">{state?.message}</div>
-            </div>
+    <FormField
+      control={form.control}
+      name={name}
+      render={
+        // oxlint-disable-next-line max-lines-per-function
+        () => (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
 
-            <div className="flex ml-8">
-              {state?.buttons.map(button => (
-                <Button key={`button-${button.label}`} variant="ghost" size="sm" onClick={button.action} title={button.label}>
-                  {button.label}
-                  <button.icon className="size-4" />
-                </Button>
-              ))}
-            </div>
-          </div>
+            <FormControl>
+              {idleNoFile ? (
+                <Input data-testid={id} ref={fileInputRef} onChange={handleFileSelect} type="file" accept={accept} placeholder={state.message} />
+              ) : (
+                <div className="rounded-md border border-input bg-background p-3">
+                  <div className="flex gap-3">
+                    <aside className="mt-0.5">{state.icon}</aside>
+                    <main className="flex grow flex-col gap-1">
+                      <div className="flex justify-between gap-3">
+                        <div className="flex flex-col gap-1">
+                          <div className="font-medium text-sm truncate max-w-80">{selectedFile?.name}</div>
+                          <div className="text-sm text-muted-foreground truncate max-w-80">{state.message}</div>
+                        </div>
 
-          {uploadState !== 'idle' && (
-            <div className="flex items-center">
-              <Progress value={uploadProgress} className={cn('h-1 flex-1', uploadState === 'success' && '[&>div]:bg-success', uploadState === 'error' && '[&>div]:bg-destructive')} />
-              <span className={cn('text-sm font-medium min-w-[3rem] text-right', uploadState === 'success' && 'text-success', uploadState === 'error' && 'text-destructive')}>{Math.round(uploadProgress)}%</span>
-            </div>
-          )}
-        </main>
-      </div>
-    </div>
+                        <div className="flex ml-8">
+                          {state.buttons.map(button => (
+                            <Button key={`button-${button.label}`} variant="ghost" size="sm" onClick={button.action} title={button.label} testId={`upload-action-${slugify(button.label)}`}>
+                              {button.label}
+                              <button.icon className="size-4" />
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {uploadState !== 'idle' && (
+                        <div className="flex items-center">
+                          <Progress value={uploadProgress} className={cn('h-1 flex-1', uploadState === 'success' && '[&>div]:bg-success', uploadState === 'error' && '[&>div]:bg-destructive')} />
+                          <span className={cn('text-sm font-medium min-w-[3rem] text-right', uploadState === 'success' && 'text-success', uploadState === 'error' && 'text-destructive')}>{Math.round(uploadProgress)}%</span>
+                        </div>
+                      )}
+                    </main>
+                  </div>
+                </div>
+              )}
+            </FormControl>
+
+            <FormMessage data-testid={`error-msg-${slugify(id)}`} />
+          </FormItem>
+        )
+      }
+    />
   )
 }

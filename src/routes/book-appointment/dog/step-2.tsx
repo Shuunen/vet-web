@@ -1,4 +1,5 @@
 import { FormFileUpload } from '@/components/molecules/form-file-upload'
+import { documentAccept, documentFileSchema } from '@/components/molecules/form-file-upload.utils'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -67,28 +68,7 @@ function DogComplementaryDataForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="file"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Upload your dog health report</FormLabel>
-              <FormControl>
-                <FormFileUpload
-                  onFileUploadComplete={file => {
-                    field.onChange(file.name)
-                    form.trigger('file') // trigger validation
-                  }}
-                  onFileRemove={() => {
-                    form.setValue('file', '')
-                    form.trigger('file') // trigger validation
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormFileUpload accept={documentAccept} name="file" id="file" form={form} label="Upload your dog health report" schema={documentFileSchema} />
 
         <FormField
           control={form.control}

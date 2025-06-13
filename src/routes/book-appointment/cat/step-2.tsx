@@ -1,4 +1,5 @@
 import { FormFileUpload } from '@/components/molecules/form-file-upload'
+import { documentAccept, documentFileSchema } from '@/components/molecules/form-file-upload.utils'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -10,6 +11,7 @@ import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+// oxlint-disable-next-line max-dependencies
 import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils'
 
 // eslint-disable-next-line max-lines-per-function, max-statements
@@ -87,29 +89,7 @@ function CatComplementaryDataForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="file"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Upload your cat health report</FormLabel>
-              <FormControl>
-                <FormFileUpload
-                  value={field.value}
-                  onFileUploadComplete={file => {
-                    field.onChange(file.name)
-                    form.trigger('file') // trigger validation
-                  }}
-                  onFileRemove={() => {
-                    form.setValue('file', '')
-                    form.trigger('file') // trigger validation
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormFileUpload accept={documentAccept} name="file" id="file" form={form} label="Upload your cat health report" schema={documentFileSchema} />
 
         <FormField
           control={form.control}

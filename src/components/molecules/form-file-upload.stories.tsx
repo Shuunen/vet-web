@@ -1,154 +1,68 @@
-import { logger } from '@/utils/logger.utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { fn } from 'storybook/test'
 import { z } from 'zod/v4'
 import { Button } from '../ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Form } from '../ui/form'
 import { SourceCode } from '../ui/source-code'
 import { FormFileUpload } from './form-file-upload'
+import { documentAccept, documentFileSchema } from './form-file-upload.utils'
 
 const meta = {
-  component: FormFileUpload,
+  component: FormFileUploadStoryWrapper,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   title: 'molecules/FormFileUpload',
-  args: {
-    onFileChange: fn(),
-    onFileUploadComplete: fn(),
-    onFileUploadError: fn(),
-    onFileRemove: fn(),
-  },
-} satisfies Meta<typeof FormFileUpload>
+} satisfies Meta<typeof FormFileUploadStoryWrapper>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  args: {},
-}
-
-/**
- * This story simulates a file upload that already has a file selected.
- */
-export const WithFileSelected: Story = {
-  args: {
-    value: 'dog-health-report.pdf',
-  },
-}
-
-/**
- * This story simulates a file upload that will fail on server side.
- */
-export const WillFail: Story = {
-  args: {
-    shouldFail: true,
-  },
-}
-
-// oxlint-disable-next-line no-undef
-const emptyFile = new File([], '')
-
-const fileSchema = z.file().check(ctx => {
-  if (ctx.value.name === '') {
-    ctx.issues.push({
-      code: 'custom',
-      message: 'File is required',
-      continue: false,
-      input: ctx.value,
-    })
-    return
-  }
-  const ext = ctx.value.name.split('.').pop()
-  if (ext === undefined) {
-    ctx.issues.push({
-      code: 'custom',
-      message: 'File has no extension',
-      continue: false,
-      input: ctx.value,
-    })
-    return
-  }
-  const allowed = ['pdf', 'doc', 'docx', 'txt']
-  if (!allowed.includes(ext))
-    ctx.issues.push({
-      code: 'custom',
-      message: `File extension not allowed, accepted : ${allowed.join(', ')}`,
-      continue: false,
-      input: ctx.value,
-    })
-})
-
 const fileFormSchema = z.object({
-  file: fileSchema,
+  file: documentFileSchema,
 })
 
 type FileForm = z.infer<typeof fileFormSchema>
 
-/**
- * This story demonstrates how to use the FormFileUpload component within a form.
- */
-export const InForm: Story = {
-  // oxlint-disable-next-line require-returns
+// Wrapper to avoid code duplication in stories
+function FormFileUploadStoryWrapper({ defaultValues, shouldFail = false }: { defaultValues?: Partial<FileForm>; shouldFail?: boolean } = {}) {
+  const form = useForm<FileForm>({
+    defaultValues,
+    resolver: zodResolver(fileFormSchema),
+  })
+  const value = form.watch('file')
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const onSubmit = form.handleSubmit(() => {
+    setFormSubmitted(true)
+  })
+  return (
+    <div className="flex flex-col gap-6">
+      <Form {...form}>
+        <form className="space-y-4" onSubmit={onSubmit}>
+          <FormFileUpload accept={documentAccept} name={'file'} id={'file'} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+      <SourceCode code={{ accept: documentAccept, fileNameSelected: value?.name, formValid: form.formState.isValid, formSubmitted }} />
+    </div>
+  )
+}
+
+export const Default: Story = {
+  render: () => <FormFileUploadStoryWrapper />,
+}
+
+export const WithExistingFile: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const form = useForm<FileForm>({
-      defaultValues: { file: emptyFile },
-      resolver: zodResolver(fileFormSchema),
-    })
-    const value = form.watch('file')
-    return (
-      <div className="flex flex-col gap-6">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(() => {
-              logger.showSuccess('Submitted :', value.name)
-            })}
-            className="space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Upload a file</FormLabel>
-                  <FormControl>
-                    <FormFileUpload
-                      schema={fileSchema}
-                      value={field.value.name}
-                      onFileUploadComplete={file => {
-                        logger.info('File upload complete:', file.name)
-                        field.onChange(file)
-                        form.trigger('file')
-                      }}
-                      onFileChange={file => {
-                        logger.info('File changed:', file?.name)
-                        field.onChange(file)
-                        form.trigger('file')
-                      }}
-                      onFileRemove={() => {
-                        logger.info('File removed')
-                        form.setValue('file', emptyFile)
-                        form.trigger('file')
-                      }}
-                      onFileUploadError={error => {
-                        logger.error('File upload error:', error)
-                        form.setError('file', { type: 'manual', message: error })
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
-        <SourceCode code={{ file: value.name }} />
-      </div>
-    )
+    // oxlint-disable-next-line no-undef
+    const existingFile = new File(['test'], 'test.txt', { type: 'text/plain' })
+    return <FormFileUploadStoryWrapper defaultValues={{ file: existingFile }} />
   },
+}
+
+export const SimulateServerError: Story = {
+  render: () => <FormFileUploadStoryWrapper shouldFail={true} />,
 }
