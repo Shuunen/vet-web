@@ -68,3 +68,10 @@ export const WithExistingFile: Story = {
 export const SimulateServerError: Story = {
   render: () => <FormFileUploadStoryWrapper shouldFail={true} />,
 }
+
+export const BadlyFormattedFile: Story = {
+  render: () => {
+    // @ts-expect-error Simulating a badly formatted file
+    return <FormFileUploadStoryWrapper defaultValues={{ file: {} }} />
+  }
+}
