@@ -67,6 +67,12 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
 
   useEffect(() => {
     if (!value) return
+    if (!value.name) {
+      // when a File instance is persisted to LS, it is converted to an object and loses name and size properties so we need to reset the upload
+      // this won't be an issue anymore once we switch to a more robust file handling solution, like uploading to a server and getting a ressource id back that we can store in LS
+      removeFile()
+      return
+    }
     setSelectedFile(value)
     setUploadState('success')
     setUploadProgress(maxPercent)
