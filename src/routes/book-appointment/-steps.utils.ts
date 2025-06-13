@@ -29,7 +29,7 @@ export const dogComplementaryDataSchema = z.object({
   color: z.string().min(1, 'Color is required'),
   exerciseRoutine: z.string().min(1, 'Exercise routine is required'),
   file: documentFileSchema,
-  weight: z.coerce.number().min(1, 'Weight is required'),
+  weight: z.number().min(1, 'Weight is required'),
 })
 
 export type DogComplementaryData = z.infer<typeof dogComplementaryDataSchema>

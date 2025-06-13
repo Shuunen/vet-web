@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
-import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
+import { useFormChangeDetector } from '@/utils/form.utils'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useEffect } from 'react'
@@ -30,7 +31,7 @@ function CatComplementaryDataForm() {
 
   const form = useForm<CatComplementaryData>({
     defaultValues: complementaryData,
-    resolver: customResolver(catComplementaryDataSchema),
+    resolver: zodResolver(catComplementaryDataSchema),
   })
 
   const onSubmit = () => {

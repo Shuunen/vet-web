@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from '@/routes/book-appointment/-steps.utils'
-import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
+import { useFormChangeDetector } from '@/utils/form.utils'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon } from 'lucide-react'
 import { useEffect } from 'react'
@@ -28,7 +29,7 @@ function DogComplementaryDataForm() {
 
   const form = useForm<DogComplementaryData>({
     defaultValues: complementaryData,
-    resolver: customResolver(dogComplementaryDataSchema),
+    resolver: zodResolver(dogComplementaryDataSchema),
   })
 
   const onSubmit = () => {

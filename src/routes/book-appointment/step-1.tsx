@@ -6,7 +6,8 @@ import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type AppointmentBaseData, baseDataSchema } from '@/routes/book-appointment/-steps.utils'
 import { ages } from '@/utils/age.utils'
 import { breeds } from '@/utils/breed.utils'
-import { customResolver, useFormChangeDetector } from '@/utils/form.utils'
+import { useFormChangeDetector } from '@/utils/form.utils'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowRightIcon } from 'lucide-react'
 import { useEffect } from 'react'
@@ -23,7 +24,7 @@ function BaseDataForm() {
 
   const form = useForm<AppointmentBaseData>({
     defaultValues: data.baseData,
-    resolver: customResolver(baseDataSchema),
+    resolver: zodResolver(baseDataSchema),
   })
 
   const onSubmit = async (values: AppointmentBaseData) => {
