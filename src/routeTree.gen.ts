@@ -145,18 +145,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-appointment': {
@@ -166,19 +159,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookAppointmentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/book-appointment/step-1': {
-      id: '/book-appointment/step-1'
-      path: '/step-1'
-      fullPath: '/book-appointment/step-1'
-      preLoaderRoute: typeof BookAppointmentStep1RouteImport
-      parentRoute: typeof BookAppointmentRoute
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/book-appointment/step-3': {
       id: '/book-appointment/step-3'
@@ -187,18 +180,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookAppointmentStep3RouteImport
       parentRoute: typeof BookAppointmentRoute
     }
-    '/book-appointment/cat/step-2': {
-      id: '/book-appointment/cat/step-2'
-      path: '/cat/step-2'
-      fullPath: '/book-appointment/cat/step-2'
-      preLoaderRoute: typeof BookAppointmentCatStep2RouteImport
-      parentRoute: typeof BookAppointmentRoute
-    }
-    '/book-appointment/dog/step-2': {
-      id: '/book-appointment/dog/step-2'
-      path: '/dog/step-2'
-      fullPath: '/book-appointment/dog/step-2'
-      preLoaderRoute: typeof BookAppointmentDogStep2RouteImport
+    '/book-appointment/step-1': {
+      id: '/book-appointment/step-1'
+      path: '/step-1'
+      fullPath: '/book-appointment/step-1'
+      preLoaderRoute: typeof BookAppointmentStep1RouteImport
       parentRoute: typeof BookAppointmentRoute
     }
     '/status/$status/$type': {
@@ -207,6 +193,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/status/$status/$type'
       preLoaderRoute: typeof StatusStatusTypeRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/book-appointment/dog/step-2': {
+      id: '/book-appointment/dog/step-2'
+      path: '/dog/step-2'
+      fullPath: '/book-appointment/dog/step-2'
+      preLoaderRoute: typeof BookAppointmentDogStep2RouteImport
+      parentRoute: typeof BookAppointmentRoute
+    }
+    '/book-appointment/cat/step-2': {
+      id: '/book-appointment/cat/step-2'
+      path: '/cat/step-2'
+      fullPath: '/book-appointment/cat/step-2'
+      preLoaderRoute: typeof BookAppointmentCatStep2RouteImport
+      parentRoute: typeof BookAppointmentRoute
     }
   }
 }
