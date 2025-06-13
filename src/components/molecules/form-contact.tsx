@@ -1,5 +1,3 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
@@ -90,10 +88,10 @@ export function FormContact() {
           )}
         />
         <div className="flex gap-4">
-          <Button data-testid="submit" type="submit" disabled={!form.formState.isValid}>
+          <Button testId="submit" type="submit" disabled={!form.formState.isValid}>
             Submit
           </Button>
-          <Button type="button" onClick={clearFormData} data-testid="reset">
+          <Button type="button" onClick={clearFormData} testId="reset">
             Reset
           </Button>
         </div>

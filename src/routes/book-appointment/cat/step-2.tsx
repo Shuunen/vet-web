@@ -119,11 +119,11 @@ function CatComplementaryDataForm() {
 
         <div className="flex gap-24 mt-4">
           <Link to="/book-appointment/step-1">
-            <Button type="button" variant="link" data-testid="back">
+            <Button testId="back" type="button" variant="link" data-testid="back">
               <ArrowLeftIcon /> Back
             </Button>
           </Link>
-          <Button type="submit" data-testid="next">
+          <Button testId="submit" type="submit" data-testid="next">
             Go to summary
           </Button>
         </div>

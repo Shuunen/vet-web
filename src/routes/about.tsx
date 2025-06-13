@@ -6,7 +6,9 @@ function About() {
     <div className="flex flex-col gap-4">
       <div>Hello from About!</div>
       <Link to="/">
-        <Button variant="destructive">Go to home</Button>
+        <Button testId="go-home" variant="destructive">
+          Go to home
+        </Button>
       </Link>
     </div>
   )

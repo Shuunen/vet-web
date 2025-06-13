@@ -69,11 +69,11 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "build:sb": "storybook build",
-    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:knip && pnpm run test && pnpm build && pnpm check:oxlint && echo check success",
+    "check": "pnpm i && echo install success && pnpm check:tsc && pnpm check:biome && pnpm check:oxlint && pnpm check:knip && pnpm build && pnpm run test && echo check success",
     "check:biome": "biome check --error-on-warnings --write --unsafe src && echo check:biome success",
     "check:oxlint": "oxlint src --deny-warnings --fix --fix-suggestions --fix-dangerously && echo check:oxlint success",
     "check:knip": "knip && echo check:knip success",
-    "check:tsc": "tsc --noEmit && echo check:tsc success",
+    "check:tsc": "tsc --noEmit --project tsconfig.app.json --incremental && echo check:tsc success",
     "dev": "vite",
     "preview": "vite preview",
     "sb": "storybook dev -p 6006",

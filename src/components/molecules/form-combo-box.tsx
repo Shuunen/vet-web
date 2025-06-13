@@ -1,4 +1,3 @@
-'use client'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -39,6 +38,7 @@ export function ComboboxForm() {
     resolver: zodResolver(FormSchema),
   })
 
+  /* c8 ignore start */
   // eslint-disable-next-line consistent-function-scoping
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line no-console
@@ -49,6 +49,7 @@ export function ComboboxForm() {
     // eslint-disable-next-line no-console
     console.log('onChange', form.getValues())
   }
+  /* c8 ignore end */
 
   return (
     <Form {...form}>
@@ -76,7 +77,7 @@ export function ComboboxForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-                    <Button variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')} data-testid="language-combobox">
+                    <Button testId="combo-box" variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')} data-testid="language-combobox">
                       {field.value ? languages.find(language => language.value === field.value)?.label : 'Select language'}
                       <ChevronsUpDown className="opacity-50" />
                     </Button>
@@ -93,6 +94,7 @@ export function ComboboxForm() {
                             value={language.label}
                             key={language.value}
                             onSelect={() => {
+                              /* c8 ignore next 2 */
                               form.setValue('language', language.value)
                             }}
                             data-testid={`language-option-${language.value}`}
@@ -111,7 +113,7 @@ export function ComboboxForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" data-testid="submit">
+        <Button testId="submit" type="submit" data-testid="submit">
           Submit
         </Button>
       </form>

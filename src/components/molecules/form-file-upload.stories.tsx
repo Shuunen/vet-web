@@ -43,7 +43,9 @@ function FormFileUploadStoryWrapper({ defaultValues, shouldFail = false }: { def
       <Form {...form}>
         <form className="space-y-4" onSubmit={onSubmit}>
           <FormFileUpload accept={documentAccept} name={'file'} id={'file'} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
-          <Button type="submit">Submit</Button>
+          <Button testId="submit" type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
       <SourceCode code={{ accept: documentAccept, fileNameSelected: value?.name, formValid: form.formState.isValid, formSubmitted }} />

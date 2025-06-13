@@ -20,7 +20,9 @@ function Contact() {
         </CardContent>
         <CardFooter>
           <Link to="/" className="mb-6">
-            <Button variant="destructive">Go to home</Button>
+            <Button testId="go-home" variant="destructive">
+              Go to home
+            </Button>
           </Link>
         </CardFooter>
       </Card>

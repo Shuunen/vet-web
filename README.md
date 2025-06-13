@@ -149,8 +149,6 @@ export const Route = createRootRoute({
 
 ```tsx
 // src/components/molecules/form-contact.tsx
-'use client'
-
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'

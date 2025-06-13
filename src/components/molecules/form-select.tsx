@@ -1,5 +1,3 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { FormControl } from '@/components/ui/form'
@@ -35,7 +33,7 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
       <PopoverTrigger asChild>
         <FormControl>
           {/* biome-ignore lint/a11y/useSemanticElements: he he nope */}
-          <Button variant="outline" role="combobox" className={cn('min-w-48 max-w-96 justify-between', !field.value && 'text-muted-foreground')}>
+          <Button testId="combo-box" variant="outline" role="combobox" className={cn('min-w-48 max-w-96 justify-between', !field.value && 'text-muted-foreground')}>
             <span className="truncate">{displayValue}</span>
             <ChevronsUpDown className="opacity-50" />
           </Button>

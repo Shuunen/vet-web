@@ -43,11 +43,11 @@ function SummaryPage() {
 
       <div className="flex gap-18 mt-6">
         <Link to={`/book-appointment/${data.baseData.breed}/step-2`}>
-          <Button type="button" variant="link">
+          <Button testId="back" type="button" variant="link">
             <ArrowLeftIcon /> Back
           </Button>
         </Link>
-        <Button type="button" onClick={onBook}>
+        <Button testId="book" type="button" onClick={onBook}>
           Book that appointment <Calendar1Icon />
         </Button>
       </div>

@@ -25,7 +25,7 @@ export function Header() {
           </Link>
         ))}
       </div>
-      <Button variant="outline">
+      <Button testId="call-us" variant="outline">
         Call us <HeadsetIcon />
       </Button>
     </div>

@@ -35,7 +35,9 @@ export function BookAppointmentCard() {
       </CardContent>
       <CardFooter className="flex justify-center pb-6 pt-2">
         <Link to="/book-appointment/step-1">
-          <Button variant="default">Book Now</Button>
+          <Button variant="default" testId="book-now">
+            Book Now
+          </Button>
         </Link>
       </CardFooter>
     </Card>

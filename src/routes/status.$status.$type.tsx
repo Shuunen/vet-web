@@ -66,7 +66,7 @@ function StatusTypePage() {
             <p className="text-center text-gray-600">{message.details}</p>
           </CardContent>
           <CardFooter className="flex justify-center gap-4 pb-6 pt-2">
-            <Button asChild>
+            <Button asChild testId="return-home">
               <Link to="/">
                 <Home className="mr-2 size-4" />
                 Return Home

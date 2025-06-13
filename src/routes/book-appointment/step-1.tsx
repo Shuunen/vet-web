@@ -91,7 +91,7 @@ function BaseDataForm() {
         />
 
         <div className="flex justify-center mt-6">
-          <Button type="submit" data-testid="next">
+          <Button testId="goto" type="submit" data-testid="next">
             Go to complementary data <ArrowRightIcon />
           </Button>
         </div>

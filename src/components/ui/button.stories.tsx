@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     children: 'Primary',
+    testId: 'primary-button',
   },
 }
 
@@ -32,6 +33,7 @@ export const Secondary: Story = {
   args: {
     children: 'Secondary',
     variant: 'secondary',
+    testId: 'secondary-button',
   },
 }
 
@@ -39,5 +41,6 @@ export const AsChild: Story = {
   args: {
     asChild: true,
     children: <span>the child</span>,
+    testId: 'as-child-button',
   },
 }

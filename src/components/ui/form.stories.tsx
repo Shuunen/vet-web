@@ -62,7 +62,7 @@ const meta = {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button testId="submit" type="submit">Submit</Button>
         </form>
       </Form>
     )
