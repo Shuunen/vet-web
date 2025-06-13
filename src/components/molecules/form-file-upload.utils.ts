@@ -37,8 +37,8 @@ export const documentFileSchema = z.file().check(ctx => {
     })
     return
   }
-  const ext = ctx.value.name.split('.').pop()
-  if (ext === undefined) {
+  const ext = /\.([^.]+)$/.exec(ctx.value.name)?.[1]?.toLowerCase() || ''
+  if (ext === '') {
     ctx.issues.push({
       code: 'custom',
       continue: false,

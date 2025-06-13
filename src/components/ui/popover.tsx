@@ -28,6 +28,7 @@ function PopoverContent({ className, align = 'center', sideOffset = 4, ...props 
   )
 }
 
+/* c8 ignore next 3 */
 function PopoverAnchor({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
   return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatFileSize } from './form-file-upload.utils'
+import { documentFileSchema, formatFileSize } from './form-file-upload.utils'
 
 describe('formatFileSize', () => {
   describe('without unit parameter', () => {
@@ -99,6 +99,37 @@ describe('formatFileSize', () => {
       expect(formatFileSize(1572864, false)).toMatchInlineSnapshot(`"1.5"`) // Exactly 1.5 MB (decimal needed)
       expect(formatFileSize(1887437, false)).toMatchInlineSnapshot(`"1.8"`) // ~1.8 MB (decimal needed)
       expect(formatFileSize(2097152, false)).toMatchInlineSnapshot(`"2"`) // Exactly 2 MB (no decimal)
+    })
+  })
+
+  describe('documentFileSchema', () => {
+    it('should pass for valid document extensions', () => {
+      for (const ext of ['pdf', 'doc', 'docx', 'txt']) {
+        const file = new File([''], `test-file.${ext}`, { type: `application/${ext}` })
+        const result = documentFileSchema.safeParse(file)
+        expect(result.success).toBe(true)
+      }
+    })
+
+    it('should fail if file name is empty', () => {
+      const file = new File([''], '', { type: 'application/pdf' })
+      const result = documentFileSchema.safeParse(file)
+      expect(result.success).toBe(false)
+      expect(result.error?.issues[0].message).toMatchInlineSnapshot(`"File is required"`)
+    })
+
+    it('should fail if file has no extension', () => {
+      const file = new File([''], 'test-file', { type: 'application/octet-stream' })
+      const result = documentFileSchema.safeParse(file)
+      expect(result.success).toBe(false)
+      expect(result.error?.issues[0].message).toMatchInlineSnapshot(`"File has no extension"`)
+    })
+
+    it('should fail for disallowed extensions', () => {
+      const file = new File([''], 'test-file.exe', { type: 'application/x-msdownload' })
+      const result = documentFileSchema.safeParse(file)
+      expect(result.success).toBe(false)
+      expect(result.error?.issues[0].message).toMatchInlineSnapshot(`"File extension not allowed, accepted : pdf, doc, docx, txt"`)
     })
   })
 })

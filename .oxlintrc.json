@@ -11,6 +11,7 @@
   },
   "globals": {
     "File": "readonly",
+    "__dirname": "readonly",
     "clearInterval": "readonly",
     "console": "readonly",
     "document": "readonly",

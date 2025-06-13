@@ -1,8 +1,9 @@
 import { defineConfig } from 'vitest/config'
 import path from 'node:path'
 
-const threshold = 70
+const threshold = 90
 
+// oxlint-disable-next-line no-anonymous-default-export, no-default-export
 export default defineConfig({
   resolve: {
     alias: {
@@ -10,10 +11,9 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'happy-dom',
     coverage: {
-      reporter: ['text', 'lcov', 'html'],
       exclude: ['src/routeTree.gen.ts', 'src/routes/*', 'src/main.tsx', 'dist', '.storybook/main.ts', './*.config.[jt]s', '**/*.d.ts', './*.workspace.ts'],
+      reporter: ['text', 'lcov', 'html'],
       thresholds: {
         branches: threshold,
         functions: threshold,
@@ -21,5 +21,6 @@ export default defineConfig({
         statements: threshold,
       },
     },
+    environment: 'happy-dom',
   },
 })
