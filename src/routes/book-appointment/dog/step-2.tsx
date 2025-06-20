@@ -69,7 +69,7 @@ function DogComplementaryDataForm() {
           )}
         />
 
-        <FormFileUpload accept={documentAccept} name="file" id="file" form={form} label="Upload your dog health report" schema={documentFileSchema} />
+        <FormFileUpload accept={documentAccept} name="file" id="file" isRequired={false} form={form} label="Upload your dog health report" schema={documentFileSchema} />
 
         <FormField
           control={form.control}

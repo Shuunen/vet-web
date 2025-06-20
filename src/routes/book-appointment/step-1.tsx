@@ -71,7 +71,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <FormSelect form={form} name="age" id="age" field={field} options={ages} placeholder="Select the age range" />
+                <FormSelect form={form} name="age" id="age" isRequired={false} field={field} options={ages} placeholder="Select the age range" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +84,7 @@ function BaseDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Breed</FormLabel>
-              <FormSelect form={form} name="breed" id="breed" field={field} options={breeds} placeholder="Select a breed" />
+              <FormSelect form={form} name="breed" id="breed" isRequired={false} field={field} options={breeds} placeholder="Select a breed" />
               <FormMessage />
             </FormItem>
           )}

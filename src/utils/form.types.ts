@@ -8,7 +8,7 @@ export type FieldBaseProps<TFieldValues extends FieldValues = FieldValues> = {
   /** the name of the field */
   name: FieldPath<TFieldValues>
   /** will show a red star if the label is defined */
-  isRequired?: boolean
+  isRequired: boolean
   /** used for data-testid */
   id: string
   placeholder?: string

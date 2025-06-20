@@ -37,7 +37,7 @@ function FormSelectWrapper({ name, options, id, placeholder, ...rest }: FormSele
   return (
     <div className="space-y-4">
       <FormProvider {...methods}>
-        <Controller name={name} control={methods.control} render={({ field }) => <FormSelect {...rest} id={id} name={name} options={options} placeholder={placeholder} field={field} form={methods} />} />
+        <Controller name={name} control={methods.control} render={({ field }) => <FormSelect {...rest} id={id} isRequired={false} name={name} options={options} placeholder={placeholder} field={field} form={methods} />} />
       </FormProvider>
       <SourceCode code={formValues} />
     </div>

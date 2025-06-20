@@ -44,7 +44,7 @@ function FormFileUploadStoryWrapper({ defaultValues, shouldFail = false, accept 
     <div className="flex flex-col gap-6">
       <Form {...form}>
         <form className="space-y-4" onSubmit={onSubmit}>
-          <FormFileUpload accept={accept} name={'file'} id={'file'} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
+          <FormFileUpload accept={accept} name={'file'} id={'file'} isRequired={false} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
           <Button testId="submit" type="submit">
             Submit
           </Button>
