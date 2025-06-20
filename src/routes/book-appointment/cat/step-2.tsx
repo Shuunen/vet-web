@@ -1,3 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { ArrowLeftIcon } from 'lucide-react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { FormFileUpload } from '@/components/molecules/form-file-upload'
 import { documentAccept, documentFileSchema } from '@/components/molecules/form-file-upload.utils'
 import { Button } from '@/components/ui/button'
@@ -7,13 +12,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { useFormChangeDetector } from '@/utils/form.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { ArrowLeftIcon } from 'lucide-react'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 // oxlint-disable-next-line max-dependencies
-import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils'
+import { type CatComplementaryData, catComplementaryDataSchema, hasAccess, vaccinationStatuses } from '../-steps.utils.ts'
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 function CatComplementaryDataForm() {
@@ -90,7 +90,7 @@ function CatComplementaryDataForm() {
           )}
         />
 
-        <FormFileUpload accept={documentAccept} name="file" id="file" isRequired={false} form={form} label="Upload your cat health report" schema={documentFileSchema} />
+        <FormFileUpload accept={documentAccept} name="file" testId="file" isRequired={false} form={form} label="Upload your cat health report" schema={documentFileSchema} />
 
         <FormField
           control={form.control}

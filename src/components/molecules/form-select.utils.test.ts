@@ -1,8 +1,8 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { CodeVersion, CodeVersionLabel } from '@/utils/cvl.types'
 import type { Option } from '@/utils/form.types'
 import { logger } from '@/utils/logger.utils'
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getOptionValue, handleSelect, isEqual, isOptionSelected } from './form-select.utils'
+import { getOptionValue, handleSelect, isEqual, isOptionSelected } from './form-select.utils.ts'
 
 describe('form-select.utils', () => {
   beforeAll(() => {

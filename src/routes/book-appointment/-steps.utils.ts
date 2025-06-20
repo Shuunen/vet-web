@@ -1,9 +1,9 @@
+import { err, ok } from 'resultx'
+import { z } from 'zod/v4'
 import { documentFileSchema } from '@/components/molecules/form-file-upload.utils'
 import type { BookAppointmentState } from '@/routes/book-appointment/-steps.store'
 import { ageSchema } from '@/utils/age.utils'
 import { breedSchema } from '@/utils/breed.utils'
-import { err, ok } from 'resultx'
-import { z } from 'zod/v4'
 
 export const baseDataSchema = z.object({
   age: ageSchema,

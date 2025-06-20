@@ -1,6 +1,6 @@
+import { type Path, useFormContext } from 'react-hook-form'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { type Path, useFormContext } from 'react-hook-form'
 
 type UserForm = {
   firstName: string

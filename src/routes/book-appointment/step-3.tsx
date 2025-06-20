@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button'
-import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { ArrowLeftIcon, Calendar1Icon } from 'lucide-react'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { hasAccess } from './-steps.utils'
+import { Button } from '@/components/ui/button'
+import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
+import { hasAccess } from './-steps.utils.ts'
 
 function SummaryPage() {
   const navigate = useNavigate()

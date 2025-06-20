@@ -1,12 +1,12 @@
-import { SourceCode } from '@/components/ui/source-code'
-import { ages } from '@/utils/age.utils'
-import { breeds } from '@/utils/breed.utils'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { expect, userEvent, within } from 'storybook/test'
-import { FormSelect } from './form-select'
-import type { PropsOption } from './form-select.utils'
+import { SourceCode } from '@/components/ui/source-code'
+import { ages } from '@/utils/age.utils'
+import { breeds } from '@/utils/breed.utils'
+import { FormSelect } from './form-select.tsx'
+import type { PropsOption } from './form-select.utils.ts'
 
 type FormSelectStoryProps = {
   options: PropsOption[]
@@ -37,7 +37,7 @@ function FormSelectWrapper({ name, options, id, placeholder, ...rest }: FormSele
   return (
     <div className="space-y-4">
       <FormProvider {...methods}>
-        <Controller name={name} control={methods.control} render={({ field }) => <FormSelect {...rest} id={id} isRequired={false} name={name} options={options} placeholder={placeholder} field={field} form={methods} />} />
+        <Controller name={name} control={methods.control} render={({ field }) => <FormSelect {...rest} testId={id} isRequired={false} name={name} options={options} placeholder={placeholder} field={field} form={methods} />} />
       </FormProvider>
       <SourceCode code={formValues} />
     </div>

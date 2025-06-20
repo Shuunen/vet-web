@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form'
 import { sleep } from 'shuutils'
 import { expect, userEvent, within } from 'storybook/test'
 import { z } from 'zod/v4'
-import { Button } from '../ui/button'
-import { Form } from '../ui/form'
-import { SourceCode } from '../ui/source-code'
-import { FormFileUpload } from './form-file-upload'
-import { documentAccept, documentFileSchema, uploadDurationSuccess } from './form-file-upload.utils'
+import { Button } from '../ui/button.tsx'
+import { Form } from '../ui/form.tsx'
+import { SourceCode } from '../ui/source-code.tsx'
+import { FormFileUpload } from './form-file-upload.tsx'
+import { documentAccept, documentFileSchema, uploadDurationSuccess } from './form-file-upload.utils.ts'
 
 const meta = {
   component: FormFileUploadStoryWrapper,
@@ -44,7 +44,7 @@ function FormFileUploadStoryWrapper({ defaultValues, shouldFail = false, accept 
     <div className="flex flex-col gap-6">
       <Form {...form}>
         <form className="space-y-4" onSubmit={onSubmit}>
-          <FormFileUpload accept={accept} name={'file'} id={'file'} isRequired={false} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
+          <FormFileUpload accept={accept} name="file" testId="file" isRequired={false} form={form} schema={documentFileSchema} shouldFail={shouldFail} />
           <Button testId="submit" type="submit">
             Submit
           </Button>

@@ -1,11 +1,11 @@
+import { Link } from '@tanstack/react-router'
+import { CatIcon, CheckCircleIcon, CircleIcon, DogIcon } from 'lucide-react'
+import { unwrap } from 'resultx'
 import { Button } from '@/components/ui/button'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { cn } from '@/utils/styling.utils'
-import { Link } from '@tanstack/react-router'
-import { CatIcon, CheckCircleIcon, CircleIcon, DogIcon } from 'lucide-react'
-import { unwrap } from 'resultx'
-import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema, hasAccess } from './-steps.utils'
+import { baseDataSchema, catComplementaryDataSchema, dogComplementaryDataSchema, hasAccess } from './-steps.utils.ts'
 
 export function Stepper() {
   const { currentStep, data } = useBookAppointmentStore()

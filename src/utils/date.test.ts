@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isOlderThan } from './date.utils'
+import { isOlderThan } from './date.utils.ts'
 
 describe('Date utils', () => {
   it('isOlderThan A', () => {

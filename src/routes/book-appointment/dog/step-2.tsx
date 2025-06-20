@@ -1,3 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { ArrowLeftIcon } from 'lucide-react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { FormFileUpload } from '@/components/molecules/form-file-upload'
 import { documentAccept, documentFileSchema } from '@/components/molecules/form-file-upload.utils'
 import { Button } from '@/components/ui/button'
@@ -7,11 +12,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
 import { type DogComplementaryData, dogComplementaryDataSchema, hasAccess } from '@/routes/book-appointment/-steps.utils'
 import { useFormChangeDetector } from '@/utils/form.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { ArrowLeftIcon } from 'lucide-react'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 
 // eslint-disable-next-line max-lines-per-function, max-statements
 function DogComplementaryDataForm() {
@@ -69,7 +69,7 @@ function DogComplementaryDataForm() {
           )}
         />
 
-        <FormFileUpload accept={documentAccept} name="file" id="file" isRequired={false} form={form} label="Upload your dog health report" schema={documentFileSchema} />
+        <FormFileUpload accept={documentAccept} name="file" testId="file" isRequired={false} form={form} label="Upload your dog health report" schema={documentFileSchema} />
 
         <FormField
           control={form.control}

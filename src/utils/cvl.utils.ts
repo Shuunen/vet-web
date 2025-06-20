@@ -1,5 +1,5 @@
 import { z } from 'zod/v4'
-import type { CodeVersionLabel } from './cvl.types'
+import type { CodeVersionLabel } from './cvl.types.ts'
 
 export function cvlToSchema(list: CodeVersionLabel[]) {
   return z.union(

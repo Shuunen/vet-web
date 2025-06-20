@@ -1,7 +1,7 @@
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { AlertCircle, CheckCircle, Home, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { AlertCircle, CheckCircle, Home, Info } from 'lucide-react'
 
 const statusIcons = {
   error: <AlertCircle className="h-16 w-16 text-red-500" />,

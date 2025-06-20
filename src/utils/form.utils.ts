@@ -2,7 +2,7 @@ import { debounce } from 'es-toolkit'
 import { useEffect } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import { z } from 'zod/v4'
-import type { Option } from './form.types'
+import type { Option } from './form.types.ts'
 
 /**
  * useFormPersist is a custom hook that subscribes to form value changes

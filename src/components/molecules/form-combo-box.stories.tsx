@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ComboboxForm } from './form-combo-box'
+import { ComboboxForm } from './form-combo-box.tsx'
 
 const meta = {
   component: ComboboxForm,

@@ -1,5 +1,5 @@
-import type { Option } from './form.types'
-import { optionToSchema } from './form.utils'
+import type { Option } from './form.types.ts'
+import { optionToSchema } from './form.utils.ts'
 
 export const breeds = [
   { label: 'Cat / Feline', value: 'cat' },

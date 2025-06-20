@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import { Button } from '@/components/ui/button'
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Progress } from '@/components/ui/progress'
-import type { FieldBaseProps } from '@/utils/form.types'
-import { cn } from '@/utils/styling.utils'
 // eslint-disable-next-line no-restricted-imports
 import { CircleXIcon, FileCheckIcon, FileTextIcon, FileUpIcon, FileXIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import type { FieldValues, Path } from 'react-hook-form'
 import { slugify } from 'shuutils'
 import type { ZodType } from 'zod/v4'
-import { formatFileSize, maxPercent, uploadDurationFail, uploadDurationSuccess, uploadPercentFail } from './form-file-upload.utils'
+import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Progress } from '@/components/ui/progress'
+import type { FieldBaseProps } from '@/utils/form.types'
+import { cn } from '@/utils/styling.utils'
+import { formatFileSize, maxPercent, uploadDurationFail, uploadDurationSuccess, uploadPercentFail } from './form-file-upload.utils.ts'
 
 type Props<TFieldValues extends FieldValues> = {
   accept: string
@@ -24,7 +24,7 @@ type Props<TFieldValues extends FieldValues> = {
 } & FieldBaseProps<TFieldValues>
 
 // oxlint-disable-next-line max-lines-per-function
-export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form, id, label, name, onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, schema, shouldFail }: Props<TFieldValues>) {
+export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form, testId: id, label, name, onFileChange, onFileRemove, onFileUploadComplete, onFileUploadError, schema, shouldFail }: Props<TFieldValues>) {
   const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [uploadProgress, setUploadProgress] = useState(0)
   const retryUpload = () => selectedFile && startUpload(selectedFile)
@@ -65,6 +65,7 @@ export function FormFileUpload<TFieldValues extends FieldValues>({ accept, form,
   const value = form.watch(name as Path<TFieldValues>)
   const idleNoFile = uploadState === 'idle' && !selectedFile
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: cannot add removeFile to the dependency array as it would cause an infinite loop
   useEffect(() => {
     if (!value) return
     if (!value.name) {

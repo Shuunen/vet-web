@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { BookAppointmentCard } from './book-appointment-card'
+import { BookAppointmentCard } from './book-appointment-card.tsx'
 
 const meta = {
   component: BookAppointmentCard,

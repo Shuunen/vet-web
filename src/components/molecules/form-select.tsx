@@ -1,13 +1,13 @@
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useState } from 'react'
+import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { FormControl } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import type { FieldBaseProps } from '@/utils/form.types'
 import { cn } from '@/utils/styling.utils'
-import { Check, ChevronsUpDown } from 'lucide-react'
-import { useState } from 'react'
-import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
-import { type PropsOption, handleSelect, isOptionSelected } from './form-select.utils'
+import { handleSelect, isOptionSelected, type PropsOption } from './form-select.utils.ts'
 
 const EMPTY_SELECTION = 0
 const MIN_OPTIONS_FOR_SEARCH = 10

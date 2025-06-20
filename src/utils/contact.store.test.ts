@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useFormStore } from './contact.store'
+import { useFormStore } from './contact.store.ts'
 
 describe('useFormStore', () => {
   beforeEach(() => {

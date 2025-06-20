@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { ContactForm } from './form-contact'
-import { FormUser } from './form-user'
+import type { ContactForm } from './form-contact.tsx'
+import { FormUser } from './form-user.tsx'
 
 function Wrapper() {
   const methods = useForm({

@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config'
 import path from 'node:path'
+import { defineConfig } from 'vitest/config'
 
 const threshold = 90
 
@@ -22,5 +22,6 @@ export default defineConfig({
       },
     },
     environment: 'happy-dom',
+    pool: 'threads',
   },
 })

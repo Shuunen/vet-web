@@ -1,8 +1,8 @@
+import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { TestIdChecker } from '@/components/dev/test-id-checker'
 import { Header } from '@/components/molecules/header'
 import { Toaster } from '@/components/ui/toaster'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 export const Route = createRootRoute({
   component: () => (

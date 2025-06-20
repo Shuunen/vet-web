@@ -1,5 +1,5 @@
-import { BookAppointmentCard } from '@/components/molecules/book-appointment-card'
 import { createFileRoute } from '@tanstack/react-router'
+import { BookAppointmentCard } from '@/components/molecules/book-appointment-card'
 
 function Index() {
   return (

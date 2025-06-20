@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ageSchema, ages } from './age.utils'
+import { ageSchema, ages } from './age.utils.ts'
 
 describe('Ages Schema Tests', () => {
   describe('Valid cases', () => {

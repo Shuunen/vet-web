@@ -1,9 +1,9 @@
 /* c8 ignore start */
+import { AlertTriangle, XIcon } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/utils/styling.utils'
-import { AlertTriangle, XIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'showTestIdChecker'
 const INTERVAL = 1000

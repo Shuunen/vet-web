@@ -1,18 +1,22 @@
 # Medical Interface for Lovable Furballs
 
+[![Project license](https://img.shields.io/github/license/Shuunen/vet-web.svg?color=informational)](https://github.com/Shuunen/vet-web/blob/master/LICENSE)
+
 > Medical webapp for veterinarians
 
 ![logo](./docs/logo.svg)
 
 - [Medical Interface for Lovable Furballs](#medical-interface-for-lovable-furballs)
   - [Goal](#goal)
+  - [Demo](#demo)
   - [Todo](#todo)
   - [Structure](#structure)
   - [Examples](#examples)
     - [Home page](#home-page)
     - [Root route](#root-route)
     - [Form contact](#form-contact)
-  - [Links](#links)
+  - [Thanks](#thanks)
+  - [Page views](#page-views)
 
 ## Goal
 
@@ -25,6 +29,10 @@ The goal of this project is to provide veterinarians with a comprehensive web ap
 - **Improve workflow efficiency**: Reduce paperwork and administrative overhead with an intuitive interface.
 
 This webapp aims to enhance the daily operations of veterinary clinics, making patient care more efficient and organized.
+
+## Demo
+
+![demo](docs/design-0.0.0.jpg)
 
 ## Todo
 
@@ -249,12 +257,29 @@ export function FormContact() {
 }
 ```
 
-## Links
+## Thanks
 
-- [favicon](https://realfavicongenerator.net/) : the favicon generator
-- [knip](https://knip.dev/) : the code quality tool
-- [lucid icons](https://lucide.dev/icons/) : the icons
-- [react-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
-- [shadcn/ui](https://ui.shadcn.com/) : the UI components
-- [vite](https://vitejs.dev/) : the bundler
-- [sources](https://github.com/Shuunen/vet-web) : the sources of this project
+- [Biome](https://biomejs.dev) : super fast linter & formatter
+- [Boxy Svg](https://boxy-svg.com) : simple & effective svg editor
+- [Esbuild](https://github.com/evanw/esbuild) : an extremely fast JavaScript bundler and minifier
+- [Favicon](https://realfavicongenerator.net/) : the favicon generator
+- [Github](https://github.com) : for all their great work year after year, pushing OSS forward
+- [Knip](https://knip.dev/) : the code quality tool
+- [Lucid icons](https://lucide.dev/icons/) : the icons
+- [Oxc](https://oxc.rs) : a lovely super-fast collection of JavaScript tools written in Rust
+- [React-app-structure](https://github.com/Shpendrr/react-app-structure) : the structure template
+- [React](https://react.dev) : great library for web and native user interfaces
+- [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
+- [Shadcn/ui](https://ui.shadcn.com/) : the UI components
+- [Shields.io](https://shields.io) : for the nice badges on top of this readme
+- [Shuutils](https://github.com/Shuunen/shuutils) : collection of pure JS utils
+- [Svg Omg](https://jakearchibald.github.io/svgomg/) : the great king of svg file size reduction
+- [TailwindCss](https://tailwindcss.com) : awesome lib to produce maintainable style
+- [V8](https://github.com/demurgos/v8-coverage) : simple & effective cli for code coverage
+- [Vite](https://vitejs.dev/) : the bundler
+- [Vitest](https://github.com/vitest-dev/vitest) : super fast vite-native testing framework
+- [Zod](https://github.com/colinhacks/zod) : typeScript-first schema validation
+
+## Page views
+
+[![Views Counter](https://views-counter.vercel.app/badge?pageId=Shuunen%2Fvet-web&leftColor=5c5c5c&rightColor=07a62f&type=total&label=Visitors&style=none)](https://github.com/Kumara2mahe/Views-Counter)

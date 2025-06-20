@@ -1,5 +1,5 @@
-import type { CodeVersionLabel } from './cvl.types'
-import { cvlToSchema } from './cvl.utils'
+import type { CodeVersionLabel } from './cvl.types.ts'
+import { cvlToSchema } from './cvl.utils.ts'
 
 export const ages = [
   { Code: 'MINUS-5', Version: '01', label: 'Moins de 5 ans' },

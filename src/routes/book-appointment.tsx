@@ -1,9 +1,9 @@
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { SourceCode } from '@/components/ui/source-code'
 import { Stepper } from '@/routes/book-appointment/-stepper'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
 
 function RouteComponent() {
   const { currentStep, data } = useBookAppointmentStore()

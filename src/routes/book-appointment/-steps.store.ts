@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './-steps.utils'
+import type { AppointmentBaseData, AppointmentData, CatComplementaryData, DogComplementaryData } from './-steps.utils.ts'
 
 // eslint-disable-next-line no-magic-numbers
 type CurrentStep = 0 | 1 | 2

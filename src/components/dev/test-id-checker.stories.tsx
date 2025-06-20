@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { TestIdChecker } from './test-id-checker'
+import { TestIdChecker } from './test-id-checker.tsx'
 
 type DemoProps = {
   testIds: string[]

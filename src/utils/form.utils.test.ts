@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { useFormChangeDetector } from './form.utils'
+import { useFormChangeDetector } from './form.utils.ts'
 
 const age1 = 1
 const age2 = 2

@@ -1,3 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { ArrowRightIcon } from 'lucide-react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { FormSelect } from '@/components/molecules/form-select'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -7,11 +12,6 @@ import { type AppointmentBaseData, baseDataSchema } from '@/routes/book-appointm
 import { ages } from '@/utils/age.utils'
 import { breeds } from '@/utils/breed.utils'
 import { useFormChangeDetector } from '@/utils/form.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { ArrowRightIcon } from 'lucide-react'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 
 // eslint-disable-next-line max-lines-per-function
 function BaseDataForm() {
@@ -71,7 +71,7 @@ function BaseDataForm() {
             <FormItem>
               <FormLabel>Age</FormLabel>
               <FormControl>
-                <FormSelect form={form} name="age" id="age" isRequired={false} field={field} options={ages} placeholder="Select the age range" />
+                <FormSelect form={form} name="age" testId="age" isRequired={false} field={field} options={ages} placeholder="Select the age range" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +84,7 @@ function BaseDataForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Breed</FormLabel>
-              <FormSelect form={form} name="breed" id="breed" isRequired={false} field={field} options={breeds} placeholder="Select a breed" />
+              <FormSelect form={form} name="breed" testId="breed" isRequired={false} field={field} options={breeds} placeholder="Select a breed" />
               <FormMessage />
             </FormItem>
           )}

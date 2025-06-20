@@ -1,13 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/styling.utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Check, ChevronsUpDown } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { Textarea } from '../ui/textarea'
+import { Textarea } from '../ui/textarea.tsx'
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -76,7 +76,7 @@ export function ComboboxForm() {
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+                    {/* biome-ignore lint/a11y/useSemanticElements: it's ok */}
                     <Button testId="combo-box" variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')} data-testid="language-combobox">
                       {field.value ? languages.find(language => language.value === field.value)?.label : 'Select language'}
                       <ChevronsUpDown className="opacity-50" />

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, userEvent, within } from 'storybook/test'
-import { FormContact } from './form-contact'
+import { FormContact } from './form-contact.tsx'
 
 const meta = {
   component: FormContact,

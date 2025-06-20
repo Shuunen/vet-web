@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { documentFileSchema, formatFileSize } from './form-file-upload.utils'
+import { documentFileSchema, formatFileSize } from './form-file-upload.utils.ts'
 
 describe('formatFileSize', () => {
   describe('without unit parameter', () => {
