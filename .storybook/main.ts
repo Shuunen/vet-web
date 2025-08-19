@@ -1,12 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
-  addons: [
-    '@storybook/addon-onboarding',
-    '@chromatic-com/storybook',
-    '@storybook/addon-vitest',
-    '@storybook/addon-coverage'
-  ],
+  addons: ['@storybook/addon-onboarding', '@storybook/addon-vitest', '@storybook/addon-coverage'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

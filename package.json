@@ -34,7 +34,6 @@
   "description": "Vet Web is a web application for managing veterinary practices",
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
-    "@chromatic-com/storybook": "^4.1.0",
     "@storybook/addon-coverage": "^2.0.0",
     "@storybook/addon-onboarding": "9.1.2",
     "@storybook/addon-vitest": "9.1.2",
