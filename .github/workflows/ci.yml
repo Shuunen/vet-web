@@ -4,6 +4,7 @@ on: push
 
 jobs:
   ci:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
 
     steps:
@@ -20,5 +21,11 @@ jobs:
         with:
           version: 10
 
-      - name: Run check 👀
-        run: pnpm install && pnpm exec playwright install && pnpm run check
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run checks 👀
+        run: pnpm run check
