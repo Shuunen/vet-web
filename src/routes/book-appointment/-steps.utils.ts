@@ -5,12 +5,31 @@ import type { BookAppointmentState } from '@/routes/book-appointment/-steps.stor
 import { ageSchema } from '@/utils/age.utils'
 import { breedSchema } from '@/utils/breed.utils'
 
-export const baseDataSchema = z.object({
-  age: ageSchema,
-  breed: breedSchema,
-  identifier: z.string().regex(/^FR\d{4}$/u, 'Identifier must be FR and 4 digits'),
-  name: z.string().min(1, 'Pet name is required'),
-})
+const identifierSchema = z.string().regex(/^FR\d{4}$/u, 'Identifier must be FR and 4 digits')
+
+function validateOptionalSection(data: { knowsParent: boolean; parentIdentifier?: string }, ctx: z.RefinementCtx) {
+  if (data.knowsParent === false) return
+  const { success, error } = identifierSchema.safeParse(data.parentIdentifier)
+  if (!success)
+    ctx.addIssue({
+      code: 'custom',
+      continue: false,
+      input: data.parentIdentifier,
+      message: error.issues[0].message,
+      path: ['parentIdentifier'],
+    })
+}
+
+export const baseDataSchema = z
+  .object({
+    age: ageSchema,
+    breed: breedSchema,
+    identifier: identifierSchema,
+    knowsParent: z.boolean(),
+    name: z.string().min(1, 'Pet name is required'),
+    parentIdentifier: z.string().optional(),
+  })
+  .superRefine(validateOptionalSection)
 
 export type AppointmentBaseData = z.infer<typeof baseDataSchema>
 

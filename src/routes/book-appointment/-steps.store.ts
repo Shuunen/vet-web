@@ -21,7 +21,8 @@ export type BookAppointmentState = {
 const initialData = {
   baseData: {
     breed: 'cat',
-  } satisfies Partial<AppointmentData['baseData']>,
+    knowsParent: true,
+  } satisfies Partial<AppointmentBaseData>,
   complementaryData: {
     indoorOutdoor: 'indoor',
   } satisfies Partial<AppointmentData['complementaryData']>,

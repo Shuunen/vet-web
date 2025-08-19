@@ -31,3 +31,4 @@ export function Header() {
     </div>
   )
 }
+/* c8 ignore stop */

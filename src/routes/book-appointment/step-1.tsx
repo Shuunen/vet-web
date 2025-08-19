@@ -4,6 +4,7 @@ import { ArrowRightIcon } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormSelect } from '@/components/molecules/form-select'
+import { OptionalSection } from '@/components/molecules/optional-section'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -89,6 +90,18 @@ function BaseDataForm() {
             </FormItem>
           )}
         />
+
+        <OptionalSection form={form} checkboxName="knowsParent" checkboxLabel="I know the mother" checkboxTestId="knows-parent" conditionalFieldName="parentIdentifier">
+          {field => (
+            <FormItem>
+              <FormLabel>Mother identifier</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter pet ID or microchip number" {...field} value={(field.value as string) || ''} data-testid="parent-identifier" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        </OptionalSection>
 
         <div className="flex justify-center mt-6">
           <Button testId="goto" type="submit" data-testid="next">

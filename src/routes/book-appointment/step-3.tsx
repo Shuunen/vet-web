@@ -29,7 +29,7 @@ function SummaryPage() {
       {Object.entries(data.baseData).map(([key, value]) => (
         <div className="grid grid-cols-2" key={key}>
           <div className="text-gray-500">{key}</div>
-          <div>{typeof value === 'string' ? value : `${value.Code} (version ${value.Version})`}</div>
+          <div>{JSON.stringify(value)}</div>
         </div>
       ))}
 
