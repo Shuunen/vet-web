@@ -27,10 +27,10 @@ const getAllTestIds = () =>
 const isValidTestId = (testId: string) => /^[a-zA-Z0-9-]+$/u.test(testId)
 
 // Helper function to compare arrays of test IDs
-const arraysEqual = (a: string[], b: string[]) => {
-  if (a.length !== b.length) return false
-  const sortedA = [...a].sort()
-  const sortedB = [...b].sort()
+const arraysEqual = (arrayA: string[], arrayB: string[]) => {
+  if (arrayA.length !== arrayB.length) return false
+  const sortedA = [...arrayA].sort()
+  const sortedB = [...arrayB].sort()
   return sortedA.every((val, index) => val === sortedB[index])
 }
 

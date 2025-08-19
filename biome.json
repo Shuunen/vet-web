@@ -53,6 +53,9 @@
       "recommended": true,
       "style": {
         "useBlockStatements": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off"
       }
     }
   },

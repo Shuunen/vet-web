@@ -72,10 +72,8 @@ export const UploadWillFail: Story = {
 }
 
 export const BadlyFormattedFile: Story = {
-  render: () => {
-    // @ts-expect-error Simulating a badly formatted file
-    return <FormFileUploadStoryWrapper defaultValues={{ file: {} }} />
-  },
+  // @ts-expect-error Simulating a badly formatted file
+  render: () => <FormFileUploadStoryWrapper defaultValues={{ file: {} }} />,
 }
 
 export const ValidFileUpload: Story = {

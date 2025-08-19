@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 // oxlint-disable-next-line no-anonymous-default-export, no-default-export
@@ -24,5 +24,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-
+  server: {
+    port: 3000,
+  },
 })

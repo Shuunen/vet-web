@@ -22,10 +22,7 @@ const languages = [
 ] as const
 
 const FormSchema = z.object({
-  language: z.string({
-    // eslint-disable-next-line camelcase
-    required_error: 'Please select a language.',
-  }),
+  language: z.string(),
   // eslint-disable-next-line no-magic-numbers
   message: z.string().min(3, {
     message: 'Message must be at least 3 characters long.',
@@ -40,6 +37,7 @@ export function ComboboxForm() {
 
   /* c8 ignore start */
   // eslint-disable-next-line consistent-function-scoping
+  // oxlint-disable-next-line explicit-module-boundary-types
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line no-console
     console.log('onSubmit', data)
@@ -76,7 +74,6 @@ export function ComboboxForm() {
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    {/* biome-ignore lint/a11y/useSemanticElements: it's ok */}
                     <Button testId="combo-box" variant="outline" role="combobox" className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')} data-testid="language-combobox">
                       {field.value ? languages.find(language => language.value === field.value)?.label : 'Select language'}
                       <ChevronsUpDown className="opacity-50" />

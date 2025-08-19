@@ -32,7 +32,6 @@ export function FormSelect<TFieldValues extends FieldValues>({ form, field, name
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <FormControl>
-          {/* biome-ignore lint/a11y/useSemanticElements: he he nope */}
           <Button testId="combo-box" variant="outline" role="combobox" className={cn('min-w-48 max-w-96 justify-between', !field.value && 'text-muted-foreground')}>
             <span className="truncate">{displayValue}</span>
             <ChevronsUpDown className="opacity-50" />

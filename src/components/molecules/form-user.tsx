@@ -7,6 +7,7 @@ type UserForm = {
   lastName: string
 }
 
+// oxlint-disable-next-line id-length
 type KeysWithUserForm<T> = { [K in keyof T]: T[K] extends UserForm ? K : never }[keyof T]
 
 export function FormUser<Form extends object>({ name }: { name: KeysWithUserForm<Form> }) {
