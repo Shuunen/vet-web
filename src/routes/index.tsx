@@ -1,7 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BookAppointmentCard } from '@/components/molecules/book-appointment-card'
+import { useActionBar } from '@/hooks/useActionBar';
+import { Button } from '@/components/ui/button';
+import { HeadsetIcon } from 'lucide-react';
 
 function Index() {
+  
+  useActionBar(<Button testId="call-us" variant="outline">
+        Call us <HeadsetIcon />
+      </Button>);
+      
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="flex flex-col items-center justify-center mb-12">

@@ -1,10 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FileInputIcon } from 'lucide-react'
+import { FileInputIcon, HeadsetIcon } from 'lucide-react'
 import { FormContact } from '@/components/molecules/form-contact'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { useActionBar } from '@/hooks/useActionBar'
 
 function Contact() {
+  
+  useActionBar(<Button testId="call-us" variant="outline">
+    Send Message <HeadsetIcon />
+  </Button>);
   return (
     <div className="flex flex-col gap-4">
       <Card>

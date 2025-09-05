@@ -1,7 +1,7 @@
 /* c8 ignore start */
 import { Link } from '@tanstack/react-router'
-import { HeadsetIcon, PawPrint } from 'lucide-react'
-import { Button } from '../ui/button.tsx'
+import { PawPrint } from 'lucide-react'
+import { useUILayoutStore } from '@/stores/useUILayout.store.ts';
 
 const routes = [
   /* eslint-disable sort-keys */
@@ -12,6 +12,9 @@ const routes = [
 ]
 
 export function Header() {
+
+  const actionBar = useUILayoutStore(s => s.actionBar);
+
   return (
     <div className="flex gap-4 justify-between items-center">
       <Link to="/" className="flex text-primary items-center gap-2">
@@ -25,9 +28,10 @@ export function Header() {
           </Link>
         ))}
       </div>
-      <Button testId="call-us" variant="outline">
+      <div className="flex flex-row justify-evenly">{actionBar}</div>
+      {/* <Button testId="call-us" variant="outline">
         Call us <HeadsetIcon />
-      </Button>
+      </Button> */}
     </div>
   )
 }

@@ -4,9 +4,16 @@ import { SourceCode } from '@/components/ui/source-code'
 import { Stepper } from '@/routes/book-appointment/-stepper'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
+import { useActionBar } from '@/hooks/useActionBar'
+import { Button } from '@/components/ui/button'
+import { CheckIcon } from 'lucide-react'
 
 function RouteComponent() {
   const { currentStep, data } = useBookAppointmentStore()
+
+  useActionBar(<Button testId="call-us" variant="outline">
+        Confirm appointment <CheckIcon />
+      </Button>);
 
   return (
     <div className="flex flex-col gap-4">
