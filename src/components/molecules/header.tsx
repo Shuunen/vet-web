@@ -2,6 +2,7 @@
 import { Link } from '@tanstack/react-router'
 import { HeadsetIcon, PawPrint } from 'lucide-react'
 import { Button } from '../ui/button.tsx'
+import { useSlots } from '../dev/header-slot.tsx';
 
 const routes = [
   /* eslint-disable sort-keys */
@@ -12,6 +13,9 @@ const routes = [
 ]
 
 export function Header() {
+
+  const { slots } = useSlots();
+
   return (
     <div className="flex gap-4 justify-between items-center">
       <Link to="/" className="flex text-primary items-center gap-2">
@@ -25,9 +29,9 @@ export function Header() {
           </Link>
         ))}
       </div>
-      <Button testId="call-us" variant="outline">
-        Call us <HeadsetIcon />
-      </Button>
+      <div>
+        {slots.toolbar}
+      </div>
     </div>
   )
 }

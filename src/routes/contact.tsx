@@ -1,11 +1,18 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FileInputIcon } from 'lucide-react'
+import { FileInputIcon, HeadsetIcon } from 'lucide-react'
 import { FormContact } from '@/components/molecules/form-contact'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { UseSlot } from '@/components/dev/header-slot'
 
 function Contact() {
   return (
+  <>
+    <UseSlot name="toolbar" >
+      <Button testId="call-us" variant="outline">
+        Call us <HeadsetIcon />
+      </Button>
+    </UseSlot>
     <div className="flex flex-col gap-4">
       <Card>
         <CardHeader>
@@ -27,6 +34,7 @@ function Contact() {
         </CardFooter>
       </Card>
     </div>
+  </>
   )
 }
 

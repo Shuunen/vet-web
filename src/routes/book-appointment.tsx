@@ -4,11 +4,19 @@ import { SourceCode } from '@/components/ui/source-code'
 import { Stepper } from '@/routes/book-appointment/-stepper'
 import { bookingSteps } from '@/routes/book-appointment/-steps.const'
 import { useBookAppointmentStore } from '@/routes/book-appointment/-steps.store'
+import { UseSlot } from '@/components/dev/header-slot'
+import { Button } from '@/components/ui/button'
 
 function RouteComponent() {
   const { currentStep, data } = useBookAppointmentStore()
 
   return (
+    <>
+    <UseSlot name="toolbar" >
+      <Button testId="call-us" variant="outline">
+        Confirm appointment
+      </Button>
+    </UseSlot>
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold text-primary my-4 text-center" data-testid="title">
         Book an appointment with Dr. Nicolas Johnrom
@@ -28,6 +36,8 @@ function RouteComponent() {
       </div>
       <SourceCode className="mt-4" code={data} />
     </div>
+  </>
+
   )
 }
 
