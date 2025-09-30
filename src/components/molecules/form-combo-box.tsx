@@ -38,6 +38,7 @@ export function ComboboxForm() {
   /* c8 ignore start */
   // eslint-disable-next-line consistent-function-scoping
   // oxlint-disable-next-line explicit-module-boundary-types
+  // oxlint-disable-next-line consistent-function-scoping
   function onSubmit(data: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line no-console
     console.log('onSubmit', data)

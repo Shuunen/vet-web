@@ -29,7 +29,9 @@ const isValidTestId = (testId: string) => /^[a-zA-Z0-9-]+$/u.test(testId)
 // Helper function to compare arrays of test IDs
 const arraysEqual = (arrayA: string[], arrayB: string[]) => {
   if (arrayA.length !== arrayB.length) return false
+  // oxlint-disable-next-line no-array-sort
   const sortedA = [...arrayA].sort()
+  // oxlint-disable-next-line no-array-sort
   const sortedB = [...arrayB].sort()
   return sortedA.every((val, index) => val === sortedB[index])
 }
