@@ -6,7 +6,14 @@
 
 ![logo](./docs/logo.svg)
 
+## Archived
+
+This repo is archived since it migrated to [Shuunen/monorepo](https://github.com/Shuunen/monorepo/tree/master/apps/vet-web).
+
+Further development will be done there 🚀
+
 - [Medical Interface for Lovable Furballs](#medical-interface-for-lovable-furballs)
+  - [Archived](#archived)
   - [Goal](#goal)
   - [Demo](#demo)
   - [Todo](#todo)
